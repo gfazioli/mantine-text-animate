@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@gfazioli/mantine-flip": "workspace:*",
+    "@gfazioli/mantine-text-animate": "workspace:*",
     "@mantine/core": "7.17.1",
     "@mantine/dates": "^7.17.1",
     "@mantine/hooks": "7.17.1",

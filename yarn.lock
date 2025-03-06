@@ -1445,9 +1445,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gfazioli/mantine-flip@workspace:*, @gfazioli/mantine-flip@workspace:package":
+"@gfazioli/mantine-text-animate@workspace:*, @gfazioli/mantine-text-animate@workspace:package":
   version: 0.0.0-use.local
-  resolution: "@gfazioli/mantine-flip@workspace:package"
+  resolution: "@gfazioli/mantine-text-animate@workspace:package"
   peerDependencies:
     "@mantine/core": ">=7.0.0"
     "@mantine/hooks": ">=7.0.0"
@@ -7005,7 +7005,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "extension-template-docs@workspace:docs"
   dependencies:
-    "@gfazioli/mantine-flip": "workspace:*"
+    "@gfazioli/mantine-text-animate": "workspace:*"
     "@mantine/core": "npm:7.17.1"
     "@mantine/dates": "npm:^7.17.1"
     "@mantine/hooks": "npm:7.17.1"

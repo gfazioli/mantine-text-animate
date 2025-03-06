@@ -3,18 +3,18 @@ import * as demos from './demos';
 
 ## Installation
 
-<InstallScript packages="@gfazioli/mantine-flip" />
+<InstallScript packages="@gfazioli/mantine-text-animate" />
 
 After installation import package styles at the root of your application:
 
 ```tsx
-import '@gfazioli/mantine-flip/styles.css';
+import '@gfazioli/mantine-text-animate/styles.css';
 ```
 
-You can import styles within a layer `@layer mantine-flip` by importing `@gfazioli/mantine-flip/styles.layer.css` file.
+You can import styles within a layer `@layer mantine-text-animate` by importing `@gfazioli/mantine-text-animate/styles.layer.css` file.
 
 ```tsx
-import '@gfazioli/mantine-flip/styles.layer.css';
+import '@gfazioli/mantine-text-animate/styles.layer.css';
 ```
 
 ## Usage
@@ -32,16 +32,16 @@ This is useful when you want to control the state of the card from the parent co
 
 <Demo data={demos.controlled} />
 
-> **Initial face and Flip.Target**
+> **Initial face and TextAnimate.Typewriter**
 >
-> For controlled Flip components, you will use `useState` to determine which side of the component to initially show.
-> Additionally, you will not need to use `Flip.Target` for buttons, but you can control them manually to keep the states synchronized.
+> For controlled TextAnimate components, you will use `useState` to determine which side of the component to initially show.
+> Additionally, you will not need to use `TextAnimate.Typewriter` for buttons, but you can control them manually to keep the states synchronized.
 
-## Default Flipped (face)
+## Default TextAnimateped (face)
 
-You may display the initial face of the card by setting the `defaultFlipped` prop to `true`.
+You may display the initial face of the card by setting the `defaultTextAnimateped` prop to `true`.
 
-<Demo data={demos.defaultFlipped} />
+<Demo data={demos.defaultTextAnimateped} />
 
 ## Example: Credit card
 

@@ -1,18 +1,18 @@
-import type { FlipFactory } from '@gfazioli/mantine-flip';
+import type { TextAnimateFactory } from '@gfazioli/mantine-text-animate';
 import type { StylesApiData } from '../components/styles-api.types';
 
-export const FlipStylesApi: StylesApiData<FlipFactory> = {
+export const TextAnimateStylesApi: StylesApiData<TextAnimateFactory> = {
   selectors: {
     root: 'Root element',
-    'flip-inner': 'Inner element',
-    'flip-content': 'Content element',
+    'text-animate-inner': 'Inner element',
+    'text-animate-content': 'Content element',
   },
 
   vars: {
     root: {
-      '--flip-perspective': 'Controls animation `perspective`',
-      '--flip-transition-duration': 'Controls animation `duration`',
-      '--flip-transition-timing-function': 'Controls animation `easing`',
+      '--text-animate-perspective': 'Controls animation `perspective`',
+      '--text-animate-transition-duration': 'Controls animation `duration`',
+      '--text-animate-transition-timing-function': 'Controls animation `easing`',
     },
   },
 

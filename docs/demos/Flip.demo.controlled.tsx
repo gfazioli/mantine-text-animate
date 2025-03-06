@@ -1,70 +1,70 @@
-import { useState } from 'react';
-import { Flip } from '@gfazioli/mantine-flip';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Button, Group, Paper, Stack, Switch } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
+import { useState } from 'react';
 
 const code = `
 function Demo() {
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setTextAnimateped] = useState(false);
 
   return (
     <Stack>
       <Group>
         <Switch checked={flipped}
-                onChange={(event) => setFlipped(event.currentTarget.checked)}
+                onChange={(event) => setTextAnimateped(event.currentTarget.checked)}
                 label="Show settings" />
       </Group>
 
-    <Flip h={200} w={400} flipped={flipped}>
+    <TextAnimate h={200} w={400} flipped={flipped}>
 
       <Paper radius="md" withBorder p="lg" shadow="md">
         <h3>Front Card</h3>
         <p>The front card</p>
         <Group justify="right">
-          <Button onClick={()=>setFlipped(true)}>Show Settings</Button>
+          <Button onClick={()=>setTextAnimateped(true)}>Show Settings</Button>
         </Group>
       </Paper>
 
       <Paper radius="md" withBorder p="lg" shadow="md">
         <h3>Back Card</h3>
-        <Button onClick={()=>setFlipped(false)} variant="outline">Back to Front</Button>
+        <Button onClick={()=>setTextAnimateped(false)} variant="outline">Back to Front</Button>
       </Paper>
 
-    </Flip>
+    </TextAnimate>
     </Stack>
   );
 }
 `;
 
 function Demo() {
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setTextAnimateped] = useState(false);
 
   return (
     <Stack>
       <Group>
         <Switch
           checked={flipped}
-          onChange={(event) => setFlipped(event.currentTarget.checked)}
+          onChange={(event) => setTextAnimateped(event.currentTarget.checked)}
           label="Show settings"
         />
       </Group>
 
-      <Flip h={200} w={400} flipped={flipped}>
+      <TextAnimate h={200} w={400} flipped={flipped}>
         <Paper radius="md" withBorder p="lg" shadow="md">
           <h3>Front Card</h3>
           <p>The front card</p>
           <Group justify="right">
-            <Button onClick={() => setFlipped(true)}>Show Settings</Button>
+            <Button onClick={() => setTextAnimateped(true)}>Show Settings</Button>
           </Group>
         </Paper>
 
         <Paper radius="md" withBorder p="lg" shadow="md">
           <h3>Back Card</h3>
-          <Button onClick={() => setFlipped(false)} variant="outline">
+          <Button onClick={() => setTextAnimateped(false)} variant="outline">
             Back to Front
           </Button>
         </Paper>
-      </Flip>
+      </TextAnimate>
     </Stack>
   );
 }

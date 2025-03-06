@@ -1,8 +1,8 @@
-# Mantine Flip Component
+# Mantine TextAnimate Component
 
 <div align="center">
   
-  ![Mantine Flip Component](https://github.com/gfazioli/mantine-flip/assets/432181/cf1917a3-e7eb-4ecb-a525-85ff933c601d)
+  ![Mantine TextAnimate Component](https://github.com/gfazioli/mantine-text-animate/assets/432181/cf1917a3-e7eb-4ecb-a525-85ff933c601d)
 
 </div>
 
@@ -10,10 +10,10 @@
 
 <div align="center">
 
-  [![NPM version](https://img.shields.io/npm/v/%40gfazioli%2Fmantine-flip?style=for-the-badge)](https://www.npmjs.com/package/@gfazioli/mantine-flip)
-  [![NPM Downloads](https://img.shields.io/npm/dm/%40gfazioli%2Fmantine-flip?style=for-the-badge)](https://www.npmjs.com/package/@gfazioli/mantine-flip)
-  [![NPM Downloads](https://img.shields.io/npm/dy/%40gfazioli%2Fmantine-flip?style=for-the-badge&label=%20&color=f90)](https://www.npmjs.com/package/@gfazioli/mantine-flip)
-  ![NPM License](https://img.shields.io/npm/l/%40gfazioli%2Fmantine-flip?style=for-the-badge)
+  [![NPM version](https://img.shields.io/npm/v/%40gfazioli%2Fmantine-text-animate?style=for-the-badge)](https://www.npmjs.com/package/@gfazioli/mantine-text-animate)
+  [![NPM Downloads](https://img.shields.io/npm/dm/%40gfazioli%2Fmantine-text-animate?style=for-the-badge)](https://www.npmjs.com/package/@gfazioli/mantine-text-animate)
+  [![NPM Downloads](https://img.shields.io/npm/dy/%40gfazioli%2Fmantine-text-animate?style=for-the-badge&label=%20&color=f90)](https://www.npmjs.com/package/@gfazioli/mantine-text-animate)
+  ![NPM License](https://img.shields.io/npm/l/%40gfazioli%2Fmantine-text-animate?style=for-the-badge)
 
 </div>
 
@@ -31,7 +31,7 @@ Essentially, when switching between views, the component will handle the flip an
 [![Video](https://img.shields.io/badge/-Watch_the_Video-blue?style=for-the-badge&labelColor=black&logo=youtube
 )](https://youtu.be/RzRUb3IDcDw)
 [![Demo and Documentation](https://img.shields.io/badge/-Demo_%26_Documentation-blue?style=for-the-badge&labelColor=black&logo=typescript
-)](https://gfazioli.github.io/mantine-flip/)
+)](https://gfazioli.github.io/mantine-text-animate/)
 [![Mantine Extensions HUB](https://img.shields.io/badge/-Mantine_Extensions_Hub-blue?style=for-the-badge&labelColor=blue
 )](https://mantine-extensions.vercel.app/)
 
@@ -41,50 +41,50 @@ Essentially, when switching between views, the component will handle the flip an
 ## Installation
 
 ```sh
-npm install @gfazioli/mantine-flip
+npm install @gfazioli/mantine-text-animate
 ```
 or 
 
 ```sh
-yarn add @gfazioli/mantine-flip
+yarn add @gfazioli/mantine-text-animate
 ```
 
 After installation import package styles at the root of your application:
 
 ```tsx
-import '@gfazioli/mantine-flip/styles.css';
+import '@gfazioli/mantine-text-animate/styles.css';
 ```
 
 ## Usage
 
 ```tsx
-import { Flip } from '@gfazioli/mantine-flip';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
 function Demo() {
   return (
-    <Flip h={200} w={200}>
+    <TextAnimate h={200} w={200}>
 
         <Paper radius="md" withBorder p="lg" shadow="md">
           <h3>Front Card</h3>
-          <Flip.Target>
-            <Button>Flip Back</Button>
-          </Flip.Target>
+          <TextAnimate.Typewriter>
+            <Button>TextAnimate Back</Button>
+          </TextAnimate.Typewriter>
         </Paper>
 
         <Paper radius="md" withBorder p="lg" shadow="md">
           <h3>Back Card</h3>
-          <Flip.Target>
-            <Button>Flip Front</Button>
-          </Flip.Target>
+          <TextAnimate.Typewriter>
+            <Button>TextAnimate Front</Button>
+          </TextAnimate.Typewriter>
         </Paper>
 
-    </Flip>
+    </TextAnimate>
   );
 }
 ```
 
-As you can see, the `Flip` component wraps two children, which are the two views that you want to flip between.
-The `Flip.Target` component is used to define the trigger for the flip animation. It can be any component, such as a button, or a link, or even a div.
+As you can see, the `TextAnimate` component wraps two children, which are the two views that you want to flip between.
+The `TextAnimate.Typewriter` component is used to define the trigger for the flip animation. It can be any component, such as a button, or a link, or even a div.
 
 ## Props
 
@@ -93,11 +93,11 @@ The `Flip.Target` component is used to define the trigger for the flip animation
 | perspective | string | 1000px | The perspective property defines how far the object is away from the user. |
 | duration | number | .8 | The duration in seconds of the flip animation. |
 | easing | string | ease-in-out | The easing function to be used for the flip animation. |
-| flipped | boolean | false | The initial state of the controlled Flip component. |
-| defaultFlipped | boolean | false | The default state of the uncontrolled flip component. |
+| flipped | boolean | false | The initial state of the controlled TextAnimate component. |
+| defaultTextAnimateped | boolean | false | The default state of the uncontrolled flip component. |
 | direction | 'horizontal' or 'vertical' | 'horizontal' | The direction of the flip animation. |
-| directionFlipIn | 'negative' or 'positive' | 'negative' | The direction of the flip animation when flipping in. |
-| directionFlipOut | 'negative' or 'positive' | 'positive' | The direction of the flip animation when flipping out. |
+| directionTextAnimateIn | 'negative' or 'positive' | 'negative' | The direction of the flip animation when flipping in. |
+| directionTextAnimateOut | 'negative' or 'positive' | 'positive' | The direction of the flip animation when flipping out. |
 | onChange | (flipped: boolean) => void | - | Callback to be called when the flip state changes. |
 | onBack | () => void | - | Callback to be called when the flip state changes to false. |
 | onFront | () => void | - | Callback to be called when the flip state changes to true. |

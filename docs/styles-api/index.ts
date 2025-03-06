@@ -1,5 +1,5 @@
-import { FlipStylesApi } from './Flip.styles-api';
+import { TextAnimateStylesApi } from './TextAnimate.styles-api';
 
 export const STYLES_API_DATA = {
-  Flip: FlipStylesApi,
+  TextAnimate: TextAnimateStylesApi,
 };

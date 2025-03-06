@@ -1,65 +1,65 @@
-import { Flip } from '@gfazioli/mantine-flip';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Button, Code, Group, Paper } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
 const code = `
-import { Flip } from '@gfazioli/mantine-flip';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
 function Demo() {
   return (
-    <Flip h={200} w={400} defaultFlipped={true}>
+    <TextAnimate h={200} w={400} defaultTextAnimateped={true}>
 
       <Paper radius="md" withBorder p="lg" shadow="md">
         <h3>Front Card</h3>
             <p>The front card</p>
             <Group justify="right">
-              <Flip.Target>
-                  <Button>Flip to Back</Button>
-              </Flip.Target>
+              <TextAnimate.Typewriter>
+                  <Button>TextAnimate to Back</Button>
+              </TextAnimate.Typewriter>
             </Group>
       </Paper>
 
       <Paper radius="md" withBorder p="lg" shadow="md">
         <h3>Back Card</h3>
-        <p>In this case the <Code>defaultFlipped</Code> prop is set to <Code>true</Code>, and the back card is visible</p>
-          <Flip.Target>
-            <Button variant="outline">Flip to Front</Button>
-          </Flip.Target>
+        <p>In this case the <Code>defaultTextAnimateped</Code> prop is set to <Code>true</Code>, and the back card is visible</p>
+          <TextAnimate.Typewriter>
+            <Button variant="outline">TextAnimate to Front</Button>
+          </TextAnimate.Typewriter>
       </Paper>
 
-    </Flip>
+    </TextAnimate>
   );
 }
 `;
 
 function Demo() {
   return (
-    <Flip h={200} w={400} defaultFlipped={true}>
+    <TextAnimate h={200} w={400} defaultTextAnimateped={true}>
       <Paper radius="md" withBorder p="lg" shadow="md">
         <h3>Front Card</h3>
         <p>The front card</p>
         <Group justify="right">
-          <Flip.Target>
-            <Button>Flip to Back</Button>
-          </Flip.Target>
+          <TextAnimate.Typewriter>
+            <Button>TextAnimate to Back</Button>
+          </TextAnimate.Typewriter>
         </Group>
       </Paper>
 
       <Paper radius="md" withBorder p="lg" shadow="md">
         <h3>Back Card</h3>
         <p>
-          In this case the <Code>defaultFlipped</Code> prop is set to <Code>true</Code>, and the
+          In this case the <Code>defaultTextAnimateped</Code> prop is set to <Code>true</Code>, and the
           back card is visible
         </p>
-        <Flip.Target>
-          <Button variant="outline">Flip to Front</Button>
-        </Flip.Target>
+        <TextAnimate.Typewriter>
+          <Button variant="outline">TextAnimate to Front</Button>
+        </TextAnimate.Typewriter>
       </Paper>
-    </Flip>
+    </TextAnimate>
   );
 }
 
-export const defaultFlipped: MantineDemo = {
+export const defaultTextAnimateped: MantineDemo = {
   type: 'code',
   code,
   component: Demo,

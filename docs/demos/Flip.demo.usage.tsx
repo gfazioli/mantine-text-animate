@@ -1,44 +1,44 @@
-import { Flip, useFlipContext } from '@gfazioli/mantine-flip';
+import { TextAnimate, useTextAnimateContext } from '@gfazioli/mantine-text-animate';
 import { Button, Paper } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
 const code = `
-import { Flip } from '@gfazioli/mantine-flip';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
 function Demo() {
   return (
-    <Flip h={200} w={200}>
+    <TextAnimate h={200} w={200}>
 
     <Paper radius="md" withBorder p="lg" shadow="md">
       <h3>Front Card</h3>
-      <Flip.Target>
-        <Button>Flip Back</Button>
-      </Flip.Target>
+      <TextAnimate.Typewriter>
+        <Button>TextAnimate Back</Button>
+      </TextAnimate.Typewriter>
     </Paper>
 
     <Paper radius="md" withBorder p="lg" shadow="md">
       <h3>Back Card</h3>
-      <Flip.Target>
-        <Button>Flip Front</Button>
-      </Flip.Target>
+      <TextAnimate.Typewriter>
+        <Button>TextAnimate Front</Button>
+      </TextAnimate.Typewriter>
     </Paper>
 
-  </Flip>
+  </TextAnimate>
   );
 }
 `;
 
 function Demo() {
   function CustomToggleButton() {
-    const { toggleFlip } = useFlipContext();
+    const { toggleTextAnimate } = useTextAnimateContext();
 
-    return <Button onClick={toggleFlip}>Flip</Button>;
+    return <Button onClick={toggleTextAnimate}>TextAnimate</Button>;
   }
 
   return (
     <Paper radius="md" withBorder p="lg" shadow="md">
       <h3>Inner</h3>
-      <Flip h={200} w={200}>
+      <TextAnimate h={200} w={200}>
         <Paper radius="md" withBorder p="lg" shadow="md">
           <h3>Front Card</h3>
           <CustomToggleButton />
@@ -47,7 +47,7 @@ function Demo() {
         <Paper radius="md" withBorder p="lg" shadow="md">
           <h3>Back Card</h3>
         </Paper>
-      </Flip>
+      </TextAnimate>
     </Paper>
   );
 }

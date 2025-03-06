@@ -1,6 +1,6 @@
 # Changelog
 
-The following is a list of notable changes to the Mantine Flip component.  
+The following is a list of notable changes to the Mantine TextAnimate component.  
 Minor versions that are not listed in the changelog are bug fixes and small improvements.
 
 ## 1.0.18 (2024-09-29)

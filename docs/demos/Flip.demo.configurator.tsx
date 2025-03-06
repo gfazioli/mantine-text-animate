@@ -1,23 +1,23 @@
-import { Flip } from '@gfazioli/mantine-flip';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import {
-  Badge,
-  Button,
-  Card,
-  Center,
-  Group,
-  Image,
-  Paper,
-  Stack,
-  Switch,
-  Text,
-  Title,
+    Badge,
+    Button,
+    Card,
+    Center,
+    Group,
+    Image,
+    Paper,
+    Stack,
+    Switch,
+    Text,
+    Title,
 } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
 function Wrapper(props: any) {
   return (
     <Center>
-      <Flip h={200} w={400} {...props}>
+      <TextAnimate h={200} w={400} {...props}>
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Card.Section>
             <Image
@@ -40,11 +40,11 @@ function Wrapper(props: any) {
           </Text>
 
           <Group justify="right">
-            <Flip.Target>
+            <TextAnimate.Typewriter>
               <Button color="blue" mt="md" radius="md">
                 Edit Widget
               </Button>
-            </Flip.Target>
+            </TextAnimate.Typewriter>
           </Group>
         </Card>
 
@@ -59,26 +59,26 @@ function Wrapper(props: any) {
             <Switch c="white" defaultChecked label="Display image" />
             <Switch c="white" label="Auto play" />
             <Group justify="left">
-              <Flip.Target>
+              <TextAnimate.Typewriter>
                 <Button color="red" mt="md" radius="md">
                   Close
                 </Button>
-              </Flip.Target>
+              </TextAnimate.Typewriter>
             </Group>
           </Stack>
         </Paper>
-      </Flip>
+      </TextAnimate>
     </Center>
   );
 }
 
 const code = `
-import { Flip } from '@gfazioli/mantine-flip'';
+import { TextAnimate } from '@gfazioli/mantine-text-animate'';
 
 function Demo() {
   return (
     <Center>
-      <Flip h={200} w={400}{{props}}>
+      <TextAnimate h={200} w={400}{{props}}>
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Card.Section>
             <Image
@@ -101,11 +101,11 @@ function Demo() {
           </Text>
 
           <Group justify="right">
-            <Flip.Target>
+            <TextAnimate.Typewriter>
               <Button color="blue" mt="md" radius="md">
                 Edit Widget
               </Button>
-            </Flip.Target>
+            </TextAnimate.Typewriter>
           </Group>
         </Card>
 
@@ -120,13 +120,13 @@ function Demo() {
             <Switch c="white" defaultChecked label="Display image" />
             <Switch c="white" label="Auto play" />
             <Group justify="left">
-              <Flip.Target>
+              <TextAnimate.Typewriter>
                 <Button color="red" mt="md" radius="md">Close</Button>
-              </Flip.Target>
+              </TextAnimate.Typewriter>
             </Group>
           </Stack>
         </Paper>
-      </Flip>
+      </TextAnimate>
     </Center>
   );
 }
@@ -148,7 +148,7 @@ export const configurator: MantineDemo = {
       libraryValue: 'horizontal',
     },
     {
-      prop: 'directionFlipIn',
+      prop: 'directionTextAnimateIn',
       type: 'select',
       data: [
         { label: 'Negative', value: 'negative' },
@@ -158,7 +158,7 @@ export const configurator: MantineDemo = {
       libraryValue: 'negative',
     },
     {
-      prop: 'directionFlipOut',
+      prop: 'directionTextAnimateOut',
       type: 'select',
       data: [
         { label: 'Positive', value: 'positive' },

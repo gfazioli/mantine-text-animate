@@ -1,10 +1,11 @@
-export { Flip } from './Flip';
+export { TextAnimate } from './TextAnimate';
 export type {
-  FlipBaseProps,
-  FlipCssVariables,
-  FlipDirection,
-  FlipFactory,
-  FlipIn,
-  FlipOut,
-} from './Flip';
-export { useFlipContext } from './Flip.context';
+    TextAnimateBaseProps,
+    TextAnimateCssVariables,
+    TextAnimateDirection,
+    TextAnimateFactory,
+    TextAnimateIn,
+    TextAnimateOut
+} from './TextAnimate';
+
+

@@ -1,8 +1,8 @@
 {
-  "name": "@gfazioli/mantine-flip",
+  "name": "@gfazioli/mantine-text-animate",
   "version": "1.1.5",
-  "description": "Flip component is a wrapper for any component that can be flipped. It is used to create cards, flip boxes and more.",
-  "homepage": "https://gfazioli.github.io/mantine-flip/",
+  "description": "TextAnimate component is a wrapper for any component that can be flipped. It is used to create cards, flip boxes and more.",
+  "homepage": "https://gfazioli.github.io/mantine-text-animate/",
   "packageManager": "yarn@4.0.1",
   "license": "MIT",
   "author": "Giovambattista Fazioli <giovambattista.fazioli@gmail.com>",
@@ -34,12 +34,12 @@
     "./styles.css": "./dist/styles.css",
     "./styles.layer.css": "./dist/styles.layer.css"
   },
-  "repository": "https://github.com/gfazioli/mantine-flip.git",
+  "repository": "https://github.com/gfazioli/mantine-text-animate.git",
   "peerDependencies": {
     "@mantine/core": ">=7.0.0",
     "@mantine/hooks": ">=7.0.0",
     "react": "^18.x || ^19.x",
     "react-dom": "^18.x || ^19.x"
   },
-  "bugs": "https://github.com/gfazioli/mantine-flip/issues"
+  "bugs": "https://github.com/gfazioli/mantine-text-animate/issues"
 }

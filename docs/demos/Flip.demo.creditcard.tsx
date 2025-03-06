@@ -1,15 +1,15 @@
-import { Flip } from '@gfazioli/mantine-flip';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import {
-  Container,
-  getGradient,
-  Group,
-  Paper,
-  Stack,
-  Text,
-  TextInput,
-  Title,
-  useMantineColorScheme,
-  useMantineTheme,
+    Container,
+    getGradient,
+    Group,
+    Paper,
+    Stack,
+    Text,
+    TextInput,
+    Title,
+    useMantineColorScheme,
+    useMantineTheme,
 } from '@mantine/core';
 import { MonthPickerInput } from '@mantine/dates';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
@@ -107,10 +107,10 @@ function Demo() {
 
   return (
     <Container size={420} my={40}>
-      <Flip h={200} w={400} flipped={flipped} mt={30}>
+      <TextAnimate h={200} w={400} flipped={flipped} mt={30}>
         <FrontCreditCard />
         <BackCreditCard />
-      </Flip>
+      </TextAnimate>
     </Container>
   );
 }
@@ -206,10 +206,10 @@ function Demo() {
 
   return (
     <Container size={420} my={40}>
-      <Flip h={200} w={400} flipped={flipped} mt={30}>
+      <TextAnimate h={200} w={400} flipped={flipped} mt={30}>
         <FrontCreditCard />
         <BackCreditCard />
-      </Flip>
+      </TextAnimate>
     </Container>
   );
 }

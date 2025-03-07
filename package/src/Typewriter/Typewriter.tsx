@@ -1,5 +1,20 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
-import { Box, Text, TextProps } from '@mantine/core';
+import {
+  Box,
+  BoxProps,
+  PolymorphicFactory,
+  StylesApiProps,
+  Text,
+  useProps,
+  useStyles,
+} from '@mantine/core';
+import classes from './typewriter.module.css';
+
+export type TypewriterStylesNames = 'root' | 'cursor' | 'cursorBlink';
+
+export type TypewriterCssVariables = {
+  root: '';
+};
 
 /**
  * Props for the Typewriter component
@@ -18,7 +33,7 @@ export interface TypewriterCursorProps {
   withBlink?: boolean;
 }
 
-export interface TypewriterProps extends Omit<TextProps, 'children'> {
+export interface TypewriterBaseProps {
   /**
    * The text or array of texts to display in typewriter effect
    */
@@ -52,17 +67,27 @@ export interface TypewriterProps extends Omit<TextProps, 'children'> {
    * Custom properties for the cursor
    */
   cursorProps?: TypewriterCursorProps;
-
-  /**
-   * Custom styles for the cursor
-   */
-  cursorStyle?: React.CSSProperties;
 }
+
+export interface TypewriterProps
+  extends BoxProps,
+    TypewriterBaseProps,
+    StylesApiProps<TypewriterFactory> {}
+
+export type TypewriterFactory = PolymorphicFactory<{
+  props: TypewriterProps;
+  defaultComponent: 'p';
+  defaultRef: HTMLParagraphElement;
+  stylesNames: TypewriterStylesNames;
+  vars: TypewriterCssVariables;
+}>;
 
 const defaultProps: Partial<TypewriterProps> = {
   speed: 0.03,
   textDelay: 2000,
   loop: true,
+  withCursor: true,
+  cursorProps: { cursorChar: '|', withBlink: true },
 };
 
 /**
@@ -70,138 +95,118 @@ const defaultProps: Partial<TypewriterProps> = {
  *
  * A component that creates a typewriter effect using TextAnimate.
  */
-export const Typewriter = forwardRef<HTMLDivElement, TypewriterProps>(
-  (
-    {
-      text,
-      speed = 0.03,
-      textDelay = 2000,
-      loop = true,
-      withCursor = true,
-      cursorProps = { cursorChar: '|', withBlink: true },
-      cursorStyle,
-      ...textProps
-    },
-    ref
-  ) => {
-    const [displayText, setDisplayText] = useState('');
-    const [currentTextIndex, setCurrentTextIndex] = useState(0);
-    const [isTyping, setIsTyping] = useState(true);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+export const Typewriter = forwardRef<HTMLDivElement, TypewriterProps>((_props, ref) => {
+  const props = useProps('TextAnimate', defaultProps, _props);
 
-    // Set default values for cursorProps
-    const { cursorChar = '|', withBlink = true } = cursorProps;
+  const {
+    text,
+    speed,
+    textDelay,
+    loop,
+    withCursor,
+    cursorProps,
 
-    // Convert single text to array if needed
-    const textArray = Array.isArray(text) ? text : [text];
-    const currentFullText = textArray[currentTextIndex];
+    classNames,
+    style,
+    styles,
+    unstyled,
+    vars,
 
-    // Clear any existing timeouts when component unmounts
-    useEffect(() => {
-      // Add the keyframe animation to the document head only if withBlink is true
-      if (withBlink) {
-        const styleElement = document.createElement('style');
-        styleElement.innerHTML = `
-          @keyframes blinkCaret {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-          }
-        `;
-        document.head.appendChild(styleElement);
+    className,
 
-        return () => {
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-          }
-          // Clean up the style element when component unmounts
-          document.head.removeChild(styleElement);
-        };
+    ...others
+  } = props;
+
+  const [displayText, setDisplayText] = useState('');
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Set default values for cursorProps
+  const { cursorChar = '|', withBlink = true } = cursorProps;
+
+  // Convert single text to array if needed
+  const textArray = Array.isArray(text) ? text : [text];
+  const currentFullText = textArray[currentTextIndex];
+
+  // Clear any existing timeouts when component unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Handle the typewriter animation
+  useEffect(() => {
+    if (textArray.length === 0) return;
+
+    // If we're typing
+    if (isTyping && !isDeleting) {
+      if (displayText.length < currentFullText.length) {
+        // Type the next character
+        timeoutRef.current = setTimeout(() => {
+          setDisplayText(currentFullText.substring(0, displayText.length + 1));
+        }, speed * 1000);
       } else {
-        return () => {
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-          }
-        };
-      }
-    }, [withBlink]);
+        // Finished typing
+        setIsTyping(false);
 
-    // Handle the typewriter animation
-    useEffect(() => {
-      if (textArray.length === 0) return;
-
-      // If we're typing
-      if (isTyping && !isDeleting) {
-        if (displayText.length < currentFullText.length) {
-          // Type the next character
+        // If we have multiple texts, start deleting after a delay
+        if (textArray.length > 1 || loop) {
           timeoutRef.current = setTimeout(() => {
-            setDisplayText(currentFullText.substring(0, displayText.length + 1));
-          }, speed * 1000);
-        } else {
-          // Finished typing
-          setIsTyping(false);
-
-          // If we have multiple texts, start deleting after a delay
-          if (textArray.length > 1 || loop) {
-            timeoutRef.current = setTimeout(() => {
-              setIsDeleting(true);
-              setIsTyping(true);
-            }, textDelay);
-          }
+            setIsDeleting(true);
+            setIsTyping(true);
+          }, textDelay);
         }
       }
+    }
 
-      // If we're deleting
-      if (isTyping && isDeleting) {
-        if (displayText.length > 0) {
-          // Delete a character
-          timeoutRef.current = setTimeout(() => {
-            setDisplayText(displayText.substring(0, displayText.length - 1));
-          }, speed * 500); // Deleting is faster than typing
-        } else {
-          // Finished deleting
-          setIsDeleting(false);
+    // If we're deleting
+    if (isTyping && isDeleting) {
+      if (displayText.length > 0) {
+        // Delete a character
+        timeoutRef.current = setTimeout(() => {
+          setDisplayText(displayText.substring(0, displayText.length - 1));
+        }, speed * 500); // Deleting is faster than typing
+      } else {
+        // Finished deleting
+        setIsDeleting(false);
 
-          // Move to the next text
-          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
-        }
+        // Move to the next text
+        setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
       }
-    }, [displayText, isTyping, isDeleting, currentFullText, textArray, speed, textDelay, loop]);
+    }
+  }, [displayText, isTyping, isDeleting, currentFullText, textArray, speed, textDelay, loop]);
 
-    // Container styles for inline cursor
-    const containerStyles: React.CSSProperties = {
-      display: 'inline-flex',
-      alignItems: 'baseline',
-      flexWrap: 'nowrap',
-      position: 'relative',
-      minHeight: '1.5em',
-    };
+  const getStyles = useStyles<TypewriterFactory>({
+    name: 'Typewriter',
+    props,
+    classes,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    vars,
+    //varsResolver,
+  });
 
-    // Default cursor styles
-    const defaultCursorStyle: React.CSSProperties = {
-      display: 'inline-block',
-      fontWeight: 'normal',
-      animation: withBlink ? 'blinkCaret 0.75s step-end infinite' : undefined,
-      marginLeft: '1px',
-    };
+  return (
+    <Box ref={ref} {...getStyles('root')}>
+      <Text component="span" {...others}>
+        {displayText}
+      </Text>
 
-    // Combine default and custom cursor styles
-    const finalCursorStyle = { ...defaultCursorStyle, ...cursorStyle };
-
-    return (
-      <Box ref={ref} style={containerStyles}>
-        <Text component="span" {...textProps}>
-          {displayText}
+      {withCursor && (
+        <Text component="span" data-with-blink={withBlink} {...getStyles('cursor')} {...others}>
+          {cursorChar}
         </Text>
-
-        {withCursor && (
-          <Text component="span" style={finalCursorStyle} {...textProps}>
-            {cursorChar}
-          </Text>
-        )}
-      </Box>
-    );
-  }
-);
+      )}
+    </Box>
+  );
+});
 
 Typewriter.displayName = 'Typewriter';

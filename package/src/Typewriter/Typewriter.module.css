@@ -1,0 +1,30 @@
+/* Container styles */
+.root {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  position: relative;
+  min-height: 1.5em;
+}
+
+/* Cursor styles */
+.cursor {
+  display: inline-block;
+  font-weight: normal;
+  margin-left: 1px;
+
+  &[data-with-blink='true'] {
+    animation: blinkCaret 0.75s step-end infinite;
+  }
+}
+
+/* Keyframes for cursor blinking */
+@keyframes blinkCaret {
+  from,
+  to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

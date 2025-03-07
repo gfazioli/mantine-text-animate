@@ -8,15 +8,21 @@ export default {
     speed: 0.03,
     textDelay: 2000,
     loop: true,
-    cursor: true,
-    cursorChar: '|',
+    withCursor: true,
+    cursorProps: {
+      cursorChar: '|',
+      withBlink: true,
+    },
   },
   argTypes: {
     speed: { control: { type: 'range', min: 0, max: 1, step: 0.01 } },
     textDelay: { control: { type: 'range', min: 0, max: 10000, step: 100 } },
     loop: { control: { type: 'boolean' } },
-    cursor: { control: { type: 'boolean' } },
-    cursorChar: { control: { type: 'text' } },
+    withCursor: { control: { type: 'boolean' } },
+    cursorProps: {
+      cursorChar: { control: { type: 'text' } },
+      withBlink: { control: { type: 'boolean' } },
+    },
   },
 };
 

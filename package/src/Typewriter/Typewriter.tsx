@@ -1,12 +1,12 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import {
   Box,
-  BoxProps,
-  PolymorphicFactory,
-  StylesApiProps,
   Text,
   useProps,
   useStyles,
+  type BoxProps,
+  type PolymorphicFactory,
+  type StylesApiProps,
 } from '@mantine/core';
 import classes from './typewriter.module.css';
 
@@ -154,8 +154,13 @@ export const Typewriter = forwardRef<HTMLDivElement, TypewriterProps>((_props, r
         // Finished typing
         setIsTyping(false);
 
-        // If we have multiple texts, start deleting after a delay
-        if (textArray.length > 1 || loop) {
+        // Check if we should continue to the next text
+        const isLastText = currentTextIndex === textArray.length - 1;
+
+        // Only start deleting if:
+        // 1. We're not at the last text, OR
+        // 2. We're at the last text but loop is true
+        if (!isLastText || loop) {
           timeoutRef.current = setTimeout(() => {
             setIsDeleting(true);
             setIsTyping(true);
@@ -175,8 +180,15 @@ export const Typewriter = forwardRef<HTMLDivElement, TypewriterProps>((_props, r
         // Finished deleting
         setIsDeleting(false);
 
-        // Move to the next text
-        setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
+        // Move to the next text, but respect the loop prop
+        if (currentTextIndex === textArray.length - 1 && !loop) {
+          // If we're at the last text and loop is false, go back to the first text
+          // but don't start typing (this effectively stops the animation)
+          setCurrentTextIndex(0);
+        } else {
+          // Otherwise, move to the next text normally
+          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
+        }
       }
     }
   }, [displayText, isTyping, isDeleting, currentFullText, textArray, speed, textDelay, loop]);

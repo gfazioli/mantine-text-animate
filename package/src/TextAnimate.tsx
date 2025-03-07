@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   BoxProps,
@@ -36,6 +36,11 @@ export type AnimationVariant =
   | 'slideRight' // Slide in from left to right
   | 'scaleUp' // Scale up from smaller to normal size
   | 'scaleDown'; // Scale down from larger to normal size
+
+/**
+ * Animation direction
+ */
+type AnimationDirection = 'in' | 'out' | 'static' | 'none' | false | undefined;
 
 // Add a new interface for AnimateProps
 interface AnimateProps {
@@ -102,16 +107,14 @@ export interface TextAnimateBaseProps {
   by?: AnimationType;
 
   /**
-   * Whether the animation is started (controlled mode)
-   * When provided, the component becomes controlled and will only animate when this is true
+   * Controls the animation direction
+   * - "in": Animate elements in (appear)
+   * - "out": Animate elements out (disappear)
+   * - "static": Do not animate
+   * - "none": Do not animate
+   * @default undefined (no animation)
    */
-  start?: boolean;
-
-  /**
-   * Initial animation state for uncontrolled mode
-   * @default false
-   */
-  defaultStart?: boolean;
+  animate?: AnimationDirection;
 
   /**
    * The animation preset to use
@@ -152,7 +155,7 @@ export type TextAnimateFactory = PolymorphicFactory<{
 const defaultProps: Partial<TextAnimateProps> = {
   delay: 0,
   duration: 0.3,
-  segmentDelay: 0.5,
+  segmentDelay: 0.05,
   by: 'word',
   animation: 'fadeIn',
   animateProps: {
@@ -183,8 +186,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     delay,
     duration,
     segmentClassName,
-    start,
-    defaultStart,
+    animate,
     by,
     animation,
     segmentDelay,
@@ -200,11 +202,6 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
 
     ...others
   } = props;
-
-  // Use start prop if provided (controlled mode), otherwise use internal state (uncontrolled)
-  const [internalStart, setInternalStart] = useState(defaultStart);
-  const isControlled = start !== undefined;
-  const isVisible = isControlled ? start : internalStart;
 
   // Extract animateProps
   const { translateDistance, scaleAmount, blurAmount } = animateProps;
@@ -245,67 +242,139 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
 
     // Initial styles (before animation)
     const initialStyles: React.CSSProperties = {
-      opacity: 0,
       transition: `all ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${baseDelay}s`,
       display: by === 'line' ? 'block' : 'inline-block',
       whiteSpace: by === 'line' ? 'normal' : 'pre',
       willChange: 'opacity, transform, filter', // Optimize for animation
     };
 
-    // Add transform/filter based on animation type with intensity controls
-    switch (animation) {
-      case 'fade':
-        // No transform needed, just opacity animation
-        break;
-      case 'fadeIn':
-        initialStyles.transform = `translateY(${translateDistance}px)`;
-        break;
-      case 'blurIn':
-        initialStyles.filter = `blur(${blurAmount}px)`;
-        break;
-      case 'blurInUp':
-        initialStyles.filter = `blur(${blurAmount}px)`;
-        initialStyles.transform = `translateY(${translateDistance}px)`;
-        break;
-      case 'blurInDown':
-        initialStyles.filter = `blur(${blurAmount}px)`;
-        initialStyles.transform = `translateY(-${translateDistance}px)`;
-        break;
-      case 'slideUp':
-        initialStyles.transform = `translateY(${translateDistance}px)`;
-        break;
-      case 'slideDown':
-        initialStyles.transform = `translateY(-${translateDistance}px)`;
-        break;
-      case 'slideLeft':
-        initialStyles.transform = `translateX(${translateDistance}px)`;
-        break;
-      case 'slideRight':
-        initialStyles.transform = `translateX(-${translateDistance}px)`;
-        break;
-      case 'scaleUp':
-        // For scaleUp, we start at a smaller scale (1 - scaleAmount)
-        // e.g., if scaleAmount is 0.8, we start at 0.2
-        initialStyles.transform = `scale(${Math.max(0.1, 1 - scaleAmount)})`;
-        break;
-      case 'scaleDown':
-        // For scaleDown, we start at a larger scale (1 + scaleAmount)
-        // e.g., if scaleAmount is 0.8, we start at 1.8
-        initialStyles.transform = `scale(${1 + scaleAmount})`;
-        break;
+    // Handle "none" or false - hide the element completely but keep it in the DOM
+    if (animate === 'none' || animate === false || animate === undefined) {
+      return {
+        ...initialStyles,
+        opacity: 0,
+        pointerEvents: 'none' as React.CSSProperties['pointerEvents'],
+        transform: 'translateY(0)', // Reset transform to avoid jumps when becoming visible
+        filter: 'blur(0px)', // Reset filter
+      };
     }
 
-    // Active styles (after animation)
-    if (isVisible) {
+    // Add transform/filter based on animation type with intensity controls
+    if (animate === 'in') {
+      // Starting styles for "in" animation
+      switch (animation) {
+        case 'fade':
+          initialStyles.opacity = 0;
+          break;
+        case 'fadeIn':
+          initialStyles.opacity = 0;
+          initialStyles.transform = `translateY(${translateDistance}px)`;
+          break;
+        case 'blurIn':
+          initialStyles.opacity = 0;
+          initialStyles.filter = `blur(${blurAmount}px)`;
+          break;
+        case 'blurInUp':
+          initialStyles.opacity = 0;
+          initialStyles.filter = `blur(${blurAmount}px)`;
+          initialStyles.transform = `translateY(${translateDistance}px)`;
+          break;
+        case 'blurInDown':
+          initialStyles.opacity = 0;
+          initialStyles.filter = `blur(${blurAmount}px)`;
+          initialStyles.transform = `translateY(-${translateDistance}px)`;
+          break;
+        case 'slideUp':
+          initialStyles.opacity = 0;
+          initialStyles.transform = `translateY(${translateDistance}px)`;
+          break;
+        case 'slideDown':
+          initialStyles.opacity = 0;
+          initialStyles.transform = `translateY(-${translateDistance}px)`;
+          break;
+        case 'slideLeft':
+          initialStyles.opacity = 0;
+          initialStyles.transform = `translateX(${translateDistance}px)`;
+          break;
+        case 'slideRight':
+          initialStyles.opacity = 0;
+          initialStyles.transform = `translateX(-${translateDistance}px)`;
+          break;
+        case 'scaleUp':
+          initialStyles.opacity = 0;
+          initialStyles.transform = `scale(${Math.max(0.1, 1 - scaleAmount)})`;
+          break;
+        case 'scaleDown':
+          initialStyles.opacity = 0;
+          initialStyles.transform = `scale(${1 + scaleAmount})`;
+          break;
+      }
+
+      // Final styles for "in" animation
       return {
         ...initialStyles,
         opacity: 1,
         filter: 'blur(0px)',
         transform: 'translate(0, 0) scale(1)',
       };
+    } else if (animate === 'out') {
+      // Starting styles for "out" animation
+      initialStyles.opacity = 1;
+      initialStyles.transform = 'translate(0, 0) scale(1)';
+      initialStyles.filter = 'blur(0px)';
+
+      // Final styles for "out" animation
+      const outStyles: React.CSSProperties = { ...initialStyles, opacity: 0 };
+
+      switch (animation) {
+        case 'fade':
+          // Just fade out
+          break;
+        case 'fadeIn':
+          outStyles.transform = `translateY(${translateDistance}px)`;
+          break;
+        case 'blurIn':
+          outStyles.filter = `blur(${blurAmount}px)`;
+          break;
+        case 'blurInUp':
+          outStyles.filter = `blur(${blurAmount}px)`;
+          outStyles.transform = `translateY(${translateDistance}px)`;
+          break;
+        case 'blurInDown':
+          outStyles.filter = `blur(${blurAmount}px)`;
+          outStyles.transform = `translateY(-${translateDistance}px)`;
+          break;
+        case 'slideUp':
+          outStyles.transform = `translateY(${translateDistance}px)`;
+          break;
+        case 'slideDown':
+          outStyles.transform = `translateY(-${translateDistance}px)`;
+          break;
+        case 'slideLeft':
+          outStyles.transform = `translateX(${translateDistance}px)`;
+          break;
+        case 'slideRight':
+          outStyles.transform = `translateX(-${translateDistance}px)`;
+          break;
+        case 'scaleUp':
+          outStyles.transform = `scale(${Math.max(0.1, 1 - scaleAmount)})`;
+          break;
+        case 'scaleDown':
+          outStyles.transform = `scale(${1 + scaleAmount})`;
+          break;
+      }
+
+      return outStyles;
     }
 
-    return initialStyles;
+    // If animate is "static", return a neutral style with no transitions
+    return {
+      ...initialStyles,
+      opacity: 1,
+      filter: 'blur(0px)',
+      transform: 'translate(0, 0) scale(1)',
+      transition: 'none', // No transition for static display
+    };
   };
 
   const getStyles = useStyles<TextAnimateFactory>({

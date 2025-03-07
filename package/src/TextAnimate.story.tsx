@@ -1,5 +1,5 @@
-import React from 'react';
-import { Center, Paper, Stack, Switch } from '@mantine/core';
+import React, { useState } from 'react';
+import { Center, Paper, SegmentedControl, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TextAnimate, TextAnimateProps } from './TextAnimate';
 
@@ -55,23 +55,40 @@ export default {
   },
 };
 
-export function Usage(props: TextAnimateProps) {
-  const { start, ...rest } = props;
+type AnimationDirection = 'in' | 'out' | 'none' | 'static' | undefined;
 
-  const [opened, { open, close }] = useDisclosure(false);
+export function Usage(props: TextAnimateProps) {
+  const { animate, ...rest } = props;
+  const [animationDirection, setAnimationDirection] = useState<AnimationDirection>(undefined);
+
+  // Update the handleAnimationDirectionChange function to handle the new values
+  const handleAnimationDirectionChange = (value: string) => {
+    if (value === 'none') {
+      setAnimationDirection('none' as AnimationDirection);
+    } else if (value === 'static') {
+      setAnimationDirection('static' as AnimationDirection);
+    } else {
+      setAnimationDirection(value as 'in' | 'out');
+    }
+  };
 
   return (
     <>
       <Center h={800}>
         <Stack>
-          <Switch
-            checked={opened}
-            onChange={opened ? close : open}
-            label={opened ? 'Back' : 'Start animation'}
+          <SegmentedControl
+            value={animationDirection === undefined ? 'none' : String(animationDirection)}
+            onChange={handleAnimationDirectionChange}
+            data={[
+              { label: 'None', value: 'none' },
+              { label: 'Static', value: 'static' },
+              { label: 'Animate In', value: 'in' },
+              { label: 'Animate Out', value: 'out' },
+            ]}
           />
 
           <Paper p="xl" withBorder>
-            <TextAnimate start={opened} {...rest}>
+            <TextAnimate animate={animationDirection} {...rest}>
               Fade in animation with slight upward movement
             </TextAnimate>
           </Paper>
@@ -82,7 +99,7 @@ export function Usage(props: TextAnimateProps) {
 }
 
 export function MultipleLine(props: TextAnimateProps) {
-  const { start, ...rest } = props;
+  const { ...rest } = props;
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -97,7 +114,7 @@ export function MultipleLine(props: TextAnimateProps) {
           />
 
           <Paper p="xl" withBorder>
-            <TextAnimate start={opened} {...rest}>
+            <TextAnimate {...rest}>
               {
                 'This is the first line\nThis is the second line\nThis is the third line\nEach line can animate separately or together.'
               }
@@ -110,7 +127,7 @@ export function MultipleLine(props: TextAnimateProps) {
 }
 
 export function MultipleLineSlow(props: TextAnimateProps) {
-  const { start, segmentDelay, ...rest } = props;
+  const { segmentDelay, ...rest } = props;
 
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -125,7 +142,7 @@ export function MultipleLineSlow(props: TextAnimateProps) {
           />
 
           <Paper p="xl" withBorder>
-            <TextAnimate start={opened} {...rest} segmentDelay={2}>
+            <TextAnimate {...rest} segmentDelay={2}>
               {
                 'This is the first line\nThis is the second line\nThis is the third line\nEach line can animate separately or together.'
               }

@@ -11,6 +11,12 @@ export default {
     delay: 0,
     duration: 0.3,
     segmentDelay: 0.01,
+
+    animateProps: {
+      translateDistance: 20,
+      scaleAmount: 0.8,
+      blurAmount: 10,
+    },
   },
   argTypes: {
     animation: {
@@ -40,6 +46,12 @@ export default {
     delay: { control: { type: 'range', min: 0, max: 20, step: 0.1 } },
     duration: { control: { type: 'range', min: 0, max: 20, step: 0.1 } },
     segmentDelay: { control: { type: 'range', min: 0, max: 1, step: 0.01 } },
+
+    animateProps: {
+      translateDistance: { control: { type: 'range', min: 0, max: 100, step: 1 } },
+      scaleAmount: { control: { type: 'range', min: 0, max: 1, step: 0.01 } },
+      blurAmount: { control: { type: 'range', min: 0, max: 100, step: 1 } },
+    },
   },
 };
 

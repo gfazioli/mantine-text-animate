@@ -37,6 +37,29 @@ export type AnimationVariant =
   | 'scaleUp' // Scale up from smaller to normal size
   | 'scaleDown'; // Scale down from larger to normal size
 
+// Add a new interface for AnimateProps
+interface AnimateProps {
+  /**
+   * Controls the distance for slide animations (in pixels)
+   * @default 20
+   */
+  translateDistance?: number;
+
+  /**
+   * Controls the scale factor for scale animations
+   * For scaleUp: initial scale = 1 - scaleAmount (e.g., 0.8 means start at 0.2)
+   * For scaleDown: initial scale = 1 + scaleAmount (e.g., 0.8 means start at 1.8)
+   * @default 0.8
+   */
+  scaleAmount?: number;
+
+  /**
+   * Controls the blur amount for blur animations (in pixels)
+   * @default 10
+   */
+  blurAmount?: number;
+}
+
 export type TextAnimateStylesNames = 'root';
 
 export type TextAnimateCssVariables = {
@@ -102,6 +125,12 @@ export interface TextAnimateBaseProps {
    * @default Based on animation type (0.03-0.06)
    */
   segmentDelay?: number;
+
+  /**
+   * Animation properties to control intensity of animations
+   * @default { translateDistance: 20, scaleAmount: 0.8, blurAmount: 10 }
+   */
+  animateProps?: AnimateProps;
 }
 
 export interface TextAnimateProps
@@ -126,6 +155,11 @@ const defaultProps: Partial<TextAnimateProps> = {
   segmentDelay: 0.5,
   by: 'word',
   animation: 'fadeIn',
+  animateProps: {
+    translateDistance: 20,
+    scaleAmount: 0.8,
+    blurAmount: 10,
+  },
 };
 
 /**
@@ -154,6 +188,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     by,
     animation,
     segmentDelay,
+    animateProps,
 
     classNames,
     style,
@@ -170,6 +205,9 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   const [internalStart, setInternalStart] = useState(defaultStart);
   const isControlled = start !== undefined;
   const isVisible = isControlled ? start : internalStart;
+
+  // Extract animateProps
+  const { translateDistance, scaleAmount, blurAmount } = animateProps;
 
   // Use provided segmentDelay or default based on animation type
   const staggerTiming = segmentDelay !== undefined ? segmentDelay : defaultStaggerTimings[by];
@@ -214,42 +252,46 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       willChange: 'opacity, transform, filter', // Optimize for animation
     };
 
-    // Add transform/filter based on animation type
+    // Add transform/filter based on animation type with intensity controls
     switch (animation) {
       case 'fade':
         // No transform needed, just opacity animation
         break;
       case 'fadeIn':
-        initialStyles.transform = 'translateY(20px)';
+        initialStyles.transform = `translateY(${translateDistance}px)`;
         break;
       case 'blurIn':
-        initialStyles.filter = 'blur(10px)';
+        initialStyles.filter = `blur(${blurAmount}px)`;
         break;
       case 'blurInUp':
-        initialStyles.filter = 'blur(10px)';
-        initialStyles.transform = 'translateY(20px)';
+        initialStyles.filter = `blur(${blurAmount}px)`;
+        initialStyles.transform = `translateY(${translateDistance}px)`;
         break;
       case 'blurInDown':
-        initialStyles.filter = 'blur(10px)';
-        initialStyles.transform = 'translateY(-20px)';
+        initialStyles.filter = `blur(${blurAmount}px)`;
+        initialStyles.transform = `translateY(-${translateDistance}px)`;
         break;
       case 'slideUp':
-        initialStyles.transform = 'translateY(20px)';
+        initialStyles.transform = `translateY(${translateDistance}px)`;
         break;
       case 'slideDown':
-        initialStyles.transform = 'translateY(-20px)';
+        initialStyles.transform = `translateY(-${translateDistance}px)`;
         break;
       case 'slideLeft':
-        initialStyles.transform = 'translateX(20px)';
+        initialStyles.transform = `translateX(${translateDistance}px)`;
         break;
       case 'slideRight':
-        initialStyles.transform = 'translateX(-20px)';
+        initialStyles.transform = `translateX(-${translateDistance}px)`;
         break;
       case 'scaleUp':
-        initialStyles.transform = 'scale(0.2)'; // More dramatic scale effect
+        // For scaleUp, we start at a smaller scale (1 - scaleAmount)
+        // e.g., if scaleAmount is 0.8, we start at 0.2
+        initialStyles.transform = `scale(${Math.max(0.1, 1 - scaleAmount)})`;
         break;
       case 'scaleDown':
-        initialStyles.transform = 'scale(1.8)';
+        // For scaleDown, we start at a larger scale (1 + scaleAmount)
+        // e.g., if scaleAmount is 0.8, we start at 1.8
+        initialStyles.transform = `scale(${1 + scaleAmount})`;
         break;
     }
 

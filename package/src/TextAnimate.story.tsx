@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Center, Paper, SegmentedControl, Stack, Switch } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Center, Paper, SegmentedControl, Stack } from '@mantine/core';
 import { TextAnimate, TextAnimateProps } from './TextAnimate';
 
 export default {
@@ -59,18 +58,9 @@ type AnimationDirection = 'in' | 'out' | 'none' | 'static' | undefined;
 
 export function Usage(props: TextAnimateProps) {
   const { animate, ...rest } = props;
-  const [animationDirection, setAnimationDirection] = useState<AnimationDirection>(undefined);
-
-  // Update the handleAnimationDirectionChange function to handle the new values
-  const handleAnimationDirectionChange = (value: string) => {
-    if (value === 'none') {
-      setAnimationDirection('none' as AnimationDirection);
-    } else if (value === 'static') {
-      setAnimationDirection('static' as AnimationDirection);
-    } else {
-      setAnimationDirection(value as 'in' | 'out');
-    }
-  };
+  const [animationDirection, setAnimationDirection] = useState<AnimationDirection | string>(
+    undefined
+  );
 
   return (
     <>
@@ -78,7 +68,7 @@ export function Usage(props: TextAnimateProps) {
         <Stack>
           <SegmentedControl
             value={animationDirection === undefined ? 'none' : String(animationDirection)}
-            onChange={handleAnimationDirectionChange}
+            onChange={setAnimationDirection}
             data={[
               { label: 'None', value: 'none' },
               { label: 'Static', value: 'static' },
@@ -88,7 +78,7 @@ export function Usage(props: TextAnimateProps) {
           />
 
           <Paper p="xl" withBorder>
-            <TextAnimate animate={animationDirection} {...rest}>
+            <TextAnimate animate={animationDirection as AnimationDirection} {...rest}>
               Fade in animation with slight upward movement
             </TextAnimate>
           </Paper>
@@ -99,22 +89,28 @@ export function Usage(props: TextAnimateProps) {
 }
 
 export function MultipleLine(props: TextAnimateProps) {
-  const { ...rest } = props;
-
-  const [opened, { open, close }] = useDisclosure(false);
+  const { animate, ...rest } = props;
+  const [animationDirection, setAnimationDirection] = useState<AnimationDirection | string>(
+    undefined
+  );
 
   return (
     <>
       <Center h={800}>
         <Stack>
-          <Switch
-            checked={opened}
-            onChange={opened ? close : open}
-            label={opened ? 'Back' : 'Start animation'}
+          <SegmentedControl
+            value={animationDirection === undefined ? 'none' : String(animationDirection)}
+            onChange={setAnimationDirection}
+            data={[
+              { label: 'None', value: 'none' },
+              { label: 'Static', value: 'static' },
+              { label: 'Animate In', value: 'in' },
+              { label: 'Animate Out', value: 'out' },
+            ]}
           />
 
           <Paper p="xl" withBorder>
-            <TextAnimate {...rest}>
+            <TextAnimate animate={animationDirection as AnimationDirection} {...rest}>
               {
                 'This is the first line\nThis is the second line\nThis is the third line\nEach line can animate separately or together.'
               }
@@ -127,22 +123,33 @@ export function MultipleLine(props: TextAnimateProps) {
 }
 
 export function MultipleLineSlow(props: TextAnimateProps) {
-  const { segmentDelay, ...rest } = props;
-
-  const [opened, { open, close }] = useDisclosure(false);
+  const { animate, ...rest } = props;
+  const [animationDirection, setAnimationDirection] = useState<AnimationDirection | string>(
+    undefined
+  );
 
   return (
     <>
       <Center h={800}>
         <Stack>
-          <Switch
-            checked={opened}
-            onChange={opened ? close : open}
-            label={opened ? 'Back' : 'Start animation'}
+          <SegmentedControl
+            value={animationDirection === undefined ? 'none' : String(animationDirection)}
+            onChange={setAnimationDirection}
+            data={[
+              { label: 'None', value: 'none' },
+              { label: 'Static', value: 'static' },
+              { label: 'Animate In', value: 'in' },
+              { label: 'Animate Out', value: 'out' },
+            ]}
           />
 
           <Paper p="xl" withBorder>
-            <TextAnimate {...rest} segmentDelay={2}>
+            <TextAnimate
+              animate={animationDirection as AnimationDirection}
+              {...rest}
+              by="line"
+              segmentDelay={0.7}
+            >
               {
                 'This is the first line\nThis is the second line\nThis is the third line\nEach line can animate separately or together.'
               }

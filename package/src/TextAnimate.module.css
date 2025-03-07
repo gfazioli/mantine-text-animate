@@ -1,19 +1,436 @@
 .root {
-  perspective: var(--text-animate-perspective, '1000px');
 }
 
-.text-animate-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform var(--text-animate-transition-duration, '.1')
-    var(--text-animate-transition-timing-function, 'ease-in-out');
-  transform-style: preserve-3d;
+/* Base styles */
+.segment {
+  display: inline-block;
+  white-space: pre;
+  will-change: opacity, transform, filter;
 }
 
-.text-animate-content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
+.lineSegment {
+  display: block;
+  white-space: normal;
+}
+
+/* Animation durations */
+.duration-300 {
+  animation-duration: 0.3s;
+}
+
+.duration-500 {
+  animation-duration: 0.5s;
+}
+
+.duration-700 {
+  animation-duration: 0.7s;
+}
+
+/* Animation timing functions */
+.ease {
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animation fill modes */
+.forwards {
+  animation-fill-mode: forwards;
+}
+
+/* Static display */
+.static {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  filter: blur(0px);
+}
+
+/* Hidden state */
+.hidden {
+  display: none;
+}
+
+/* Animation variants - IN animations */
+.fadeIn-in,
+.fade-in,
+.blurIn-in,
+.blurInUp-in,
+.blurInDown-in,
+.slideUp-in,
+.slideDown-in,
+.slideLeft-in,
+.slideRight-in,
+.scaleUp-in,
+.scaleDown-in {
+  opacity: 0; /* Start with opacity 0 to ensure text is hidden initially */
+  animation-fill-mode: forwards;
+}
+
+.fadeIn-in {
+  animation-name: fadeIn;
+}
+
+.fade-in {
+  animation-name: fade;
+}
+
+.blurIn-in {
+  animation-name: blurIn;
+}
+
+.blurInUp-in {
+  animation-name: blurInUp;
+}
+
+.blurInDown-in {
+  animation-name: blurInDown;
+}
+
+.slideUp-in {
+  animation-name: slideUp;
+}
+
+.slideDown-in {
+  animation-name: slideDown;
+}
+
+.slideLeft-in {
+  animation-name: slideLeft;
+}
+
+.slideRight-in {
+  animation-name: slideRight;
+}
+
+.scaleUp-in {
+  animation-name: scaleUp;
+}
+
+.scaleDown-in {
+  animation-name: scaleDown;
+}
+
+/* Animation variants - OUT animations */
+.fadeIn-out {
+  animation-name: fadeOut;
+}
+
+.fade-out {
+  animation-name: fade;
+  animation-direction: reverse;
+}
+
+.blurIn-out {
+  animation-name: blurOut;
+}
+
+.blurInUp-out {
+  animation-name: blurOutUp;
+}
+
+.blurInDown-out {
+  animation-name: blurOutDown;
+}
+
+.slideUp-out {
+  animation-name: slideOutUp;
+}
+
+.slideDown-out {
+  animation-name: slideOutDown;
+}
+
+.slideLeft-out {
+  animation-name: slideOutLeft;
+}
+
+.slideRight-out {
+  animation-name: slideOutRight;
+}
+
+.scaleUp-out {
+  animation-name: scaleOutUp;
+}
+
+.scaleDown-out {
+  animation-name: scaleOutDown;
+}
+
+/* Keyframes for animations */
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@keyframes blurIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes blurOut {
+  from {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(10px);
+  }
+}
+
+@keyframes blurInUp {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes blurOutUp {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+}
+
+@keyframes blurInDown {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes blurOutDown {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOutUp {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+
+@keyframes scaleDown {
+  from {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOutDown {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+/* Custom animation intensities */
+.translate-small {
+  --translate-distance: 10px;
+}
+
+.translate-medium {
+  --translate-distance: 20px;
+}
+
+.translate-large {
+  --translate-distance: 40px;
+}
+
+.blur-small {
+  --blur-amount: 5px;
+}
+
+.blur-medium {
+  --blur-amount: 10px;
+}
+
+.blur-large {
+  --blur-amount: 20px;
+}
+
+.scale-small {
+  --scale-amount: 0.3;
+}
+
+.scale-medium {
+  --scale-amount: 0.8;
+}
+
+.scale-large {
+  --scale-amount: 1.2;
+}
+
+/* Add a new class for the initial hidden state */
+.initialHidden {
+  opacity: 0;
+  visibility: hidden;
 }

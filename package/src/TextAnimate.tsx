@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   BoxProps,
@@ -209,6 +209,17 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   // Use provided segmentDelay or default based on animation type
   const staggerTiming = segmentDelay !== undefined ? segmentDelay : defaultStaggerTimings[by];
 
+  // Add state to track if we're transitioning from "none" to "in"
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  // Use useEffect to handle the transition
+  useEffect(() => {
+    if (animate === 'in') {
+      // If we're animating in, we're no longer in initial render state
+      setIsInitialRender(false);
+    }
+  }, [animate]);
+
   // Container styles
   const containerStyles: React.CSSProperties = {
     whiteSpace: 'pre-wrap',
@@ -216,6 +227,32 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     display: 'block',
     minHeight: '1em',
   };
+
+  // If animate is "none" or false, return null (don't render anything)
+  if (animate === 'none' || animate === false || animate === undefined) {
+    // Reset the initial render state when we hide the component
+    if (!isInitialRender) {
+      setIsInitialRender(true);
+    }
+    return (
+      <Box className={className} style={containerStyles}>
+        <Text component="span" {...others} style={{ visibility: 'hidden' }}>
+          {children}
+        </Text>
+      </Box>
+    );
+  }
+
+  // If animate is "static", render the text directly without animation
+  if (animate === 'static') {
+    return (
+      <Box className={className} style={containerStyles}>
+        <Text component="span" {...others}>
+          {children}
+        </Text>
+      </Box>
+    );
+  }
 
   // Split text based on the 'by' prop
   let segments: string[] = [];
@@ -235,145 +272,29 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       break;
   }
 
-  // Generate animation styles for each segment
+  // Get animation class for each segment
+  const getSegmentClasses = (index: number) => {
+    const baseClass = by === 'line' ? classes.lineSegment : classes.segment;
+    const animationClass = classes[`${animation}-${animate}`];
+    const durationClass =
+      classes[`duration-${Math.round(duration * 1000)}`] || classes['duration-300'];
+    const easingClass = classes.ease;
+    const forwardsClass = classes.forwards;
+
+    // Add initialHidden class if we're transitioning from "none" to "in"
+    const initialHiddenClass = isInitialRender && animate === 'in' ? classes.initialHidden : '';
+
+    // Combine all classes
+    return `${baseClass} ${animationClass} ${durationClass} ${easingClass} ${forwardsClass} ${initialHiddenClass} ${segmentClassName || ''}`;
+  };
+
+  // Get animation delay for each segment
   const getSegmentStyle = (index: number) => {
     const staggerDelay = index * staggerTiming;
     const baseDelay = delay + staggerDelay;
 
-    // Initial styles (before animation)
-    const initialStyles: React.CSSProperties = {
-      transition: `all ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${baseDelay}s`,
-      display: by === 'line' ? 'block' : 'inline-block',
-      whiteSpace: by === 'line' ? 'normal' : 'pre',
-      willChange: 'opacity, transform, filter', // Optimize for animation
-    };
-
-    // Handle "none" or false - hide the element completely but keep it in the DOM
-    if (animate === 'none' || animate === false || animate === undefined) {
-      return {
-        ...initialStyles,
-        opacity: 0,
-        pointerEvents: 'none' as React.CSSProperties['pointerEvents'],
-        transform: 'translateY(0)', // Reset transform to avoid jumps when becoming visible
-        filter: 'blur(0px)', // Reset filter
-      };
-    }
-
-    // Add transform/filter based on animation type with intensity controls
-    if (animate === 'in') {
-      // Starting styles for "in" animation
-      switch (animation) {
-        case 'fade':
-          initialStyles.opacity = 0;
-          break;
-        case 'fadeIn':
-          initialStyles.opacity = 0;
-          initialStyles.transform = `translateY(${translateDistance}px)`;
-          break;
-        case 'blurIn':
-          initialStyles.opacity = 0;
-          initialStyles.filter = `blur(${blurAmount}px)`;
-          break;
-        case 'blurInUp':
-          initialStyles.opacity = 0;
-          initialStyles.filter = `blur(${blurAmount}px)`;
-          initialStyles.transform = `translateY(${translateDistance}px)`;
-          break;
-        case 'blurInDown':
-          initialStyles.opacity = 0;
-          initialStyles.filter = `blur(${blurAmount}px)`;
-          initialStyles.transform = `translateY(-${translateDistance}px)`;
-          break;
-        case 'slideUp':
-          initialStyles.opacity = 0;
-          initialStyles.transform = `translateY(${translateDistance}px)`;
-          break;
-        case 'slideDown':
-          initialStyles.opacity = 0;
-          initialStyles.transform = `translateY(-${translateDistance}px)`;
-          break;
-        case 'slideLeft':
-          initialStyles.opacity = 0;
-          initialStyles.transform = `translateX(${translateDistance}px)`;
-          break;
-        case 'slideRight':
-          initialStyles.opacity = 0;
-          initialStyles.transform = `translateX(-${translateDistance}px)`;
-          break;
-        case 'scaleUp':
-          initialStyles.opacity = 0;
-          initialStyles.transform = `scale(${Math.max(0.1, 1 - scaleAmount)})`;
-          break;
-        case 'scaleDown':
-          initialStyles.opacity = 0;
-          initialStyles.transform = `scale(${1 + scaleAmount})`;
-          break;
-      }
-
-      // Final styles for "in" animation
-      return {
-        ...initialStyles,
-        opacity: 1,
-        filter: 'blur(0px)',
-        transform: 'translate(0, 0) scale(1)',
-      };
-    } else if (animate === 'out') {
-      // Starting styles for "out" animation
-      initialStyles.opacity = 1;
-      initialStyles.transform = 'translate(0, 0) scale(1)';
-      initialStyles.filter = 'blur(0px)';
-
-      // Final styles for "out" animation
-      const outStyles: React.CSSProperties = { ...initialStyles, opacity: 0 };
-
-      switch (animation) {
-        case 'fade':
-          // Just fade out
-          break;
-        case 'fadeIn':
-          outStyles.transform = `translateY(${translateDistance}px)`;
-          break;
-        case 'blurIn':
-          outStyles.filter = `blur(${blurAmount}px)`;
-          break;
-        case 'blurInUp':
-          outStyles.filter = `blur(${blurAmount}px)`;
-          outStyles.transform = `translateY(${translateDistance}px)`;
-          break;
-        case 'blurInDown':
-          outStyles.filter = `blur(${blurAmount}px)`;
-          outStyles.transform = `translateY(-${translateDistance}px)`;
-          break;
-        case 'slideUp':
-          outStyles.transform = `translateY(${translateDistance}px)`;
-          break;
-        case 'slideDown':
-          outStyles.transform = `translateY(-${translateDistance}px)`;
-          break;
-        case 'slideLeft':
-          outStyles.transform = `translateX(${translateDistance}px)`;
-          break;
-        case 'slideRight':
-          outStyles.transform = `translateX(-${translateDistance}px)`;
-          break;
-        case 'scaleUp':
-          outStyles.transform = `scale(${Math.max(0.1, 1 - scaleAmount)})`;
-          break;
-        case 'scaleDown':
-          outStyles.transform = `scale(${1 + scaleAmount})`;
-          break;
-      }
-
-      return outStyles;
-    }
-
-    // If animate is "static", return a neutral style with no transitions
     return {
-      ...initialStyles,
-      opacity: 1,
-      filter: 'blur(0px)',
-      transform: 'translate(0, 0) scale(1)',
-      transition: 'none', // No transition for static display
+      animationDelay: `${baseDelay}s`,
     };
   };
 
@@ -395,7 +316,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       {segments.map((segment, i) => (
         <Text
           key={`${by}-${segment}-${i}`}
-          className={segmentClassName}
+          className={getSegmentClasses(i)}
           component="span"
           style={getSegmentStyle(i)}
           {...others}

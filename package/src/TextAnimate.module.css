@@ -1,4 +1,7 @@
 .root {
+  --text-animate-translation-distance: 20px;
+  --text-animate-blur-amount: 10px;
+  --text-animate-scale-amount: 0.8;
 }
 
 /* Base styles */
@@ -167,7 +170,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--text-animate-translation-distance));
   }
   to {
     opacity: 1;
@@ -182,14 +185,14 @@
   }
   to {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--text-animate-translation-distance));
   }
 }
 
 @keyframes blurIn {
   from {
     opacity: 0;
-    filter: blur(10px);
+    filter: blur(var(--text-animate-blur-amount));
   }
   to {
     opacity: 1;
@@ -204,15 +207,15 @@
   }
   to {
     opacity: 0;
-    filter: blur(10px);
+    filter: blur(var(--text-animate-blur-amount));
   }
 }
 
 @keyframes blurInUp {
   from {
     opacity: 0;
-    filter: blur(10px);
-    transform: translateY(20px);
+    filter: blur(var(--text-animate-blur-amount));
+    transform: translateY(var(--text-animate-translation-distance));
   }
   to {
     opacity: 1;
@@ -229,16 +232,16 @@
   }
   to {
     opacity: 0;
-    filter: blur(10px);
-    transform: translateY(20px);
+    filter: blur(var(--text-animate-blur-amount));
+    transform: translateY(var(--text-animate-translation-distance));
   }
 }
 
 @keyframes blurInDown {
   from {
     opacity: 0;
-    filter: blur(10px);
-    transform: translateY(-20px);
+    filter: blur(var(--text-animate-blur-amount));
+    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
   }
   to {
     opacity: 1;
@@ -255,15 +258,15 @@
   }
   to {
     opacity: 0;
-    filter: blur(10px);
-    transform: translateY(-20px);
+    filter: blur(var(--text-animate-blur-amount));
+    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
   }
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--text-animate-translation-distance));
   }
   to {
     opacity: 1;
@@ -278,14 +281,14 @@
   }
   to {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--text-animate-translation-distance));
   }
 }
 
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
   }
   to {
     opacity: 1;
@@ -300,14 +303,14 @@
   }
   to {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
   }
 }
 
 @keyframes slideLeft {
   from {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(var(--text-animate-translation-distance));
   }
   to {
     opacity: 1;
@@ -322,14 +325,14 @@
   }
   to {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(var(--text-animate-translation-distance));
   }
 }
 
 @keyframes slideRight {
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(calc(-1 * var(--text-animate-translation-distance)));
   }
   to {
     opacity: 1;
@@ -344,14 +347,14 @@
   }
   to {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(calc(-1 * var(--text-animate-translation-distance)));
   }
 }
 
 @keyframes scaleUp {
   from {
     opacity: 0;
-    transform: scale(0.2);
+    transform: scale(var(--text-animate-scale-amount));
   }
   to {
     opacity: 1;
@@ -366,14 +369,14 @@
   }
   to {
     opacity: 0;
-    transform: scale(0.2);
+    transform: scale(var(--text-animate-scale-amount));
   }
 }
 
 @keyframes scaleDown {
   from {
     opacity: 0;
-    transform: scale(1.8);
+    transform: scale(var(--text-animate-scale-amount));
   }
   to {
     opacity: 1;
@@ -388,45 +391,8 @@
   }
   to {
     opacity: 0;
-    transform: scale(1.8);
+    transform: scale(var(--text-animate-scale-amount));
   }
-}
-
-/* Custom animation intensities */
-.translate-small {
-  --translate-distance: 10px;
-}
-
-.translate-medium {
-  --translate-distance: 20px;
-}
-
-.translate-large {
-  --translate-distance: 40px;
-}
-
-.blur-small {
-  --blur-amount: 5px;
-}
-
-.blur-medium {
-  --blur-amount: 10px;
-}
-
-.blur-large {
-  --blur-amount: 20px;
-}
-
-.scale-small {
-  --scale-amount: 0.3;
-}
-
-.scale-medium {
-  --scale-amount: 0.8;
-}
-
-.scale-large {
-  --scale-amount: 1.2;
 }
 
 /* Add a new class for the initial hidden state */

@@ -43,3 +43,22 @@ export function Usage(props: TypewriterProps) {
     </>
   );
 }
+
+export function SameLine(props: TypewriterProps) {
+  return (
+    <>
+      <Center h={800}>
+        <Stack>
+          <Paper p="xl" withBorder w={500}>
+            Hello{' '}
+            <Typewriter
+              {...props}
+              c="red"
+              text={['Fast typing speed.', 'Quick and snappy!', 'Like a speed typist.']}
+            />
+          </Paper>
+        </Stack>
+      </Center>
+    </>
+  );
+}

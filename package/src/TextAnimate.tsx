@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   BoxProps,
+  createVarsResolver,
+  getSize,
+  MantineSize,
   PolymorphicFactory,
   polymorphicFactory,
   StylesApiProps,
@@ -48,7 +51,7 @@ interface AnimateProps {
    * Controls the distance for slide animations (in pixels)
    * @default 20
    */
-  translateDistance?: number;
+  translateDistance?: MantineSize;
 
   /**
    * Controls the scale factor for scale animations
@@ -62,13 +65,16 @@ interface AnimateProps {
    * Controls the blur amount for blur animations (in pixels)
    * @default 10
    */
-  blurAmount?: number;
+  blurAmount?: MantineSize;
 }
 
 export type TextAnimateStylesNames = 'root';
 
 export type TextAnimateCssVariables = {
-  root: '';
+  root:
+    | '--text-animate-translation-distance'
+    | '--text-animate-blur-amount'
+    | '--text-animate-scale-amount';
 };
 
 export type TextAnimateDirection = 'horizontal' | 'vertical';
@@ -159,9 +165,9 @@ const defaultProps: Partial<TextAnimateProps> = {
   by: 'word',
   animation: 'fadeIn',
   animateProps: {
-    translateDistance: 20,
+    translateDistance: '20' as MantineSize,
     scaleAmount: 0.8,
-    blurAmount: 10,
+    blurAmount: '10' as MantineSize,
   },
 };
 
@@ -176,9 +182,17 @@ const defaultStaggerTimings: Record<AnimationType, number> = {
   line: 0.06,
 };
 
-// const varsResolver = createVarsResolver<TextAnimateFactory>((_, {}) => ({
-//   root: {},
-// }));
+const varsResolver = createVarsResolver<TextAnimateFactory>(
+  (_, { animateProps: { translateDistance, blurAmount, scaleAmount } }) => ({
+    root: {
+      '--text-animate-translation-distance': translateDistance
+        ? getSize(translateDistance, 'translate-distance')
+        : '20px',
+      '--text-animate-blur-amount': blurAmount ? getSize(blurAmount, 'blur-amount') : '10px',
+      '--text-animate-scale-amount': scaleAmount ? scaleAmount.toString() : '0.8',
+    },
+  })
+);
 
 export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) => {
   const props = useProps('TextAnimate', defaultProps, _props);
@@ -203,9 +217,6 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     ...others
   } = props;
 
-  // Extract animateProps
-  const { translateDistance, scaleAmount, blurAmount } = animateProps;
-
   // Use provided segmentDelay or default based on animation type
   const staggerTiming = segmentDelay !== undefined ? segmentDelay : defaultStaggerTimings[by];
 
@@ -228,6 +239,19 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     minHeight: '1em',
   };
 
+  const getStyles = useStyles<TextAnimateFactory>({
+    name: 'TextAnimate',
+    props,
+    classes,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    vars,
+    varsResolver,
+  });
+
   // If animate is "none" or false, return null (don't render anything)
   if (animate === 'none' || animate === false || animate === undefined) {
     // Reset the initial render state when we hide the component
@@ -235,7 +259,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       setIsInitialRender(true);
     }
     return (
-      <Box className={className} style={containerStyles}>
+      <Box ref={ref} {...getStyles('root')} style={containerStyles}>
         <Text component="span" {...others} style={{ visibility: 'hidden' }}>
           {children}
         </Text>
@@ -246,7 +270,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   // If animate is "static", render the text directly without animation
   if (animate === 'static') {
     return (
-      <Box className={className} style={containerStyles}>
+      <Box ref={ref} {...getStyles('root')} style={containerStyles}>
         <Text component="span" {...others}>
           {children}
         </Text>
@@ -298,21 +322,8 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     };
   };
 
-  const getStyles = useStyles<TextAnimateFactory>({
-    name: 'TextAnimate',
-    props,
-    classes,
-    className,
-    style,
-    classNames,
-    styles,
-    unstyled,
-    vars,
-    //varsResolver,
-  });
-
   return (
-    <Box ref={ref} {...getStyles('root')} style={containerStyles}>
+    <Box ref={ref} {...getStyles('root', { style: containerStyles })}>
       {segments.map((segment, i) => (
         <Text
           key={`${by}-${segment}-${i}`}

@@ -28,17 +28,15 @@ export type AnimationType = 'text' | 'word' | 'character' | 'line';
  * Available animation variants
  */
 export type AnimationVariant =
-  | 'fade' // Simple fade in with no movement
-  | 'fadeIn' // Fade in from transparent to opaque with a slight upward movement
-  | 'blurIn' // Fade in with a blur effect
-  | 'blurInUp' // Fade in with blur and upward movement
-  | 'blurInDown' // Fade in with blur and downward movement
-  | 'slideUp' // Slide in from bottom to top
-  | 'slideDown' // Slide in from top to bottom
-  | 'slideLeft' // Slide in from right to left
-  | 'slideRight' // Slide in from left to right
-  | 'scaleUp' // Scale up from smaller to normal size
-  | 'scaleDown'; // Scale down from larger to normal size
+  | 'fade'
+  | 'blur'
+  | 'scale'
+  | 'slideUp'
+  | 'slideDown'
+  | 'slideLeft'
+  | 'slideRight'
+  | 'blurUp'
+  | 'blurDown';
 
 /**
  * Animation direction
@@ -68,7 +66,7 @@ interface AnimateProps {
   blurAmount?: MantineSize;
 }
 
-export type TextAnimateStylesNames = 'root';
+export type TextAnimateStylesNames = 'root' | 'segment' | 'lineSegment';
 
 export type TextAnimateCssVariables = {
   root:
@@ -163,7 +161,7 @@ const defaultProps: Partial<TextAnimateProps> = {
   duration: 0.3,
   segmentDelay: 0.05,
   by: 'word',
-  animation: 'fadeIn',
+  animation: 'fade',
   animateProps: {
     translateDistance: '20' as MantineSize,
     scaleAmount: 0.8,
@@ -296,40 +294,24 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       break;
   }
 
-  // Get animation class for each segment
-  const getSegmentClasses = (index: number) => {
-    const baseClass = by === 'line' ? classes.lineSegment : classes.segment;
-    const animationClass = classes[`${animation}-${animate}`];
-    const durationClass =
-      classes[`duration-${Math.round(duration * 1000)}`] || classes['duration-300'];
-    const easingClass = classes.ease;
-    const forwardsClass = classes.forwards;
-
-    // Add initialHidden class if we're transitioning from "none" to "in"
-    const initialHiddenClass = isInitialRender && animate === 'in' ? classes.initialHidden : '';
-
-    // Combine all classes
-    return `${baseClass} ${animationClass} ${durationClass} ${easingClass} ${forwardsClass} ${initialHiddenClass} ${segmentClassName || ''}`;
-  };
-
-  // Get animation delay for each segment
-  const getSegmentStyle = (index: number) => {
-    const staggerDelay = index * staggerTiming;
-    const baseDelay = delay + staggerDelay;
-
-    return {
-      animationDelay: `${baseDelay}s`,
-    };
-  };
-
   return (
     <Box ref={ref} {...getStyles('root', { style: containerStyles })}>
       {segments.map((segment, i) => (
         <Text
-          key={`${by}-${segment}-${i}`}
-          className={getSegmentClasses(i)}
+          data-text-animate={animate}
+          data-text-animate-animation={animation}
+          key={`${by}-${segment}-${animate}-${i}`}
+          {...getStyles('segment', {
+            style: {
+              ...(by === 'line' ? { display: 'block', whiteSpace: 'normal' } : {}),
+              animationDelay: `${delay + i * staggerTiming}s`,
+              animationDuration: `${duration}s`,
+              animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              animationFillMode: 'forwards',
+              animationDirection: animate === 'in' ? 'normal' : 'reverse',
+            },
+          })}
           component="span"
-          style={getSegmentStyle(i)}
           {...others}
         >
           {segment}

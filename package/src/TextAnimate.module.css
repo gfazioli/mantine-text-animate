@@ -9,152 +9,50 @@
   display: inline-block;
   white-space: pre;
   will-change: opacity, transform, filter;
-}
 
-.lineSegment {
-  display: block;
-  white-space: normal;
-}
+  &[data-text-animate='in'] {
+    opacity: 0;
+  }
 
-/* Animation durations */
-.duration-300 {
-  animation-duration: 0.3s;
-}
+  &[data-text-animate='out'] {
+    opacity: 1;
+  }
 
-.duration-500 {
-  animation-duration: 0.5s;
-}
+  &[data-text-animate-animation='fade'] {
+    animation-name: fade;
+  }
 
-.duration-700 {
-  animation-duration: 0.7s;
-}
+  &[data-text-animate-animation='blur'] {
+    animation-name: blur;
+  }
 
-/* Animation timing functions */
-.ease {
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
+  &[data-text-animate-animation='scale'] {
+    animation-name: scaleIn;
+  }
 
-/* Animation fill modes */
-.forwards {
-  animation-fill-mode: forwards;
-}
+  &[data-text-animate-animation='slideUp'] {
+    animation-name: slideUp;
+  }
 
-/* Static display */
-.static {
-  opacity: 1;
-  transform: translate(0, 0) scale(1);
-  filter: blur(0px);
-}
+  &[data-text-animate-animation='slideDown'] {
+    animation-name: slideDown;
+  }
 
-/* Hidden state */
-.hidden {
-  display: none;
-}
+  &[data-text-animate-animation='slideLeft'] {
+    animation-name: slideLeft;
+  }
 
-/* Animation variants - IN animations */
-.fadeIn-in,
-.fade-in,
-.blurIn-in,
-.blurInUp-in,
-.blurInDown-in,
-.slideUp-in,
-.slideDown-in,
-.slideLeft-in,
-.slideRight-in,
-.scaleUp-in,
-.scaleDown-in {
-  opacity: 0; /* Start with opacity 0 to ensure text is hidden initially */
-  animation-fill-mode: forwards;
-}
+  &[data-text-animate-animation='slideRight'] {
+    animation-name: slideRight;
+  }
 
-.fadeIn-in {
-  animation-name: fadeIn;
-}
+  &[data-text-animate-animation='blurUp'] {
+    animation-name: blurUp;
+  }
 
-.fade-in {
-  animation-name: fade;
-}
-
-.blurIn-in {
-  animation-name: blurIn;
-}
-
-.blurInUp-in {
-  animation-name: blurInUp;
-}
-
-.blurInDown-in {
-  animation-name: blurInDown;
-}
-
-.slideUp-in {
-  animation-name: slideUp;
-}
-
-.slideDown-in {
-  animation-name: slideDown;
-}
-
-.slideLeft-in {
-  animation-name: slideLeft;
-}
-
-.slideRight-in {
-  animation-name: slideRight;
-}
-
-.scaleUp-in {
-  animation-name: scaleUp;
-}
-
-.scaleDown-in {
-  animation-name: scaleDown;
-}
-
-/* Animation variants - OUT animations */
-.fadeIn-out {
-  animation-name: fadeOut;
-}
-
-.fade-out {
-  animation-name: fade;
-  animation-direction: reverse;
-}
-
-.blurIn-out {
-  animation-name: blurOut;
-}
-
-.blurInUp-out {
-  animation-name: blurOutUp;
-}
-
-.blurInDown-out {
-  animation-name: blurOutDown;
-}
-
-.slideUp-out {
-  animation-name: slideOutUp;
-}
-
-.slideDown-out {
-  animation-name: slideOutDown;
-}
-
-.slideLeft-out {
-  animation-name: slideOutLeft;
-}
-
-.slideRight-out {
-  animation-name: slideOutRight;
-}
-
-.scaleUp-out {
-  animation-name: scaleOutUp;
-}
-
-.scaleDown-out {
-  animation-name: scaleOutDown;
+  &[data-text-animate-animation='blurDown'] {
+    animation-name: blurDown;
+  }
 }
 
 /* Keyframes for animations */
@@ -167,29 +65,7 @@
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(var(--text-animate-translation-distance));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(var(--text-animate-translation-distance));
-  }
-}
-
-@keyframes blurIn {
+@keyframes blur {
   from {
     opacity: 0;
     filter: blur(var(--text-animate-blur-amount));
@@ -200,66 +76,14 @@
   }
 }
 
-@keyframes blurOut {
-  from {
-    opacity: 1;
-    filter: blur(0);
-  }
-  to {
-    opacity: 0;
-    filter: blur(var(--text-animate-blur-amount));
-  }
-}
-
-@keyframes blurInUp {
+@keyframes scale {
   from {
     opacity: 0;
-    filter: blur(var(--text-animate-blur-amount));
-    transform: translateY(var(--text-animate-translation-distance));
+    transform: scale(var(--text-animate-scale-amount));
   }
   to {
     opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes blurOutUp {
-  from {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    filter: blur(var(--text-animate-blur-amount));
-    transform: translateY(var(--text-animate-translation-distance));
-  }
-}
-
-@keyframes blurInDown {
-  from {
-    opacity: 0;
-    filter: blur(var(--text-animate-blur-amount));
-    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes blurOutDown {
-  from {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    filter: blur(var(--text-animate-blur-amount));
-    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
+    transform: scale(1);
   }
 }
 
@@ -274,17 +98,6 @@
   }
 }
 
-@keyframes slideOutUp {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(var(--text-animate-translation-distance));
-  }
-}
-
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -293,17 +106,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes slideOutDown {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
   }
 }
 
@@ -318,17 +120,6 @@
   }
 }
 
-@keyframes slideOutLeft {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(var(--text-animate-translation-distance));
-  }
-}
-
 @keyframes slideRight {
   from {
     opacity: 0;
@@ -340,63 +131,28 @@
   }
 }
 
-@keyframes slideOutRight {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(calc(-1 * var(--text-animate-translation-distance)));
-  }
-}
-
-@keyframes scaleUp {
+@keyframes blurUp {
   from {
     opacity: 0;
-    transform: scale(var(--text-animate-scale-amount));
+    filter: blur(var(--text-animate-blur-amount));
+    transform: translateY(var(--text-animate-translation-distance));
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    filter: blur(0);
+    transform: translateY(0);
   }
 }
 
-@keyframes scaleOutUp {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(var(--text-animate-scale-amount));
-  }
-}
-
-@keyframes scaleDown {
+@keyframes blurDown {
   from {
     opacity: 0;
-    transform: scale(var(--text-animate-scale-amount));
+    filter: blur(var(--text-animate-blur-amount));
+    transform: translateY(calc(-1 * var(--text-animate-translation-distance)));
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    filter: blur(0);
+    transform: translateY(0);
   }
-}
-
-@keyframes scaleOutDown {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(var(--text-animate-scale-amount));
-  }
-}
-
-/* Add a new class for the initial hidden state */
-.initialHidden {
-  opacity: 0;
-  visibility: hidden;
 }

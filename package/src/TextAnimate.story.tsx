@@ -5,7 +5,7 @@ import { TextAnimate, TextAnimateProps } from './TextAnimate';
 export default {
   title: 'TextAnimate',
   args: {
-    animation: 'fadeIn',
+    animation: 'fade',
     by: 'word',
     delay: 0,
     duration: 0.3,
@@ -24,16 +24,14 @@ export default {
       },
       options: [
         'fade',
-        'fadeIn',
-        'blurIn',
-        'blurInUp',
-        'blurInDown',
+        'blur',
+        'scale',
         'slideUp',
         'slideDown',
         'slideLeft',
         'slideRight',
-        'scaleUp',
-        'scaleDown',
+        'blurUp',
+        'blurDown',
       ],
     },
     by: {

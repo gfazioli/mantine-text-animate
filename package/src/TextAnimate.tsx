@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box,
-  BoxProps,
   createVarsResolver,
   getSize,
-  MantineSize,
-  PolymorphicFactory,
   polymorphicFactory,
-  StylesApiProps,
   Text,
   useProps,
   useStyles,
+  type BoxProps,
+  type MantineSize,
+  type PolymorphicFactory,
+  type StylesApiProps,
 } from '@mantine/core';
+import { NumberTicker } from './NumberTicker/NumberTicker';
+import { Spinner } from './Spinner/Spinner';
+import { TextTicker } from './TextTicker/TextTicker';
 import { Typewriter } from './Typewriter/Typewriter';
 import classes from './TextAnimate.module.css';
 
@@ -33,8 +36,12 @@ export type AnimationVariant =
   | 'scale'
   | 'slideUp'
   | 'slideDown'
+  | 'slideUpElastic'
+  | 'slideDownElastic'
   | 'slideLeft'
   | 'slideRight'
+  | 'slideLeftElastic'
+  | 'slideRightElastic'
   | 'blurUp'
   | 'blurDown';
 
@@ -66,7 +73,7 @@ interface AnimateProps {
   blurAmount?: MantineSize;
 }
 
-export type TextAnimateStylesNames = 'root' | 'segment' | 'lineSegment';
+export type TextAnimateStylesNames = 'root' | 'segment';
 
 export type TextAnimateCssVariables = {
   root:
@@ -112,10 +119,10 @@ export interface TextAnimateBaseProps {
 
   /**
    * Controls the animation direction
-   * - "in": Animate elements in (appear)
-   * - "out": Animate elements out (disappear)
-   * - "static": Do not animate
-   * - "none": Do not animate
+   * - `in`: Animate elements in (appear)
+   * - `out`: Animate elements out (disappear)
+   * - `static`: Do not animate
+   * - `none`: Do not animate
    * @default undefined (no animation)
    */
   animate?: AnimationDirection;
@@ -138,6 +145,18 @@ export interface TextAnimateBaseProps {
    * @default { translateDistance: 20, scaleAmount: 0.8, blurAmount: 10 }
    */
   animateProps?: AnimateProps;
+
+  /**
+   *  Callback function to be called when the animation starts
+   * @param animate The direction of the animation
+   */
+  onAnimationStart?: (animate: 'in' | 'out') => void;
+
+  /**
+   * Callback function to be called when the animation ends
+   * @param animate The direction of the animation
+   */
+  onAnimationEnd?: (animate: 'in' | 'out') => void;
 }
 
 export interface TextAnimateProps
@@ -153,6 +172,9 @@ export type TextAnimateFactory = PolymorphicFactory<{
   vars: TextAnimateCssVariables;
   staticComponents: {
     Typewriter: typeof Typewriter;
+    Spinner: typeof Spinner;
+    NumberTicker: typeof NumberTicker;
+    TextTicker: typeof TextTicker;
   };
 }>;
 
@@ -164,7 +186,7 @@ const defaultProps: Partial<TextAnimateProps> = {
   animation: 'fade',
   animateProps: {
     translateDistance: '20' as MantineSize,
-    scaleAmount: 0.8,
+    scaleAmount: 2,
     blurAmount: '10' as MantineSize,
   },
 };
@@ -203,6 +225,8 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     animation,
     segmentDelay,
     animateProps,
+    onAnimationStart,
+    onAnimationEnd,
 
     classNames,
     style,
@@ -276,6 +300,16 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     );
   }
 
+  // Handle animation events
+  function handleOnAnimationStart() {
+    onAnimationStart?.(animate as 'in' | 'out');
+  }
+
+  // Handle animation end event
+  function handleOnAnimationEnd() {
+    onAnimationEnd?.(animate as 'in' | 'out');
+  }
+
   // Split text based on the 'by' prop
   let segments: string[] = [];
   switch (by) {
@@ -300,18 +334,19 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
         <Text
           data-text-animate={animate}
           data-text-animate-animation={animation}
-          key={`${by}-${segment}-${animate}-${i}`}
+          key={`${by}-${segment}-${delay}-${animate}-${duration}-${JSON.stringify(animateProps)}-${i}`}
           {...getStyles('segment', {
             style: {
               ...(by === 'line' ? { display: 'block', whiteSpace: 'normal' } : {}),
               animationDelay: `${delay + i * staggerTiming}s`,
               animationDuration: `${duration}s`,
-              animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
               animationFillMode: 'forwards',
               animationDirection: animate === 'in' ? 'normal' : 'reverse',
             },
           })}
           component="span"
+          onAnimationStart={handleOnAnimationStart}
+          onAnimationEnd={handleOnAnimationEnd}
           {...others}
         >
           {segment}
@@ -324,3 +359,6 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
 TextAnimate.classes = classes;
 TextAnimate.displayName = 'TextAnimate';
 TextAnimate.Typewriter = Typewriter;
+TextAnimate.Spinner = Spinner;
+TextAnimate.NumberTicker = NumberTicker;
+TextAnimate.TextTicker = TextTicker;

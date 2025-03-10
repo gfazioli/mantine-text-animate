@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Center, Paper, SegmentedControl, Stack } from '@mantine/core';
+import { Center, Paper, SegmentedControl, Stack, Text } from '@mantine/core';
 import { TextAnimate, TextAnimateProps } from './TextAnimate';
 
 export default {
@@ -28,8 +28,12 @@ export default {
         'scale',
         'slideUp',
         'slideDown',
+        'slideUpElastic',
+        'slideDownElastic',
         'slideLeft',
         'slideRight',
+        'slideLeftElastic',
+        'slideRightElastic',
         'blurUp',
         'blurDown',
       ],
@@ -151,6 +155,47 @@ export function MultipleLineSlow(props: TextAnimateProps) {
               {
                 'This is the first line\nThis is the second line\nThis is the third line\nEach line can animate separately or together.'
               }
+            </TextAnimate>
+          </Paper>
+        </Stack>
+      </Center>
+    </>
+  );
+}
+
+export function Events(props: TextAnimateProps) {
+  const { animate, ...rest } = props;
+  const [animationDirection, setAnimationDirection] = useState<AnimationDirection | string>(
+    undefined
+  );
+  const [isStarted, setIsStarted] = useState('');
+  const [isCompleted, setIsCompleted] = useState('');
+
+  return (
+    <>
+      <Center h={800}>
+        <Stack>
+          <Text>Started: {isStarted}</Text>
+          <Text>Completed: {isCompleted}</Text>
+          <SegmentedControl
+            value={animationDirection === undefined ? 'none' : String(animationDirection)}
+            onChange={setAnimationDirection}
+            data={[
+              { label: 'None', value: 'none' },
+              { label: 'Static', value: 'static' },
+              { label: 'Animate In', value: 'in' },
+              { label: 'Animate Out', value: 'out' },
+            ]}
+          />
+
+          <Paper p="xl" withBorder>
+            <TextAnimate
+              animate={animationDirection as AnimationDirection}
+              {...rest}
+              onAnimationStart={setIsStarted}
+              onAnimationEnd={setIsCompleted}
+            >
+              Fade in animation with slight upward movement
             </TextAnimate>
           </Paper>
         </Stack>

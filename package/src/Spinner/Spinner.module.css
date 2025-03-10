@@ -1,0 +1,65 @@
+.root {
+  --text-animate-spinner-radius-xs: 32px;
+  --text-animate-spinner-radius-sm: 64px;
+  --text-animate-spinner-radius-md: 80px;
+  --text-animate-spinner-radius-lg: 150px;
+  --text-animate-spinner-radius-xl: 250px;
+
+  --text-animate-spinner-radius: var(--text-animate-spinner-radius-md);
+  --text-animate-spinner-speed: 10s;
+  --text-animate-spinner-char-offset: 0deg;
+  position: relative;
+  width: calc(var(--text-animate-spinner-radius) * 2);
+  height: calc(var(--text-animate-spinner-radius) * 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+
+  &[data-text-animate-spinner-animate='true'][data-text-animate-spinner-direction='clockwise'] {
+    animation: spin-clockwise var(--text-animate-spinner-speed) linear infinite;
+  }
+
+  &[data-text-animate-spinner-animate='true'][data-text-animate-spinner-direction='counterclockwise'] {
+    animation: spin-counterclockwise var(--text-animate-spinner-speed) linear infinite;
+  }
+}
+
+.char {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform-origin: center bottom;
+  width: 20px;
+  height: var(--text-animate-spinner-radius);
+  text-align: center;
+  margin-left: -10px; /* Center the character */
+}
+
+@keyframes spin-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-counterclockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}

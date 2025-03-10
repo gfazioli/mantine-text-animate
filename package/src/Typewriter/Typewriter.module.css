@@ -5,6 +5,10 @@
   flex-wrap: nowrap;
   position: relative;
   min-height: 1.5em;
+
+  &[data-text-animate-typewriter-multiline='true'] {
+    width: 100%; /*  in theory just for terminal */
+  }
 }
 
 /* Cursor styles */
@@ -13,7 +17,7 @@
   font-weight: normal;
   margin-left: 1px;
 
-  &[data-with-blink='true'] {
+  &[data-text-animate-typewriter-with-blink='true'] {
     animation: blinkCaret 0.75s step-end infinite;
   }
 }

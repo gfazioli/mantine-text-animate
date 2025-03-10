@@ -24,9 +24,9 @@ This component is created on top of the [Mantine](https://mantine.dev/) library.
 [![Mantine UI Library](https://img.shields.io/badge/-MANTINE_UI_LIBRARY-blue?style=for-the-badge&labelColor=black&logo=mantine
 )](https://mantine.dev/)
 
-It allows for easy management of two separate views, such as in the cases of a registration form and a login form.
-Essentially, when switching between views, the component will handle the flip animation.
-
+The `TextAnimate` component allows you to animate text with various effects.
+Additionally, it provides other sub components such as `TextAnimate.TextTicker`, `TextAnimate.Typewriter`, `TextAnimate.NumberTicker`, and `TextAnimate.Spinner`.
+You can also use three useful hooks: `useTextTicker`, `useTypewriter`, and `useNumberTicker`.
 
 [![Video](https://img.shields.io/badge/-Watch_the_Video-blue?style=for-the-badge&labelColor=black&logo=youtube
 )](https://youtu.be/RzRUb3IDcDw)
@@ -62,43 +62,117 @@ import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
 function Demo() {
   return (
-    <TextAnimate h={200} w={200}>
-
-        <Paper radius="md" withBorder p="lg" shadow="md">
-          <h3>Front Card</h3>
-          <TextAnimate.Typewriter>
-            <Button>TextAnimate Back</Button>
-          </TextAnimate.Typewriter>
-        </Paper>
-
-        <Paper radius="md" withBorder p="lg" shadow="md">
-          <h3>Back Card</h3>
-          <TextAnimate.Typewriter>
-            <Button>TextAnimate Front</Button>
-          </TextAnimate.Typewriter>
-        </Paper>
-
+<TextAnimate animate="in" animation="slideUp" by="character">
+      Mantine TextAnimate component
     </TextAnimate>
   );
 }
 ```
 
-As you can see, the `TextAnimate` component wraps two children, which are the two views that you want to flip between.
-The `TextAnimate.Typewriter` component is used to define the trigger for the flip animation. It can be any component, such as a button, or a link, or even a div.
+### TextAnimate.Typewriter
 
-## Props
+```tsx
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| perspective | string | 1000px | The perspective property defines how far the object is away from the user. |
-| duration | number | .8 | The duration in seconds of the flip animation. |
-| easing | string | ease-in-out | The easing function to be used for the flip animation. |
-| flipped | boolean | false | The initial state of the controlled TextAnimate component. |
-| defaultTextAnimateped | boolean | false | The default state of the uncontrolled flip component. |
-| direction | 'horizontal' or 'vertical' | 'horizontal' | The direction of the flip animation. |
-| directionTextAnimateIn | 'negative' or 'positive' | 'negative' | The direction of the flip animation when flipping in. |
-| directionTextAnimateOut | 'negative' or 'positive' | 'positive' | The direction of the flip animation when flipping out. |
-| onChange | (flipped: boolean) => void | - | Callback to be called when the flip state changes. |
-| onBack | () => void | - | Callback to be called when the flip state changes to false. |
-| onFront | () => void | - | Callback to be called when the flip state changes to true. |
+function Demo() {
+  return (
+    <TextAnimate.Typewriter value="Hello, World! Mantine Typewriter component" animate />
+  );
+}
+```
 
+#### useTypewriter
+
+```tsx
+import { useTypewriter } from '@gfazioli/mantine-text-animate'
+
+function Demo() {
+    const { text, start, stop, reset, isTyping } = useTypewriter({
+    value: ['Hello', 'From', 'Mantine useTypewriter() hook'],
+  });
+
+  return (
+    <div>{text}</div>
+  );
+}
+```
+
+### TextAnimate.Spinner
+
+```tsx
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
+
+function Demo() {
+  return (
+    <TextAnimate.Spinner>★ SPINNING TEXT EXAMPLE ★</TextAnimate.Spinner>
+  );
+}
+```
+
+### TextAnimate.NumberTicker
+
+
+```tsx
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
+
+function Demo() {
+  return (
+    <TextAnimate.NumberTicker value={100} animate />
+  );
+}
+```
+
+#### useNumberTicker
+
+```tsx
+import { useNumberTicker } from '@gfazioli/mantine-text-animate'
+
+function Demo() {
+  const { text, isAnimating, start, stop, reset, displayValue } = useNumberTicker({
+    value: 64,
+    startValue: 0,
+    delay: 0,
+    decimalPlaces: 0,
+    speed: 0.2,
+    easing: 'ease-out',
+    animate: true,
+  });
+
+  return (
+    <div>{text}</div>
+  );
+}
+```
+
+### TextAnimate.TextTicker
+
+
+```tsx
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
+
+function Demo() {
+  return (
+    <TextAnimate.TextTicker value="Hello, World! Mantine TextTicker component" animate />
+  );
+}
+```
+
+#### useNumberTicker
+
+```tsx
+import { useTextTicker } from '@gfazioli/mantine-text-animate'
+
+function Demo() {
+  const { text, isAnimating, start, stop, reset } = useTextTicker({
+    value: 'Mantine useTextTicker',
+    delay: 0,
+    speed: 0.2,
+    easing: 'ease-out',
+    animate: true,
+  });
+
+  return (
+    <div>{text}</div>
+  );
+}
+```

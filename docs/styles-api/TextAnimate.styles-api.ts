@@ -4,15 +4,14 @@ import type { StylesApiData } from '../components/styles-api.types';
 export const TextAnimateStylesApi: StylesApiData<TextAnimateFactory> = {
   selectors: {
     root: 'Root element',
-    'text-animate-inner': 'Inner element',
-    'text-animate-content': 'Content element',
+    segment: 'Segment element',
   },
 
   vars: {
     root: {
-      '--text-animate-perspective': 'Controls animation `perspective`',
-      '--text-animate-transition-duration': 'Controls animation `duration`',
-      '--text-animate-transition-timing-function': 'Controls animation `easing`',
+      '--text-animate-translation-distance': 'Controls animation `translateDistance`',
+      '--text-animate-blur-amount': 'Controls animation `blurAmount`',
+      '--text-animate-scale-amount': 'Controls animation `scaleAmount`',
     },
   },
 

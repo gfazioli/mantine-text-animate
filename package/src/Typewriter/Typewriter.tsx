@@ -1,6 +1,9 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import {
   Box,
+  Flex,
+  polymorphicFactory,
+  Stack,
   Text,
   useProps,
   useStyles,
@@ -8,18 +11,27 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
-import classes from './typewriter.module.css';
+import { useTypewriter, type TypewriterBaseProps } from './use-typewriter';
+import classes from './Typewriter.module.css';
 
-export type TypewriterStylesNames = 'root' | 'cursor' | 'cursorBlink';
+export type TypewriterStylesNames = 'root' | 'cursor';
 
 export type TypewriterCssVariables = {
-  root: '';
+  // root: '';
+  // cursor: '';
 };
+export interface TypewriterComponentProps extends TypewriterBaseProps {
+  /**
+   * The left section to display before the text
+   */
+  leftSection?: React.ReactNode;
 
-/**
- * Props for the Typewriter component
- */
-export interface TypewriterCursorProps {
+  /**
+   * Whether to show a cursor
+   * @default true
+   */
+  withCursor?: boolean;
+
   /**
    * The cursor character or ReactNode
    * @default "|"
@@ -33,45 +45,9 @@ export interface TypewriterCursorProps {
   withBlink?: boolean;
 }
 
-export interface TypewriterBaseProps {
-  /**
-   * The text or array of texts to display in typewriter effect
-   */
-  text: string | string[];
-
-  /**
-   * The typing speed in seconds per character
-   * @default 0.03
-   */
-  speed?: number;
-
-  /**
-   * The delay between text changes in milliseconds (when using multiple texts)
-   * @default 2000
-   */
-  textDelay?: number;
-
-  /**
-   * Whether to loop through the texts
-   * @default true
-   */
-  loop?: boolean;
-
-  /**
-   * Whether to show a cursor
-   * @default true
-   */
-  withCursor?: boolean;
-
-  /**
-   * Custom properties for the cursor
-   */
-  cursorProps?: TypewriterCursorProps;
-}
-
 export interface TypewriterProps
   extends BoxProps,
-    TypewriterBaseProps,
+    TypewriterComponentProps,
     StylesApiProps<TypewriterFactory> {}
 
 export type TypewriterFactory = PolymorphicFactory<{
@@ -84,10 +60,14 @@ export type TypewriterFactory = PolymorphicFactory<{
 
 const defaultProps: Partial<TypewriterProps> = {
   speed: 0.03,
-  textDelay: 2000,
+  delay: 2000,
   loop: true,
   withCursor: true,
-  cursorProps: { cursorChar: '|', withBlink: true },
+  multiline: false,
+  cursorChar: '|',
+  withBlink: true,
+  leftSection: null,
+  animate: true,
 };
 
 /**
@@ -95,16 +75,22 @@ const defaultProps: Partial<TypewriterProps> = {
  *
  * A component that creates a typewriter effect using TextAnimate.
  */
-export const Typewriter = forwardRef<HTMLDivElement, TypewriterProps>((_props, ref) => {
+export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) => {
   const props = useProps('TextAnimate', defaultProps, _props);
 
   const {
-    text,
+    animate,
+    value,
     speed,
-    textDelay,
+    delay,
     loop,
     withCursor,
-    cursorProps,
+    multiline,
+    cursorChar,
+    withBlink,
+    onTypeEnd,
+    onTypeLoop,
+    leftSection,
 
     classNames,
     style,
@@ -117,81 +103,17 @@ export const Typewriter = forwardRef<HTMLDivElement, TypewriterProps>((_props, r
     ...others
   } = props;
 
-  const [displayText, setDisplayText] = useState('');
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [isTyping, setIsTyping] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Set default values for cursorProps
-  const { cursorChar = '|', withBlink = true } = cursorProps;
-
-  // Convert single text to array if needed
-  const textArray = Array.isArray(text) ? text : [text];
-  const currentFullText = textArray[currentTextIndex];
-
-  // Clear any existing timeouts when component unmounts
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-
-  // Handle the typewriter animation
-  useEffect(() => {
-    if (textArray.length === 0) return;
-
-    // If we're typing
-    if (isTyping && !isDeleting) {
-      if (displayText.length < currentFullText.length) {
-        // Type the next character
-        timeoutRef.current = setTimeout(() => {
-          setDisplayText(currentFullText.substring(0, displayText.length + 1));
-        }, speed * 1000);
-      } else {
-        // Finished typing
-        setIsTyping(false);
-
-        // Check if we should continue to the next text
-        const isLastText = currentTextIndex === textArray.length - 1;
-
-        // Only start deleting if:
-        // 1. We're not at the last text, OR
-        // 2. We're at the last text but loop is true
-        if (!isLastText || loop) {
-          timeoutRef.current = setTimeout(() => {
-            setIsDeleting(true);
-            setIsTyping(true);
-          }, textDelay);
-        }
-      }
-    }
-
-    // If we're deleting
-    if (isTyping && isDeleting) {
-      if (displayText.length > 0) {
-        // Delete a character
-        timeoutRef.current = setTimeout(() => {
-          setDisplayText(displayText.substring(0, displayText.length - 1));
-        }, speed * 500); // Deleting is faster than typing
-      } else {
-        // Finished deleting
-        setIsDeleting(false);
-
-        // Move to the next text, but respect the loop prop
-        if (currentTextIndex === textArray.length - 1 && !loop) {
-          // If we're at the last text and loop is false, go back to the first text
-          // but don't start typing (this effectively stops the animation)
-          setCurrentTextIndex(0);
-        } else {
-          // Otherwise, move to the next text normally
-          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
-        }
-      }
-    }
-  }, [displayText, isTyping, isDeleting, currentFullText, textArray, speed, textDelay, loop]);
+  // Use the useTypewriter hook to handle the animation logic
+  const { text: displayText } = useTypewriter({
+    value,
+    animate,
+    multiline,
+    speed,
+    delay,
+    loop,
+    onTypeEnd,
+    onTypeLoop,
+  });
 
   const getStyles = useStyles<TypewriterFactory>({
     name: 'Typewriter',
@@ -203,19 +125,53 @@ export const Typewriter = forwardRef<HTMLDivElement, TypewriterProps>((_props, r
     styles,
     unstyled,
     vars,
-    //varsResolver,
   });
 
   return (
-    <Box ref={ref} {...getStyles('root')}>
-      <Text component="span" {...others}>
-        {displayText}
-      </Text>
-
-      {withCursor && (
-        <Text component="span" data-with-blink={withBlink} {...getStyles('cursor')} {...others}>
-          {cursorChar}
-        </Text>
+    <Box ref={ref} {...getStyles('root')} data-text-animate-typewriter-multiline={multiline}>
+      {multiline ? (
+        <Stack gap={0}>
+          {/* Render completed lines */}
+          {Array.isArray(displayText) &&
+            displayText.slice(0, -1).map((line, index) => (
+              <Flex key={`line-${index}`} align="center">
+                {leftSection}
+                <Text {...others}>{line}</Text>
+              </Flex>
+            ))}
+          {/* Render current line with cursor */}
+          <Flex align="center">
+            {leftSection}
+            <Text span {...others}>
+              {Array.isArray(displayText) ? displayText[displayText.length - 1] : ''}
+            </Text>
+            {withCursor && (
+              <Text
+                span
+                data-text-animate-typewriter-with-blink={withBlink}
+                {...getStyles('cursor')}
+                {...others}
+              >
+                {cursorChar}
+              </Text>
+            )}
+          </Flex>
+        </Stack>
+      ) : (
+        <>
+          {leftSection}
+          <Text {...others}>{displayText}</Text>
+          {withCursor && (
+            <Text
+              span
+              data-text-animate-typewriter-with-blink={withBlink}
+              {...getStyles('cursor')}
+              {...others}
+            >
+              {cursorChar}
+            </Text>
+          )}
+        </>
       )}
     </Box>
   );

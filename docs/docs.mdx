@@ -19,36 +19,426 @@ import '@gfazioli/mantine-text-animate/styles.layer.css';
 
 ## Usage
 
-<Demo data={demos.configurator} />
+The `TextAnimate` component allows you to animate text with various effects. The `animate` prop controls the initial display and the direction of the animation.
+In the example below, try selecting `none` to display nothing. With `static`, the text will appear static.
+Selecting `Animate In` will display the entering animation, and with `Animate Out`, the exiting animation will be shown.
 
-## Uncontrolled
+<Demo data={demos.textAnimateConfigurator} />
 
-<Demo data={demos.uncontrolled} />
+## animateProps
 
-## Controlled
+The `animateProps` prop allows you to pass additional props to the animation.
 
-You may control the state of the card by setting the `flipped` prop to `true` or `false`.
-This is useful when you want to control the state of the card from the parent component.
+```tsx
+interface AnimateProps {
+    /**
+     * Controls the distance for slide animations (in pixels)
+     * @default 20
+   */
+  translateDistance?: MantineSize;
 
-<Demo data={demos.controlled} />
+  /**
+   * Controls the scale factor for scale animations
+   * For scaleUp: initial scale = 1 - scaleAmount (e.g., 0.8 means start at 0.2)
+   * For scaleDown: initial scale = 1 + scaleAmount (e.g., 0.8 means start at 1.8)
+   * @default 0.8
+   */
+  scaleAmount?: number;
 
-> **Initial face and TextAnimate.Typewriter**
->
-> For controlled TextAnimate components, you will use `useState` to determine which side of the component to initially show.
-> Additionally, you will not need to use `TextAnimate.Typewriter` for buttons, but you can control them manually to keep the states synchronized.
+  /**
+   * Controls the blur amount for blur animations (in pixels)
+   * @default 10
+   */
+  blurAmount?: MantineSize;
+}
+```
 
-## Default TextAnimateped (face)
+<Demo data={demos.textAnimateAnimateProps} />
 
-You may display the initial face of the card by setting the `defaultTextAnimateped` prop to `true`.
+## by
 
-<Demo data={demos.defaultTextAnimateped} />
+The `by` prop allows you to animate text by the entire text, character by character, per word or line by line.
+By using the `by="line"` prop, you can animate text line by line.
 
-## Example: Credit card
+<Demo data={demos.textAnimateMultiline} />
 
-<Demo data={demos.creditCard} />
+## Styling
 
-## Example: Signin form
+Of course, you can use the component with your own styles.
 
-Click on "Create account" to flip the card.
+<Demo data={demos.textAnimateStyles} />
 
-<Demo data={demos.signin} />
+## onAnimationStart and onAnimationEnd
+
+You can use the `onAnimationStart` and `onAnimationEnd` props to handle animation events.
+
+<Demo data={demos.textAnimateEvents} />
+
+
+## TextAnimate.Typewriter component
+
+The `TextAnimate.Typewriter` component allows you to animate text with a typewriter effect.
+
+<Demo data={demos.typeWriterConfigurator} />
+
+## multiline
+
+By using the `multiline` prop, you can animate text line by line.
+
+<Demo data={demos.typeWriterWithMultiLine} />
+
+## leftSection
+
+You may use the `leftSection` prop to display a section before the text.
+
+<Demo data={demos.typeWriterLeftSection} />
+
+
+## Styling
+
+Of course, you can use the component with your own styles.
+
+<Demo data={demos.typeWriterStyles} />
+
+## onTypeEnd and onTypeLoop
+
+You can use the `onTypeEnd` and `onTypeLoop` props to handle typewriter events.
+
+<Demo data={demos.typeWriterEvents} />
+
+## useTypewriter() hook
+
+The `TypeWriter` is build by using the `useTypewriter` hook.
+
+<Demo data={demos.typeWriterHook} />
+
+The interface of the `useTypewriter` hook is the following:
+
+```tsx
+export interface TypewriterBaseProps {
+  /**
+   * The text or array of texts to display in typewriter effect
+   */
+  value: string | string[];
+
+  /**
+   * Controls if the animation is running (true) or reset (false)
+   * @default true
+   */
+  animate?: boolean;
+
+  /**
+   * Whether to display text in multiple lines
+   * @default false
+   */
+  multiline?: boolean;
+
+  /**
+   * The typing speed in seconds per character
+   * @default 0.03
+   */
+  speed?: number;
+
+  /**
+   * The delay between text changes in milliseconds (when using multiple texts)
+   * @default 2000
+   */
+  delay?: number;
+
+  /**
+   * Whether to loop through the texts
+   * @default true
+   */
+  loop?: boolean;
+
+  /**
+   * Callback function to be called when the typing animation ends
+   */
+  onTypeEnd?: () => void;
+
+  /**
+   * Callback function to be called when the typing animation is looped
+   * and the animation is about to start again
+   */
+  onTypeLoop?: () => void;
+}
+```
+And the return value of the `useTypewriter` hook is the following:
+
+```tsx
+export interface UseTypewriterResult {
+  /**
+   * The current text being displayed
+   * If withMultiLine is true, this will be an array of strings
+   */
+  text: string | string[];
+
+  /**
+   * Whether the typewriter is currently typing
+   */
+  isTyping: boolean;
+
+  /**
+   * Start the typewriter animation
+   */
+  start: () => void;
+
+  /**
+   * Stop the typewriter animation
+   */
+  stop: () => void;
+
+  /**
+   * Reset the typewriter to its initial state
+   */
+  reset: () => void;
+}
+```
+
+## multiline with useTypewriter() hook
+
+You may use the `multiline` prop with the `useTypewriter` hook.
+In this case the `text` will be an array of strings.
+
+<Demo data={demos.typeWriterHookMultiLine} />
+
+## Example: Terminal
+
+Below a funny example of a terminal.
+
+<Demo data={demos.typeWriterTerminal} />
+
+
+## TextAnimate.Spinner component
+
+The `TextAnimate.Spinner` component allows you to animate text with a spinner effect.
+
+<Demo data={demos.spinnerConfigurator} />
+
+## repeatText and repeatCount
+
+<Demo data={demos.spinnerRepeatText} />
+
+
+## TextAnimate.NumberTicker component
+
+The `TextAnimate.NumberTicker` component allows you to animate text with a number ticker effect.
+
+<Demo data={demos.numberTickerConfigurator} />
+
+## useNumberTicker() hook
+
+The `TextAnimate.NumberTicker` is built by using the `useNumberTicker` hook.
+
+<Demo data={demos.numberTickerHook} />
+
+The interface of the `useNumberTicker` hook is the following:
+
+```tsx
+export interface NumberTickerBaseProps {
+  /**
+   * The target value to animate to
+   */
+  value: number;
+
+  /**
+   * The initial value to start from
+   * @default 0
+   */
+  startValue?: number;
+
+  /**
+   * Delay before starting the animation in seconds
+   * @default 0
+   */
+  delay?: number;
+
+  /**
+   * Number of decimal places to display
+   * @default 0
+   */
+  decimalPlaces?: number;
+
+  /**
+   * Animation speed multiplier (higher = faster)
+   * @default 1
+   */
+  speed?: number;
+
+  /**
+   * Easing function for the animation
+   * @default "ease-out"
+   */
+  easing?: NumberTickerEasing;
+
+  /**
+   * Whether the animation should start automatically
+   * @default true
+   */
+  animate?: boolean;
+
+  /**
+   * Callback function called when animation completes
+   */
+  onCompleted?: () => void;
+}
+```
+
+and the return value of the `useNumberTicker` hook is the following:
+
+```tsx
+export interface UseNumberTickerResult {
+  /**
+   * The formatted text representation of the current value
+   */
+  text: string;
+
+  /**
+   * The current numeric value (not formatted)
+   */
+  displayValue: number;
+
+  /**
+   * Function to start the animation
+   */
+  start: () => void;
+
+  /**
+   * Function to stop the animation while keeping the current value
+   */
+  stop: () => void;
+
+  /**
+   * Function to reset the animation to the initial value
+   */
+  reset: () => void;
+
+  /**
+   * Whether the animation is currently running
+   */
+  isAnimating: boolean;
+}
+```
+
+## Example: NumberTicker
+
+<Demo data={demos.numberTickerExample} />
+
+## TextAnimate.TextTicker
+
+The `TextAnimate.TextTicker` component allows you to animate text with a text ticker effect.
+
+<Demo data={demos.textTickerConfigurator} />
+
+## useTextTicker() hook
+
+The `TextAnimate.TextTicker` is built by using the `useTextTicker` hook.
+
+<Demo data={demos.textTickerHook} />
+
+The interface of the `useTextTicker` hook is the following:
+
+```tsx
+export interface TextTickerBaseProps {
+  /**
+   * The target text to animate to
+   */
+  value: string;
+
+  /**
+   * Initial text display option
+   * - "none": Display nothing until animation starts
+   * - "random": Display random characters until animation starts
+   * - "target": Display the target text immediately
+   * @default "random"
+   */
+  initialText?: TextTickerInitialDisplay;
+
+  /**
+   * Whether the animation should start automatically
+   * @default true
+   */
+  animate?: boolean;
+
+  /**
+   * Character set to use for random characters
+   * @default "alphanumeric"
+   */
+  characterSet?: TextTickerCharacterSet;
+
+  /**
+   * Custom characters to use when characterSet is "custom"
+   * @default ""
+   */
+  customCharacters?: string;
+
+  /**
+   * Delay before starting the animation in seconds
+   * @default 0
+   */
+  delay?: number;
+
+  /**
+   * Animation speed multiplier (higher = faster)
+   * @default 1
+   */
+  speed?: number;
+
+  /**
+   * Easing function for the animation
+   * @default "ease-out"
+   */
+  easing?: TextTickerEasing;
+
+  /**
+   * Speed multiplier for random character changes (higher = more frequent changes)
+   * @default 1
+   */
+  randomChangeSpeed?: number;
+
+  /**
+   * Direction for revealing the target text
+   * @default "left-to-right"
+   */
+  revealDirection?: TextTickerRevealDirection;
+
+  /**
+   * Callback function called when animation completes
+   */
+  onCompleted?: () => void;
+}
+```
+
+and the return value of the `useTextTicker` hook is the following:
+
+```tsx
+export interface UseTextTickerResult {
+  /**
+   * The current text being displayed
+   */
+  text: string;
+
+  /**
+   * Function to start the animation
+   */
+  start: () => void;
+
+  /**
+   * Function to stop the animation while keeping the current text
+   */
+  stop: () => void;
+
+  /**
+   * Function to reset the animation to the initial text
+   */
+  reset: () => void;
+
+  /**
+   * Whether the animation is currently running
+   */
+  isAnimating: boolean;
+}
+```
+## Example: TextTicker
+
+<Demo data={demos.textTickerExample} />

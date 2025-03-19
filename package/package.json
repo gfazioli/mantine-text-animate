@@ -7,15 +7,16 @@
   "license": "MIT",
   "author": "Giovambattista Fazioli <giovambattista.fazioli@gmail.com>",
   "keywords": [
-    "animation",
-    "card",
-    "extension",
-    "flip",
     "mantine",
     "react",
     "react-component",
+    "extension",
     "typescript",
-    "widget"
+    "text-animate",
+    "text-effects",
+    "spinner",
+    "counter",
+    "typewriter"
   ],
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.mjs",

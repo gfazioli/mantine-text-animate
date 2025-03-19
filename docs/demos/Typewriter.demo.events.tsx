@@ -1,18 +1,21 @@
 import { useState } from 'react';
-import { TextAnimate, type TypewriterProps } from '@gfazioli/mantine-text-animate';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Badge, Center, Stack } from '@mantine/core';
+import { useInViewport } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
-function Demo(props: TypewriterProps) {
+function Demo() {
+  const { ref, inViewport } = useInViewport();
   const [isTypeEnd, setIsTypeEnd] = useState(0);
   const [isTypeLoop, setIsTypeLoop] = useState(0);
 
   return (
-    <Center miw={400} h={100}>
+    <Center h={200} ref={ref}>
       <Stack w="100%" h={100}>
         <Badge color="red">onTypeEnd: {isTypeEnd}</Badge>
         <Badge color="lime">onTypeLoop: {isTypeLoop}</Badge>
         <TextAnimate.Typewriter
+          animate={inViewport}
           onTypeEnd={() => {
             setIsTypeEnd((prev) => prev + 1);
           }}

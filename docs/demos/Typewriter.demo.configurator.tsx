@@ -4,7 +4,7 @@ import { MantineDemo } from '@mantinex/demo';
 
 function Wrapper(props: TypewriterProps) {
   return (
-    <Center miw={400} h={400} style={{ overflow: 'visible' }}>
+    <Center h={200}>
       <TextAnimate.Typewriter {...props} />
     </Center>
   );
@@ -28,19 +28,19 @@ export const configurator: MantineDemo = {
     {
       prop: 'value',
       type: 'string',
-      initialValue: 'Hello, World! Mantine Typewriter component',
+      initialValue: 'Hello, World! Say Hello to Mantine Typewriter component',
       libraryValue: 'Hello',
     },
     {
       prop: 'animate',
       type: 'boolean',
-      initialValue: true,
+      initialValue: false,
       libraryValue: false,
     },
     {
       prop: 'loop',
       type: 'boolean',
-      initialValue: true,
+      initialValue: false,
       libraryValue: true,
     },
     {

@@ -1,12 +1,16 @@
-import { TextAnimate, type TypewriterProps } from '@gfazioli/mantine-text-animate';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Center, Paper } from '@mantine/core';
+import { useInViewport } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
-function Demo(props: TypewriterProps) {
+function Demo() {
+  const { ref, inViewport } = useInViewport();
+
   return (
-    <Center miw={400} h={360} style={{ overflow: 'visible' }}>
+    <Center h={360} ref={ref}>
       <Paper p="xl" h={350} withBorder w={'100%'} bg="dark">
         <TextAnimate.Typewriter
+          animate={inViewport}
           multiline
           c="green"
           ff="monospace"

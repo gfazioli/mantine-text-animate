@@ -1,15 +1,19 @@
-import { useTypewriter, type TypewriterProps } from '@gfazioli/mantine-text-animate';
+import { useTypewriter } from '@gfazioli/mantine-text-animate';
 import { Badge, Center, Group, Stack } from '@mantine/core';
+import { useInViewport } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
-function Demo(props: TypewriterProps) {
+function Demo() {
+  const { ref, inViewport } = useInViewport();
+
   const { text } = useTypewriter({
     value: ['Hello', 'From', 'Mantine useTypewriter()'],
     multiline: true,
+    animate: inViewport,
   });
 
   return (
-    <Center h={200}>
+    <Center h={200} ref={ref}>
       <Stack w="100%">
         <Stack>
           {(text as string[]).map((line) => (

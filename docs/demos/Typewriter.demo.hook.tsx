@@ -1,9 +1,10 @@
-import { useTypewriter, type TypewriterProps } from '@gfazioli/mantine-text-animate';
+import { useTypewriter } from '@gfazioli/mantine-text-animate';
 import { Badge, Button, Center, Divider, Group, Stack, Text } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
-function Demo(props: TypewriterProps) {
+function Demo() {
   const { text, start, stop, reset, isTyping } = useTypewriter({
+    animate: false,
     value: ['Hello', 'From', 'Mantine useTypewriter() hook'],
   });
 

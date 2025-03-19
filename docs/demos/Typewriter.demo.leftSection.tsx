@@ -1,12 +1,16 @@
-import { TextAnimate, type TypewriterProps } from '@gfazioli/mantine-text-animate';
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Center, Stack, Text } from '@mantine/core';
+import { useInViewport } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
-function Demo(props: TypewriterProps) {
+function Demo() {
+  const { ref, inViewport } = useInViewport();
+
   return (
-    <Center miw={400} h={150}>
+    <Center h={200} ref={ref}>
       <Stack w="100%">
         <TextAnimate.Typewriter
+          animate={inViewport}
           multiline
           speed={0.05}
           leftSection={
@@ -21,7 +25,12 @@ function Demo(props: TypewriterProps) {
           ]}
         />
 
-        <TextAnimate.Typewriter multiline leftSection={'👉'} value={['Another left section']} />
+        <TextAnimate.Typewriter
+          animate={inViewport}
+          multiline
+          leftSection={'👉'}
+          value={['Another left section']}
+        />
       </Stack>
     </Center>
   );

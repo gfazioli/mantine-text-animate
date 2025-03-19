@@ -1,10 +1,8 @@
 # Mantine TextAnimate Component
 
-<div align="center">
   
-  ![Mantine TextAnimate Component](https://github.com/gfazioli/mantine-text-animate/assets/432181/cf1917a3-e7eb-4ecb-a525-85ff933c601d)
+https://github.com/user-attachments/assets/8bbeb7ef-9e1f-46ab-a105-cdd1e0040780
 
-</div>
 
 ---
 
@@ -71,6 +69,9 @@ function Demo() {
 
 ### TextAnimate.Typewriter
 
+https://github.com/user-attachments/assets/a665af0a-7845-4946-99e1-1c5802e16d46
+
+
 ```tsx
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
@@ -99,6 +100,9 @@ function Demo() {
 
 ### TextAnimate.Spinner
 
+https://github.com/user-attachments/assets/53266b12-86a6-4b4d-8da4-ec9caa22aef4
+
+
 ```tsx
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
@@ -110,6 +114,10 @@ function Demo() {
 ```
 
 ### TextAnimate.NumberTicker
+
+
+https://github.com/user-attachments/assets/31e08c53-0d59-42a5-bc16-98baedda91cd
+
 
 
 ```tsx
@@ -147,6 +155,10 @@ function Demo() {
 ### TextAnimate.TextTicker
 
 
+https://github.com/user-attachments/assets/eaa647a4-2523-4d33-8aec-b303c447ffbb
+
+
+
 ```tsx
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 
@@ -157,7 +169,7 @@ function Demo() {
 }
 ```
 
-#### useNumberTicker
+#### useTextTicker
 
 ```tsx
 import { useTextTicker } from '@gfazioli/mantine-text-animate'

@@ -26,8 +26,8 @@ The `TextAnimate` component allows you to animate text with various effects.
 Additionally, it provides other sub components such as `TextAnimate.TextTicker`, `TextAnimate.Typewriter`, `TextAnimate.NumberTicker`, and `TextAnimate.Spinner`.
 You can also use three useful hooks: `useTextTicker`, `useTypewriter`, and `useNumberTicker`.
 
-[![Video](https://img.shields.io/badge/-Watch_the_Video-blue?style=for-the-badge&labelColor=black&logo=youtube
-)](https://youtu.be/RzRUb3IDcDw)
+[![Mantine Extensions](https://img.shields.io/badge/-Watch_the_Video-blue?style=for-the-badge&labelColor=black&logo=youtube
+)](https://www.youtube.com/playlist?list=PL85tTROKkZrWyqCcmNCdWajpx05-cTal4)
 [![Demo and Documentation](https://img.shields.io/badge/-Demo_%26_Documentation-blue?style=for-the-badge&labelColor=black&logo=typescript
 )](https://gfazioli.github.io/mantine-text-animate/)
 [![Mantine Extensions HUB](https://img.shields.io/badge/-Mantine_Extensions_Hub-blue?style=for-the-badge&labelColor=blue

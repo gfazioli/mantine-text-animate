@@ -1,1 +1,1 @@
-export { AnimateBadge } from "./AnimateBadge";
+export { AnimateBadge } from './AnimateBadge';

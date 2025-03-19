@@ -31,9 +31,9 @@ The `animateProps` prop allows you to pass additional props to the animation.
 
 ```tsx
 interface AnimateProps {
-    /**
-     * Controls the distance for slide animations (in pixels)
-     * @default 20
+  /**
+   * Controls the distance for slide animations (in pixels)
+   * @default 20
    */
   translateDistance?: MantineSize;
 
@@ -74,7 +74,6 @@ You can use the `onAnimationStart` and `onAnimationEnd` props to handle animatio
 
 <Demo data={demos.textAnimateEvents} />
 
-
 ## TextAnimate.Typewriter component
 
 The `TextAnimate.Typewriter` component allows you to animate text with a typewriter effect.
@@ -92,7 +91,6 @@ By using the `multiline` prop, you can animate text line by line.
 You may use the `leftSection` prop to display a section before the text.
 
 <Demo data={demos.typeWriterLeftSection} />
-
 
 ## Styling
 
@@ -163,6 +161,7 @@ export interface TypewriterBaseProps {
   onTypeLoop?: () => void;
 }
 ```
+
 And the return value of the `useTypewriter` hook is the following:
 
 ```tsx
@@ -208,7 +207,6 @@ Below a funny example of a terminal.
 
 <Demo data={demos.typeWriterTerminal} />
 
-
 ## TextAnimate.Spinner component
 
 The `TextAnimate.Spinner` component allows you to animate text with a spinner effect.
@@ -218,7 +216,6 @@ The `TextAnimate.Spinner` component allows you to animate text with a spinner ef
 ## repeatText and repeatCount
 
 <Demo data={demos.spinnerRepeatText} />
-
 
 ## TextAnimate.NumberTicker component
 
@@ -439,6 +436,7 @@ export interface UseTextTickerResult {
   isAnimating: boolean;
 }
 ```
+
 ## Example: TextTicker
 
 <Demo data={demos.textTickerExample} />

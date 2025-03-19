@@ -1,7 +1,7 @@
 {
   "name": "@gfazioli/mantine-text-animate",
   "version": "1.0.0",
-  "description": "TextAnimate component is a wrapper for any component that can be flipped. It is used to create cards, flip boxes and more.",
+  "description": "The `TextAnimate` component allows you to animate text with various effects.",
   "homepage": "https://gfazioli.github.io/mantine-text-animate/",
   "packageManager": "yarn@4.0.1",
   "license": "MIT",

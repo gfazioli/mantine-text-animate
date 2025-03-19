@@ -27,7 +27,7 @@ export interface PackageData {
 export const PACKAGE_DATA: PackageData = {
   packageName: '@gfazioli/mantine-text-animate',
   packageDescription:
-    'A Mantine component that flips the content of the component when hovered over.',
+    'A Mantine component that allows you to animate text with various effects. Additionally, it provides other sub components such as `TextAnimate.TextTicker`, `TextAnimate.Typewriter`, `TextAnimate.NumberTicker`, and `TextAnimate.Spinner`. You can also use three useful hooks: `useTextTicker`, `useTypewriter`, and `useNumberTicker`.',
   mdxFileUrl: 'https://github.com/gfazioli/mantine-text-animate/blob/master/docs/docs.mdx',
   repositoryUrl: 'https://github.com/gfazioli/mantine-text-animate',
   licenseUrl: 'https://github.com/gfazioli/mantine-text-animate/blob/master/LICENSE',

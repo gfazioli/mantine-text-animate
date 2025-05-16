@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
 function Demo() {
-  const [animated, { open, close, toggle }] = useDisclosure();
+  const [animated, { toggle }] = useDisclosure();
 
   return (
     <Stack>
@@ -33,7 +33,7 @@ import { MantineSize, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 function Demo() {
-  const [animated, { open, close, toggle }] = useDisclosure();
+  const [animated, { toggle }] = useDisclosure();
 
   return (
     <Stack>

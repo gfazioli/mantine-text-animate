@@ -26,7 +26,7 @@ export default {
   },
 };
 
-export function DefaultValue(props: SpinnerProps) {
+export function DefaultValue() {
   return (
     <>
       <Center w="100%" h="100%">
@@ -58,7 +58,7 @@ export function Usage(props: SpinnerProps) {
 
 export function PolyButton(props: SpinnerProps) {
   return (
-    <Spinner component={'a'} href="#" {...props} c="red">
+    <Spinner component="a" href="#" {...props} c="red">
       * Click here to check the docs *
     </Spinner>
   );

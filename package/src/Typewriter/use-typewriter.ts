@@ -169,7 +169,9 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
 
   // Main animation effect
   useEffect(() => {
-    if (textArray.length === 0 || !isActive) return;
+    if (textArray.length === 0 || !isActive) {
+      return;
+    }
 
     // If we're typing
     if (isTyping && !isDeleting) {

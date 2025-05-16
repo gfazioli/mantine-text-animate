@@ -7,7 +7,7 @@ function Demo() {
   const { ref, inViewport } = useInViewport();
 
   return (
-    <Stack w={'100%'} align="center" ref={ref}>
+    <Stack w="100%" align="center" ref={ref}>
       <Title order={1}>Welcome</Title>
       <TextAnimate.TextTicker
         fs="italic"

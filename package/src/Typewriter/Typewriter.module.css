@@ -18,16 +18,17 @@
   margin-left: 1px;
 
   &[data-text-animate-typewriter-with-blink='true'] {
-    animation: blinkCaret 0.75s step-end infinite;
+    animation: blink-caret 0.75s step-end infinite;
   }
 }
 
 /* Keyframes for cursor blinking */
-@keyframes blinkCaret {
-  from,
-  to {
+@keyframes blink-caret {
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }

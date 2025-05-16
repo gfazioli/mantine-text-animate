@@ -66,7 +66,7 @@ export function SameLine(props: TypewriterProps) {
 }
 
 export function Events(props: TypewriterProps) {
-  const [withCursor, setWithCursor] = React.useState(true);
+  const [withCursor] = React.useState(true);
   const [isTypeEnd, setIsTypeEnd] = React.useState(0);
   const [isTypeLoop, setIsTypeLoop] = React.useState(0);
 
@@ -96,7 +96,6 @@ export function Events(props: TypewriterProps) {
 }
 
 export function WithMultiLine(props: TypewriterProps) {
-  const [withCursor, setWithCursor] = React.useState(true);
   const [isTypeEnd, setIsTypeEnd] = React.useState(0);
   const [isTypeLoop, setIsTypeLoop] = React.useState(0);
 
@@ -105,13 +104,13 @@ export function WithMultiLine(props: TypewriterProps) {
       <Stack>
         <Text>onTypeEnd: {isTypeEnd}</Text>
         <Text>onTypeLoop: {isTypeLoop}</Text>
-        <Paper p="xl" withBorder w={'100%'} bg="dark">
+        <Paper p="xl" withBorder w="100%" bg="dark">
           <Typewriter
             {...props}
             c="green"
             ff="monospace"
             cursorChar="█"
-            withBlink={true}
+            withBlink
             leftSection={
               <Text c="red" mr={16}>
                 &gt;{' '}

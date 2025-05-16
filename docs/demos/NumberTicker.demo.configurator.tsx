@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
 function Wrapper(props: NumberTickerProps) {
-  const [animated, { open, close, toggle }] = useDisclosure();
+  const [animated, { close, toggle }] = useDisclosure();
 
   return (
     <Center h={400}>

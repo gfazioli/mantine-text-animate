@@ -148,8 +148,8 @@ const characterSets = {
 const easingFunctions = {
   linear: (t: number): number => t,
   'ease-in': (t: number): number => t * t,
-  'ease-out': (t: number): number => 1 - Math.pow(1 - t, 2),
-  'ease-in-out': (t: number): number => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2),
+  'ease-out': (t: number): number => 1 - (1 - t) ** 2,
+  'ease-in-out': (t: number): number => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2),
 };
 
 /**
@@ -218,8 +218,12 @@ export function useTextTicker({
 
   // Generate initial text
   const generateInitialText = () => {
-    if (initialText === 'none') return '';
-    if (initialText === 'target') return value;
+    if (initialText === 'none') {
+      return '';
+    }
+    if (initialText === 'target') {
+      return value;
+    }
     return generateRandomText();
   };
 
@@ -238,14 +242,18 @@ export function useTextTicker({
         result.push(mid);
 
         for (let i = 1; i <= mid; i++) {
-          if (mid - i >= 0) result.push(mid - i);
-          if (mid + i < value.length) result.push(mid + i);
+          if (mid - i >= 0) {
+            result.push(mid - i);
+          }
+          if (mid + i < value.length) {
+            result.push(mid + i);
+          }
         }
 
         return result;
       }
 
-      case 'random':
+      case 'random': {
         if (randomOrderRef.current.length === value.length) {
           return randomOrderRef.current;
         }
@@ -253,6 +261,7 @@ export function useTextTicker({
         const randomOrder = shuffleArray(indices);
         randomOrderRef.current = randomOrder;
         return randomOrder;
+      }
 
       case 'left-to-right':
       default:
@@ -345,7 +354,9 @@ export function useTextTicker({
     }
 
     // Don't start if already animating
-    if (isAnimating) return;
+    if (isAnimating) {
+      return;
+    }
 
     // Cancel any existing animation
     if (animationFrameRef.current) {

@@ -28,7 +28,7 @@ function Demo() {
         <TextAnimate.Typewriter
           animate={inViewport}
           multiline
-          leftSection={'👉'}
+          leftSection="👉"
           value={['Another left section']}
         />
       </Stack>

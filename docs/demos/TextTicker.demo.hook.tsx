@@ -12,7 +12,7 @@ function Demo() {
   });
 
   return (
-    <Stack w={'100%'}>
+    <Stack w="100%">
       <Text>{isAnimating ? 'Animating...' : 'Done'}</Text>
       <Group>
         <Button size="xs" onClick={start}>

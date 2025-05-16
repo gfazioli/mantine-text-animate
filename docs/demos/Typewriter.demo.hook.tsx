@@ -10,7 +10,7 @@ function Demo() {
 
   return (
     <Center>
-      <Stack w={'100%'}>
+      <Stack w="100%">
         <Text>{isTyping ? 'Typing...' : 'Done'}</Text>
         <Group>
           <Button size="xs" onClick={start}>

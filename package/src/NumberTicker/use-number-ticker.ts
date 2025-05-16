@@ -106,10 +106,10 @@ const easingFunctions = {
   'ease-in': (t: number): number => t * t,
 
   // Decelerating to zero velocity
-  'ease-out': (t: number): number => 1 - Math.pow(1 - t, 2),
+  'ease-out': (t: number): number => 1 - (1 - t) ** 2,
 
   // Acceleration until halfway, then deceleration
-  'ease-in-out': (t: number): number => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2),
+  'ease-in-out': (t: number): number => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2),
 };
 
 /**
@@ -207,7 +207,9 @@ export function useNumberTicker({
   // Start animation from a specific value to a target
   const startAnimationFrom = (fromValue: number, toValue: number) => {
     // Don't restart if already animating to the same target
-    if (isAnimating && toValue === value && fromValue === displayValue) return;
+    if (isAnimating && toValue === value && fromValue === displayValue) {
+      return;
+    }
 
     // Clean up any running animations
     cleanupAnimation();

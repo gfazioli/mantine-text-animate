@@ -8,14 +8,14 @@ function Demo() {
 
   return (
     <Center h={360} ref={ref}>
-      <Paper p="xl" h={350} withBorder w={'100%'} bg="dark">
+      <Paper p="xl" h={350} withBorder w="100%" bg="dark">
         <TextAnimate.Typewriter
           animate={inViewport}
           multiline
           c="green"
           ff="monospace"
           cursorChar="█"
-          withBlink={true}
+          withBlink
           speed={0.02}
           delay={200}
           value={[

@@ -4,7 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
 function Demo(props: TextTickerProps) {
-  const [animated, { open, close, toggle }] = useDisclosure();
+  const [animated, { open, close }] = useDisclosure();
 
   return (
     <Center>
@@ -22,12 +22,12 @@ import { Button, Center, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 function Demo() {
-  const [animated, { open, close, toggle }] = useDisclosure();
+  const [animated, { open, close }] = useDisclosure();
 
   return (
     <Center>
       <Stack>
-        <TextAnimate.TextTicker fz="xl" {...props} animate={animated } onCompleted={close} />
+        <TextAnimate.TextTicker fz="xl" {...props} animate={animated} onCompleted={close} />
         <Button onClick={open}>Start</Button>
       </Stack>
     </Center>

@@ -188,3 +188,9 @@ function Demo() {
   );
 }
 ```
+
+<div align="center">
+  
+[![Star History Chart](https://api.star-history.com/svg?repos=gfazioli/mantine-text-animate&type=Timeline)](https://www.star-history.com/#gfazioli/mantine-text-animate&Timeline)
+
+</div>

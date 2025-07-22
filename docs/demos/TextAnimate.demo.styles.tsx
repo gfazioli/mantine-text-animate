@@ -61,9 +61,11 @@ export const styles: MantineDemo = {
   type: 'code',
   component: Demo,
   defaultExpanded: false,
-  code: {
-    fileName: 'Demo.tsx',
-    code,
-    language: 'tsx',
-  },
+  code: [
+    {
+      fileName: 'Demo.tsx',
+      code,
+      language: 'tsx',
+    },
+  ],
 };

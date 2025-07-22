@@ -68,9 +68,11 @@ export const multiline: MantineDemo = {
   component: Demo,
   defaultExpanded: false,
   centered: true,
-  code: {
-    fileName: 'Demo.tsx',
-    code,
-    language: 'tsx',
-  },
+  code: [
+    {
+      fileName: 'Demo.tsx',
+      code,
+      language: 'tsx',
+    },
+  ],
 };

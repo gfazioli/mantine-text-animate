@@ -55,9 +55,11 @@ export const animateProps: MantineDemo = {
   defaultExpanded: false,
   centered: true,
   minHeight: 150,
-  code: {
-    fileName: 'Demo.tsx',
-    code,
-    language: 'tsx',
-  },
+  code: [
+    {
+      fileName: 'Demo.tsx',
+      code,
+      language: 'tsx',
+    },
+  ],
 };

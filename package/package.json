@@ -1,6 +1,6 @@
 {
   "name": "@gfazioli/mantine-text-animate",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "The TextAnimate component allows you to animate text with various effects.",
   "homepage": "https://gfazioli.github.io/mantine-text-animate/",
   "packageManager": "yarn@4.0.1",

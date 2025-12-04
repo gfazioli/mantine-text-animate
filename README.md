@@ -1,6 +1,6 @@
 # Mantine Text Animate Component
 
-<img width="1376" height="768" alt="Gemini_Generated_Image_ye60vrye60vrye60" src="https://github.com/user-attachments/assets/bf1c64bd-08c1-4172-8812-3634ce7bae73" />
+<img width="2752" height="1536" alt="Mantine Text Animate" src="https://github.com/user-attachments/assets/5577a5d9-8d7f-402b-93fb-21592c19ce35" />
 
 <div align="center">
 
@@ -189,8 +189,6 @@ function Demo() {
   
 [![Star History Chart](https://api.star-history.com/svg?repos=gfazioli/mantine-text-animate&type=Timeline)](https://www.star-history.com/#gfazioli/mantine-text-animate&Timeline)
 
----
+</div>
 
 https://github.com/user-attachments/assets/8bbeb7ef-9e1f-46ab-a105-cdd1e0040780
-
-</div>

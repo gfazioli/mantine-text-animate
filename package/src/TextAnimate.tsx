@@ -160,9 +160,7 @@ export interface TextAnimateBaseProps {
 }
 
 export interface TextAnimateProps
-  extends BoxProps,
-    TextAnimateBaseProps,
-    StylesApiProps<TextAnimateFactory> {}
+  extends BoxProps, TextAnimateBaseProps, StylesApiProps<TextAnimateFactory> {}
 
 export type TextAnimateFactory = PolymorphicFactory<{
   props: TextAnimateProps;

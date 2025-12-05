@@ -19,9 +19,7 @@ export type TextTickerCssVariables = {
 };
 
 export interface TextTickerProps
-  extends BoxProps,
-    TextTickerBaseProps,
-    StylesApiProps<TextTickerFactory> {}
+  extends BoxProps, TextTickerBaseProps, StylesApiProps<TextTickerFactory> {}
 
 export type TextTickerFactory = PolymorphicFactory<{
   props: TextTickerProps;

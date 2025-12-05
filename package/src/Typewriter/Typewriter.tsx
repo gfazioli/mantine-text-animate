@@ -46,9 +46,7 @@ export interface TypewriterComponentProps extends TypewriterBaseProps {
 }
 
 export interface TypewriterProps
-  extends BoxProps,
-    TypewriterComponentProps,
-    StylesApiProps<TypewriterFactory> {}
+  extends BoxProps, TypewriterComponentProps, StylesApiProps<TypewriterFactory> {}
 
 export type TypewriterFactory = PolymorphicFactory<{
   props: TypewriterProps;

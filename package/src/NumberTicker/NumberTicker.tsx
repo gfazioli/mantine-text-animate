@@ -21,9 +21,7 @@ export type NumberTickerCssVariables = {
 export type NumberTickerEasing = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
 
 export interface NumberTickerProps
-  extends BoxProps,
-    NumberTickerBaseProps,
-    StylesApiProps<NumberTickerFactory> {}
+  extends BoxProps, NumberTickerBaseProps, StylesApiProps<NumberTickerFactory> {}
 
 export type NumberTickerFactory = PolymorphicFactory<{
   props: NumberTickerProps;

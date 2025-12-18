@@ -15,22 +15,15 @@
 
 This component is created on top of the [Mantine](https://mantine.dev/) library.
 
-[![Mantine UI Library](https://img.shields.io/badge/-MANTINE_UI_LIBRARY-blue?style=for-the-badge&labelColor=black&logo=mantine
-)](https://mantine.dev/)
+[Mantine TextAnimate](https://gfazioli.github.io/mantine-text-animate/) is a comprehensive animation toolkit for text in React, designed to integrate seamlessly with Mantine UI. At its core, the TextAnimate component lets you choose entry/exit/static states and apply animations such as slide, scale, and blur, while controlling granularity with the by prop (character, word, line) and timing through duration, delay, and segmentDelay. Fine‑tuning is enabled via animateProps—translateDistance, scaleAmount, and blurAmount—so you can tailor motion intensity per effect. Event handlers like onAnimationStart and onAnimationEnd make it straightforward to react to animation lifecycles.
 
-The `TextAnimate` component allows you to animate text with various effects.
-Additionally, it provides other sub components such as `TextAnimate.TextTicker`, `TextAnimate.Typewriter`, `TextAnimate.NumberTicker`, and `TextAnimate.Spinner`.
-You can also use three useful hooks: `useTextTicker`, `useTypewriter`, and `useNumberTicker`.
+Beyond basic text transitions, the package offers higher‑level primitives for common patterns: TextAnimate.Typewriter and the useTypewriter hook provide cursor and blink options, speed/delay controls, loop behavior, multiline rendering, and hooks to start/stop/reset typing, plus onTypeEnd and onTypeLoop callbacks. 
 
-[![Mantine Extensions](https://img.shields.io/badge/-Watch_the_Video-blue?style=for-the-badge&labelColor=black&logo=youtube
-)](https://www.youtube.com/playlist?list=PL85tTROKkZrWyqCcmNCdWajpx05-cTal4)
-[![Demo and Documentation](https://img.shields.io/badge/-Demo_%26_Documentation-blue?style=for-the-badge&labelColor=black&logo=typescript
-)](https://gfazioli.github.io/mantine-text-animate/)
-[![Mantine Extensions HUB](https://img.shields.io/badge/-Mantine_Extensions_Hub-blue?style=for-the-badge&labelColor=blue
-)](https://mantine-extensions.vercel.app/)
+For data presentations, useNumberTicker animates numeric values with speed, easing, and completion callbacks, while useTextTicker reveals target strings from random characters with configurable character sets, reveal direction, and lifecycle control. Styling is fully compatible with Mantine props, and global styles can be imported directly or within a CSS layer, making the system flexible for documentation sites, dashboards, and rich UI interactions.
 
-👉 You can find more components on the [Mantine Extensions Hub](https://mantine-extensions.vercel.app/) library.
-
+> [!note]
+>
+> → [Demo and Documentation](https://gfazioli.github.io/mantine-text-animate/) → [Youtube Video](https://www.youtube.com/playlist?list=PL85tTROKkZrWyqCcmNCdWajpx05-cTal4) → [More Mantine Components](https://mantine-extensions.vercel.app/)
 
 ## Installation
 
@@ -185,10 +178,8 @@ function Demo() {
 }
 ```
 
-<div align="center">
-  
-[![Star History Chart](https://api.star-history.com/svg?repos=gfazioli/mantine-text-animate&type=Timeline)](https://www.star-history.com/#gfazioli/mantine-text-animate&Timeline)
-
-</div>
-
+---
 https://github.com/user-attachments/assets/8bbeb7ef-9e1f-46ab-a105-cdd1e0040780
+
+---  
+[![Star History Chart](https://api.star-history.com/svg?repos=gfazioli/mantine-text-animate&type=Timeline)](https://www.star-history.com/#gfazioli/mantine-text-animate&Timeline)

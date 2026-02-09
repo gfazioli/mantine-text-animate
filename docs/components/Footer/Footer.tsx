@@ -136,7 +136,7 @@ export const Footer: React.FC<FooterProps> = () => {
             title="Sponsor gfazioli"
             height="32"
             width="114"
-            style={{ border: 0, borderRadius: '6px' }}
+            style={{ border: 0 }}
           />
 
           <Group justify="right">

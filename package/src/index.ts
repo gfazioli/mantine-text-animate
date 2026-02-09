@@ -1,5 +1,8 @@
 export { TextAnimate } from './TextAnimate';
 export type {
+  TextAnimateAnimationDirection,
+  TextAnimateAnimationType,
+  TextAnimateAnimationVariant,
   TextAnimateBaseProps,
   TextAnimateCssVariables,
   TextAnimateDirection,
@@ -7,9 +10,14 @@ export type {
   TextAnimateIn,
   TextAnimateOut,
   TextAnimateProps,
+  TextAnimateStylesNames,
 } from './TextAnimate';
 
-export type { NumberTickerFactory, NumberTickerProps } from './NumberTicker/NumberTicker';
+export type {
+  NumberTickerEasing,
+  NumberTickerFactory,
+  NumberTickerProps,
+} from './NumberTicker/NumberTicker';
 export type { SpinnerFactory, SpinnerProps } from './Spinner/Spinner';
 export type { TextTickerFactory, TextTickerProps } from './TextTicker/TextTicker';
 export type { TypewriterFactory, TypewriterProps } from './Typewriter/Typewriter';

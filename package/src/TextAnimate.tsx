@@ -25,12 +25,12 @@ import classes from './TextAnimate.module.css';
  * - character: Animate each character separately
  * - line: Animate each line separately (split by newlines)
  */
-export type AnimationType = 'text' | 'word' | 'character' | 'line';
+export type TextAnimateAnimationType = 'text' | 'word' | 'character' | 'line';
 
 /**
  * Available animation variants
  */
-export type AnimationVariant =
+export type TextAnimateAnimationVariant =
   | 'fade'
   | 'blur'
   | 'scale'
@@ -48,10 +48,10 @@ export type AnimationVariant =
 /**
  * Animation direction
  */
-type AnimationDirection = 'in' | 'out' | 'static' | 'none' | false | undefined;
+export type TextAnimateAnimationDirection = 'in' | 'out' | 'static' | 'none' | false | undefined;
 
 // Add a new interface for AnimateProps
-interface AnimateProps {
+interface TextAnimateAnimateProps {
   /**
    * Controls the distance for slide animations (in pixels)
    * @default 20
@@ -115,7 +115,7 @@ export interface TextAnimateBaseProps {
    * How to split the text for animation
    * @default "word"
    */
-  by?: AnimationType;
+  by?: TextAnimateAnimationType;
 
   /**
    * Controls the animation direction
@@ -125,13 +125,13 @@ export interface TextAnimateBaseProps {
    * - `none`: Do not animate
    * @default undefined (no animation)
    */
-  animate?: AnimationDirection;
+  animate?: TextAnimateAnimationDirection;
 
   /**
    * The animation preset to use
    * @default "fadeIn"
    */
-  animation?: AnimationVariant;
+  animation?: TextAnimateAnimationVariant;
 
   /**
    * The delay between each segment's animation (in seconds)
@@ -144,7 +144,7 @@ export interface TextAnimateBaseProps {
    * Animation properties to control intensity of animations
    * @default { translateDistance: 20, scaleAmount: 0.8, blurAmount: 10 }
    */
-  animateProps?: AnimateProps;
+  animateProps?: TextAnimateAnimateProps;
 
   /**
    *  Callback function to be called when the animation starts
@@ -193,7 +193,7 @@ const defaultProps: Partial<TextAnimateProps> = {
  * Default stagger timing values for different animation types (in seconds)
  * Controls the delay between animating each segment
  */
-const defaultStaggerTimings: Record<AnimationType, number> = {
+const defaultStaggerTimings: Record<TextAnimateAnimationType, number> = {
   text: 0.06,
   word: 0.05,
   character: 0.03,

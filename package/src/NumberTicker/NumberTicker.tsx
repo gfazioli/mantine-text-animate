@@ -17,9 +17,6 @@ export type NumberTickerStylesNames = 'root';
 export type NumberTickerCssVariables = {
   root: '--number-ticker-animation-duration' | '--number-ticker-animation-delay';
 };
-
-export type NumberTickerEasing = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
-
 export interface NumberTickerProps
   extends BoxProps, NumberTickerBaseProps, StylesApiProps<NumberTickerFactory> {}
 

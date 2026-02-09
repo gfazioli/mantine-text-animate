@@ -129,7 +129,7 @@ export interface TextAnimateBaseProps {
 
   /**
    * The animation preset to use
-   * @default "fadeIn"
+   * @default "fade"
    */
   animation?: TextAnimateAnimationVariant;
 
@@ -142,7 +142,7 @@ export interface TextAnimateBaseProps {
 
   /**
    * Animation properties to control intensity of animations
-   * @default { translateDistance: 20, scaleAmount: 0.8, blurAmount: 10 }
+   * @default Values are chosen to match the selected animation variant.
    */
   animateProps?: TextAnimateAnimateProps;
 

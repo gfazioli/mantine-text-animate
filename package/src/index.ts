@@ -13,15 +13,11 @@ export type {
   TextAnimateStylesNames,
 } from './TextAnimate';
 
-export type {
-  NumberTickerEasing,
-  NumberTickerFactory,
-  NumberTickerProps,
-} from './NumberTicker/NumberTicker';
+export type { NumberTickerFactory, NumberTickerProps } from './NumberTicker/NumberTicker';
 export type { SpinnerFactory, SpinnerProps } from './Spinner/Spinner';
 export type { TextTickerFactory, TextTickerProps } from './TextTicker/TextTicker';
 export type { TypewriterFactory, TypewriterProps } from './Typewriter/Typewriter';
 
-export { useNumberTicker } from './NumberTicker/use-number-ticker';
+export { useNumberTicker, type NumberTickerEasing } from './NumberTicker/use-number-ticker';
 export { useTextTicker } from './TextTicker/use-text-ticker';
 export { useTypewriter } from './Typewriter/use-typewriter';

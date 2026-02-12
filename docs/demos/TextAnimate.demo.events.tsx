@@ -19,7 +19,7 @@ function Demo() {
       <TextAnimate
         fz={48}
         fw={600}
-        color="violet"
+        c="violet"
         animate={animated ? 'in' : 'out'}
         by="character"
         animation="slideRight"
@@ -56,7 +56,7 @@ function Demo() {
       <TextAnimate
         fz={48}
         fw={600}
-        color="violet"
+        c="violet"
         animate={started ? 'in' : 'out'}
         by="character"
         animation="slideRight"

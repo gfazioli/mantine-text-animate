@@ -11,6 +11,9 @@ import {
   type MantineSize,
   type PolymorphicFactory,
   type StylesApiProps,
+  type TextProps,
+  type TextStylesNames,
+  type TextVariant,
 } from '@mantine/core';
 import { NumberTicker } from './NumberTicker/NumberTicker';
 import { Spinner } from './Spinner/Spinner';
@@ -73,7 +76,7 @@ interface TextAnimateAnimateProps {
   blurAmount?: MantineSize;
 }
 
-export type TextAnimateStylesNames = 'root' | 'segment';
+export type TextAnimateStylesNames = 'root' | 'segment' | TextStylesNames;
 
 export type TextAnimateCssVariables = {
   root:
@@ -160,14 +163,19 @@ export interface TextAnimateBaseProps {
 }
 
 export interface TextAnimateProps
-  extends BoxProps, TextAnimateBaseProps, StylesApiProps<TextAnimateFactory> {}
+  extends
+    BoxProps,
+    Omit<TextProps, 'classNames' | 'styles' | 'unstyled' | 'vars' | 'attributes'>,
+    TextAnimateBaseProps,
+    StylesApiProps<TextAnimateFactory> {}
 
 export type TextAnimateFactory = PolymorphicFactory<{
   props: TextAnimateProps;
-  defaultComponent: 'div';
-  defaultRef: HTMLDivElement;
+  defaultComponent: 'p';
+  defaultRef: HTMLParagraphElement;
   stylesNames: TextAnimateStylesNames;
   vars: TextAnimateCssVariables;
+  variant: TextVariant;
   staticComponents: {
     Typewriter: typeof Typewriter;
     Spinner: typeof Spinner;

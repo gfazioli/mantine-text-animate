@@ -12,9 +12,10 @@ function Demo() {
       <TextAnimate
         fz={48}
         fw={600}
-        color="violet"
+        gradient={{ from: 'violet', to: 'yellow' }}
+        variant="gradient"
         animate={animated ? 'in' : 'none'}
-        by="character"
+        by="word"
         animation="blur"
         duration={0.5}
         animateProps={{
@@ -41,9 +42,10 @@ function Demo() {
       <TextAnimate
         fz={48}
         fw={600}
-        color="violet"
+        gradient={{ from: 'violet', to: 'yellow' }}
+        variant="gradient"
         animate={animated ? 'in' : 'none'}
-        by="character"
+        by="word"
         animation="blur"
         duration={0.5}
         animateProps={{

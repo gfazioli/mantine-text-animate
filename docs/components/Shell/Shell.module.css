@@ -21,5 +21,17 @@
 }
 
 .sponsor {
-  border: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+
+  /* glow effect */
+
+  @mixin light {
+    box-shadow: 0 0 5px 0 rgb(51, 154, 240, 0.2);
+  }
+
+  @mixin dark {
+    box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.1);
+  }
 }

@@ -1,6 +1,6 @@
 # Mantine Text Animate Component
 
-<img alt="Mantine Text Animate" src="https://github.com/gfazioli/mantine-text-animate/blob/master/logo.png" />
+<img alt="Mantine Text Animate" src="https://github.com/gfazioli/mantine-text-animate/blob/master/logo.jpeg" />
 
 <div align="center">
 

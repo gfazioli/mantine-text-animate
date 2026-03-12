@@ -24,3 +24,9 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver;
+
+// Mock requestAnimationFrame for ticker hooks
+if (!window.requestAnimationFrame) {
+  window.requestAnimationFrame = (callback) => setTimeout(() => callback(Date.now()), 0);
+  window.cancelAnimationFrame = (id) => clearTimeout(id);
+}

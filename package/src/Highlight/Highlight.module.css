@@ -1,0 +1,32 @@
+.root {
+  --text-animate-highlight-color: #ffeb3b;
+  --text-animate-highlight-speed: 1s;
+  --text-animate-highlight-height: 40%;
+  --text-animate-highlight-offset: 60%;
+
+  display: inline;
+  background-repeat: no-repeat;
+  background-position: 0 var(--text-animate-highlight-offset);
+  background-size: 0% var(--text-animate-highlight-height);
+}
+
+.root[data-text-animate-highlight-animate='true'] {
+  animation: highlight-sweep var(--text-animate-highlight-speed) ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-text-animate-highlight-animate='true'] {
+    animation: none !important;
+    background-size: 100% var(--text-animate-highlight-height);
+  }
+}
+
+@keyframes highlight-sweep {
+  0% {
+    background-size: 0% var(--text-animate-highlight-height);
+  }
+
+  100% {
+    background-size: 100% var(--text-animate-highlight-height);
+  }
+}

@@ -1,0 +1,97 @@
+.root {
+  --text-animate-split-flap-bg: #1a1a2e;
+  --text-animate-split-flap-color: #e0e0e0;
+  --text-animate-split-flap-gap: 4px;
+  --text-animate-split-flap-flip-duration: 300ms;
+  --text-animate-split-flap-char-width: 1.2em;
+  --text-animate-split-flap-char-height: 1.8em;
+
+  display: inline-flex;
+  gap: var(--text-animate-split-flap-gap);
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.character {
+  position: relative;
+  width: var(--text-animate-split-flap-char-width);
+  height: var(--text-animate-split-flap-char-height);
+  perspective: 200px;
+  font-size: inherit;
+}
+
+.charTop,
+.charBottom,
+.flapTop,
+.flapBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text-animate-split-flap-bg);
+  color: var(--text-animate-split-flap-color);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.charTop,
+.flapTop {
+  top: 0;
+  height: 50%;
+  align-items: flex-end;
+  border-radius: 4px 4px 0 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.charBottom,
+.flapBottom {
+  bottom: 0;
+  height: 50%;
+  align-items: flex-start;
+  border-radius: 0 0 4px 4px;
+}
+
+.flapTop {
+  z-index: 2;
+  transform-origin: bottom center;
+  animation: flip-top var(--text-animate-split-flap-flip-duration) ease-in forwards;
+  backface-visibility: hidden;
+}
+
+.flapBottom {
+  z-index: 1;
+  transform-origin: top center;
+  transform: rotateX(-90deg);
+  animation: flip-bottom var(--text-animate-split-flap-flip-duration) ease-out forwards;
+  animation-delay: calc(var(--text-animate-split-flap-flip-duration) * 0.5);
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flapTop,
+  .flapBottom {
+    animation: none !important;
+  }
+}
+
+@keyframes flip-top {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes flip-bottom {
+  0% {
+    transform: rotateX(-90deg);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}

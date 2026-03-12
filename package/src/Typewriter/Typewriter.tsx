@@ -90,6 +90,8 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
     onTypeLoop,
     onCharType,
     pauseAt,
+    withSound,
+    soundVolume,
     leftSection,
 
     classNames,
@@ -115,6 +117,8 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
     onTypeLoop,
     onCharType,
     pauseAt,
+    withSound,
+    soundVolume,
   });
 
   const getStyles = useStyles<TypewriterFactory>({

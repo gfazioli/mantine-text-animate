@@ -53,6 +53,14 @@ export interface NumberTickerBaseProps {
    * Callback function called when animation completes
    */
   onCompleted?: () => void;
+
+  /**
+   * Custom format function that overrides the default Intl.NumberFormat.
+   * When provided, this function is used to format the displayed value.
+   * @param value The current numeric value
+   * @returns The formatted string representation
+   */
+  formatValue?: (value: number) => string;
 }
 
 /**
@@ -127,6 +135,7 @@ export function useNumberTicker({
   easing = 'ease-out',
   animate = true,
   onCompleted,
+  formatValue,
 }: UseNumberTickerProps): UseNumberTickerResult {
   // State for current display value and animation status
   const [displayValue, setDisplayValue] = useState(startValue);
@@ -146,6 +155,9 @@ export function useNumberTicker({
 
   // Format the number with proper decimal places
   const formatNumber = (num: number) => {
+    if (formatValue) {
+      return formatValue(num);
+    }
     return Intl.NumberFormat('en-US', {
       minimumFractionDigits: decimalPlaces,
       maximumFractionDigits: decimalPlaces,

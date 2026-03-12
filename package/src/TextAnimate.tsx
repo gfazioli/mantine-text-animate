@@ -17,8 +17,12 @@ import {
 } from '@mantine/core';
 import { useMergedRef } from '@mantine/hooks';
 import { Gradient } from './Gradient/Gradient';
+import { Highlight } from './Highlight/Highlight';
+import { Morphing } from './Morphing/Morphing';
 import { NumberTicker } from './NumberTicker/NumberTicker';
+import { Scramble } from './Scramble/Scramble';
 import { Spinner } from './Spinner/Spinner';
+import { SplitFlap } from './SplitFlap/SplitFlap';
 import { TextTicker } from './TextTicker/TextTicker';
 import { Typewriter } from './Typewriter/Typewriter';
 import classes from './TextAnimate.module.css';
@@ -53,7 +57,14 @@ export type TextAnimateAnimationVariant =
 /**
  * Animation direction
  */
-export type TextAnimateAnimationDirection = 'in' | 'out' | 'static' | 'none' | false | undefined;
+export type TextAnimateAnimationDirection =
+  | 'in'
+  | 'out'
+  | 'loop'
+  | 'static'
+  | 'none'
+  | false
+  | undefined;
 
 // Add a new interface for AnimateProps
 interface TextAnimateAnimateProps {
@@ -207,6 +218,13 @@ export interface TextAnimateBaseProps {
    * Options for IntersectionObserver when trigger is "inView"
    */
   triggerOptions?: TextAnimateTriggerOptions;
+
+  /**
+   * Delay in milliseconds between loop phases (in→pause→out→pause→in)
+   * Only used when `animate="loop"`
+   * @default 2000
+   */
+  loopDelay?: number;
 }
 
 export interface TextAnimateProps
@@ -229,6 +247,10 @@ export type TextAnimateFactory = PolymorphicFactory<{
     NumberTicker: typeof NumberTicker;
     TextTicker: typeof TextTicker;
     Gradient: typeof Gradient;
+    Highlight: typeof Highlight;
+    Scramble: typeof Scramble;
+    SplitFlap: typeof SplitFlap;
+    Morphing: typeof Morphing;
   };
 }>;
 
@@ -291,6 +313,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     onAnimationComplete,
     trigger,
     triggerOptions,
+    loopDelay,
 
     classNames,
     style,
@@ -317,6 +340,19 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     setIsAnimating(true);
     prevAnimateRef.current = animate;
   }
+
+  // Loop mode state machine
+  const [loopPhase, setLoopPhase] = useState<'in' | 'out'>('in');
+  const loopTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Cleanup loop timer on unmount
+  useEffect(() => {
+    return () => {
+      if (loopTimerRef.current) {
+        clearTimeout(loopTimerRef.current);
+      }
+    };
+  }, []);
 
   // IntersectionObserver for trigger="inView"
   const inViewRef = useRef<HTMLElement>(null);
@@ -346,10 +382,13 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
 
   const mergedRef = useMergedRef(ref, inViewRef);
 
-  // Resolve effective animate value based on trigger mode
+  // Resolve effective animate value based on trigger mode and loop
   let effectiveAnimate = animate;
+  if (animate === 'loop') {
+    effectiveAnimate = loopPhase;
+  }
   if (trigger === 'inView') {
-    effectiveAnimate = inView ? animate || 'in' : undefined;
+    effectiveAnimate = inView ? (animate === 'loop' ? loopPhase : animate || 'in') : undefined;
   }
 
   const getStyles = useStyles<TextAnimateFactory>({
@@ -395,8 +434,16 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     if (completedCountRef.current === segments.length) {
       setIsAnimating(false);
       onAnimationComplete?.(effectiveAnimate as 'in' | 'out');
+
+      // Loop mode: schedule next phase transition
+      if (animate === 'loop') {
+        const delayMs = loopDelay ?? 2000;
+        loopTimerRef.current = setTimeout(() => {
+          setLoopPhase((prev) => (prev === 'in' ? 'out' : 'in'));
+        }, delayMs);
+      }
     }
-  }, [onAnimationEnd, onAnimationComplete, effectiveAnimate, segments.length]);
+  }, [onAnimationEnd, onAnimationComplete, effectiveAnimate, segments.length, animate, loopDelay]);
 
   // If animate is "none" or false, render hidden text (preserves layout space)
   if (effectiveAnimate === 'none' || effectiveAnimate === false || effectiveAnimate === undefined) {
@@ -456,3 +503,7 @@ TextAnimate.Spinner = Spinner;
 TextAnimate.NumberTicker = NumberTicker;
 TextAnimate.TextTicker = TextTicker;
 TextAnimate.Gradient = Gradient;
+TextAnimate.Highlight = Highlight;
+TextAnimate.Scramble = Scramble;
+TextAnimate.SplitFlap = SplitFlap;
+TextAnimate.Morphing = Morphing;

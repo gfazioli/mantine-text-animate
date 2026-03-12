@@ -12,11 +12,13 @@ function Wrapper(props: SpinnerProps) {
 
 const code = `
 import { TextAnimate, type SpinnerProps } from '@gfazioli/mantine-text-animate';
-import { Center } from '@mantine/core'
+import { Center } from '@mantine/core';
 
 function Demo() {
   return (
-    <TextAnimate.Spinner{{props}}>{{children}}</TextAnimate.Spinner>
+    <TextAnimate.Spinner{{props}}>
+      {{children}}
+    </TextAnimate.Spinner>
   );
 }
 `;

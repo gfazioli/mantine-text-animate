@@ -36,10 +36,9 @@ function Demo() {
 const code = `
 import { useState } from 'react';
 import { TextAnimate, type TypewriterProps } from '@gfazioli/mantine-text-animate';
-import { Badge, Center, Stack } from '@mantine/core'
+import { Badge, Center, Stack } from '@mantine/core';
 
 function Demo() {
-
   const [isTypeEnd, setIsTypeEnd] = useState(0);
   const [isTypeLoop, setIsTypeLoop] = useState(0);
 

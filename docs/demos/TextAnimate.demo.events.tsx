@@ -44,11 +44,12 @@ import { useDisclosure } from '@mantine/hooks';
 
 function Demo() {
   const [animated, { toggle }] = useDisclosure();
+  const [event, setEvent] = useState('');
 
   return (
     <Stack>
       <Group>
-        <Switch size="xl" checked={started} onLabel="OUT" offLabel="IN" onChange={toggle} />
+        <Switch size="xl" checked={animated} onLabel="OUT" offLabel="IN" onChange={toggle} />
         <Badge color="lime" size="xl">
           {event}
         </Badge>
@@ -57,7 +58,7 @@ function Demo() {
         fz={48}
         fw={600}
         c="violet"
-        animate={started ? 'in' : 'out'}
+        animate={animated ? 'in' : 'out'}
         by="character"
         animation="slideRight"
         onAnimationStart={(animate) => setEvent(\`Start \${animate}\`)}

@@ -98,10 +98,7 @@ Currently **1 test** (basic render check for TextAnimate). No tests exist for Ty
 
 ### Demo Code Issues
 
-Several demo code blocks have syntax errors that would fail if copy-pasted:
-- Variable name mismatches (`started` vs `animated`) in TextAnimate.demo.events, NumberTicker.demo.configurator
-- Incomplete imports in Typewriter.demo.hook, Typewriter.demo.events
-- Invalid JSX syntax in Spinner.demo.configurator, NumberTicker.demo.configurator
+~~All 7 demo code block errors fixed (2026-03-12)~~
 
 ## Conventions
 

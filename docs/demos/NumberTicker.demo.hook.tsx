@@ -52,7 +52,7 @@ function Demo() {
   });
 
   return (
-    <Stack
+    <Stack>
       <Text>{isAnimating ? 'Animating...' : 'Done'}</Text>
       <Group>
         <Button size="xs" onClick={start}>

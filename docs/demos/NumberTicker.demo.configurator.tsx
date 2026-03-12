@@ -28,14 +28,16 @@ import { Center, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 function Demo() {
+  const [animated, { close, toggle }] = useDisclosure();
+
   return (
     <Stack>
-      <Switch size="xl" checked={started} onLabel="ON" offLabel="OFF" onChange={toggle} />
+      <Switch size="xl" checked={animated} onLabel="ON" offLabel="OFF" onChange={toggle} />
       <TextAnimate.NumberTicker{{props}}
         fz={64}
         c="violet"
-        started={started}
-        onNumberTickerCompleted={close}
+        animate={animated}
+        onCompleted={close}
       />
     </Stack>
   );

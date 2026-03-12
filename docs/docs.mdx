@@ -154,6 +154,12 @@ You can use the `onTypeEnd` and `onTypeLoop` props to handle typewriter events.
 
 <Demo data={demos.typeWriterEvents} />
 
+## onCharType and pauseAt
+
+The `onCharType` callback is called for each character typed, receiving the character and its index. Combined with `pauseAt`, you can create dramatic pauses at specific character positions — for example, pausing after punctuation for a more natural typing rhythm.
+
+<Demo data={demos.typeWriterOnCharType} />
+
 ## useTypewriter() hook
 
 The `TypeWriter` is build by using the `useTypewriter` hook.

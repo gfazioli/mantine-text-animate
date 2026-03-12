@@ -60,6 +60,20 @@ export interface TypewriterBaseProps {
    * @example { 5: 1000, 10: 500 } — pause 1s after char 5, 500ms after char 10
    */
   pauseAt?: Record<number, number>;
+
+  /**
+   * Whether to play a mechanical keyboard click sound on each character typed
+   * Uses Web Audio API to synthesize sounds. Requires user gesture to start AudioContext.
+   * Respects `prefers-reduced-motion`.
+   * @default false
+   */
+  withSound?: boolean;
+
+  /**
+   * Volume of the typing sound (0 to 1)
+   * @default 0.3
+   */
+  soundVolume?: number;
 }
 
 export interface UseTypewriterResult {
@@ -105,6 +119,8 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     onTypeLoop,
     onCharType,
     pauseAt,
+    withSound = false,
+    soundVolume = 0.3,
   } = options;
 
   // Convert single text to array if needed
@@ -135,14 +151,59 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 
+  // Web Audio API for typing sound
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  const playClick = useCallback(
+    (isDeleting = false) => {
+      if (!withSound || prefersReducedMotionRef.current) {
+        return;
+      }
+      if (typeof AudioContext === 'undefined') {
+        return;
+      }
+
+      // Lazy-init AudioContext (requires user gesture)
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContext();
+      }
+
+      const ctx = audioContextRef.current;
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
+
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      oscillator.connect(gain);
+      gain.connect(ctx.destination);
+
+      oscillator.frequency.value = isDeleting ? 400 : 800;
+      oscillator.type = 'square';
+
+      const vol = Math.max(0, Math.min(1, soundVolume));
+      gain.gain.setValueAtTime(vol, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.015);
+
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 0.015);
+    },
+    [withSound, soundVolume]
+  );
+
   // Current full text being typed
   const currentFullText = textArray[currentTextIndex];
 
-  // Clear timeout on unmount
+  // Clear timeout and AudioContext on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
       }
     };
   }, []);
@@ -229,6 +290,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         const nextIndex = displayText.length;
         const charDelay = pauseAt?.[nextIndex] ?? speed * 1000;
         timeoutRef.current = setTimeout(() => {
+          playClick(false);
           onCharType?.(currentFullText[nextIndex], nextIndex);
           setDisplayText(currentFullText.substring(0, nextIndex + 1));
         }, charDelay);
@@ -288,6 +350,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
       if (displayText.length > 0) {
         // Delete a character
         timeoutRef.current = setTimeout(() => {
+          playClick(true);
           setDisplayText(displayText.substring(0, displayText.length - 1));
         }, speed * 500); // Deleting is faster than typing
       } else {
@@ -321,6 +384,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     onTypeLoop,
     onCharType,
     pauseAt,
+    playClick,
   ]);
 
   // Return the appropriate text format based on multiline

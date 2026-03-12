@@ -99,6 +99,12 @@ You can pass `triggerOptions` to customize `threshold` and `rootMargin`.
 
 <Demo data={demos.textAnimateTrigger} />
 
+## Loop mode
+
+Set `animate="loop"` to automatically cycle through in→pause→out→pause→in. Use `loopDelay` to control the pause duration between phases (default: 2000ms).
+
+<Demo data={demos.textAnimateLoop} />
+
 ## useTextAnimate() hook
 
 The `useTextAnimate` hook provides state and controls for managing TextAnimate animation direction, replay capability, and animation status tracking.
@@ -153,6 +159,12 @@ Of course, you can use the component with your own styles.
 You can use the `onTypeEnd` and `onTypeLoop` props to handle typewriter events.
 
 <Demo data={demos.typeWriterEvents} />
+
+## withSound
+
+Enable `withSound` to play a synthesized mechanical keyboard click on each character typed. The sound is generated via Web Audio API (no external files). Use `soundVolume` to control volume (0–1). The AudioContext is lazily initialized on the first sound, so a user gesture is required. Respects `prefers-reduced-motion`.
+
+<Demo data={demos.typeWriterSound} />
 
 ## onCharType and pauseAt
 
@@ -290,6 +302,12 @@ The `TextAnimate.NumberTicker` component allows you to animate text with a numbe
 You can use the `prefix` and `suffix` props to display content before and after the number.
 
 <Demo data={demos.numberTickerConfigurator} />
+
+## formatValue
+
+Use the `formatValue` prop to override the default `Intl.NumberFormat` formatting. This is useful for custom currency, percentage, or unit formatting.
+
+<Demo data={demos.numberTickerFormat} />
 
 ## useNumberTicker() hook
 
@@ -514,3 +532,45 @@ export interface UseTextTickerResult {
 The `TextAnimate.Gradient` component allows you to display text with an animated gradient background.
 
 <Demo data={demos.gradientConfigurator} />
+
+## TextAnimate.Highlight component
+
+The `TextAnimate.Highlight` component creates an animated highlighter marker effect on text. It uses a CSS animation to sweep a colored background from left to right, simulating a text highlighter pen.
+
+<Demo data={demos.highlightConfigurator} />
+
+## TextAnimate.Scramble component
+
+The `TextAnimate.Scramble` component creates a "hacker/decryption" effect where each character rapidly cycles through random characters before settling on the target text. Each character starts scrambling at a staggered time and settles after `scrambleDuration` milliseconds.
+
+<Demo data={demos.scrambleConfigurator} />
+
+## useScramble() hook
+
+The `TextAnimate.Scramble` is built by using the `useScramble` hook.
+
+<Demo data={demos.scrambleHook} />
+
+## TextAnimate.SplitFlap component
+
+The `TextAnimate.SplitFlap` component recreates the classic airport/train station split-flap display (Solari board). Each character flips through the character set in order until reaching its target, with a 3D CSS flip animation.
+
+<Demo data={demos.splitFlapConfigurator} />
+
+## useSplitFlap() hook
+
+The `TextAnimate.SplitFlap` is built by using the `useSplitFlap` hook.
+
+<Demo data={demos.splitFlapHook} />
+
+## TextAnimate.Morphing component
+
+The `TextAnimate.Morphing` component creates fluid text transitions between two strings. It uses the Longest Common Subsequence (LCS) algorithm to identify shared characters — common characters smoothly move to their new positions, while removed characters fade out and new characters fade in. Requires a monospace font for accurate positioning (uses `ch` units).
+
+<Demo data={demos.morphingConfigurator} />
+
+## useMorphing() hook
+
+The `TextAnimate.Morphing` is built by using the `useMorphing` hook.
+
+<Demo data={demos.morphingHook} />

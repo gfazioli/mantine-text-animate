@@ -19,6 +19,10 @@ export default function HomePage() {
           'TextTicker',
           'Spinner',
           'Gradient',
+          'Highlight',
+          'Scramble',
+          'SplitFlap',
+          'Morphing',
         ]}
         componentsStyles={[
           'TextAnimate',
@@ -27,6 +31,10 @@ export default function HomePage() {
           'NumberTicker',
           'TextTicker',
           'Gradient',
+          'Highlight',
+          'Scramble',
+          'SplitFlap',
+          'Morphing',
         ]}
         componentPrefix="TextAnimate"
         stylesApiData={STYLES_API_DATA}

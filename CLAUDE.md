@@ -4,14 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`@gfazioli/mantine-text-animate` (v3.0.0) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Five compound components are attached as static properties:
+`@gfazioli/mantine-text-animate` (v3.1.0) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Nine compound components are attached as static properties:
 
-- **TextAnimate** — CSS animation (fade, blur, scale, slide variants) with `animate` direction control, `trigger` mode (`mount`/`inView`/`manual`), `onAnimationComplete` callback; hook: `useTextAnimate`
-- **TextAnimate.Typewriter** — Character-by-character typing with cursor, blink, loop, multiline, `onCharType` callback, `pauseAt` pauses; hook: `useTypewriter`
+- **TextAnimate** — CSS animation (fade, blur, scale, slide variants) with `animate` direction control (incl. `'loop'` mode), `trigger` mode (`mount`/`inView`/`manual`), `onAnimationComplete` callback; hook: `useTextAnimate`
+- **TextAnimate.Typewriter** — Character-by-character typing with cursor, blink, loop, multiline, `onCharType` callback, `pauseAt` pauses, `withSound` Web Audio; hook: `useTypewriter`
 - **TextAnimate.Spinner** — Circular spinning text with radius, speed, direction control; accepts `string | ReactNode[]`
-- **TextAnimate.NumberTicker** — Animated number counter with easing, `prefix`/`suffix`; hook: `useNumberTicker`
+- **TextAnimate.NumberTicker** — Animated number counter with easing, `prefix`/`suffix`, `formatValue` custom formatter; hook: `useNumberTicker`
 - **TextAnimate.TextTicker** — Random-to-target character reveal with direction control; hook: `useTextTicker`
 - **TextAnimate.Gradient** — Animated gradient text via `background-clip: text` with configurable colors, speed, direction
+- **TextAnimate.Highlight** — Animated highlighter marker effect (CSS-only, no hook)
+- **TextAnimate.Scramble** — Hacker/decryption effect with per-character random cycling; hook: `useScramble`
+- **TextAnimate.SplitFlap** — Airport departure board (Solari board) 3D flip display; hook: `useSplitFlap`
+- **TextAnimate.Morphing** — Fluid text transitions using LCS algorithm; hook: `useMorphing`
 
 ## Commands
 
@@ -53,16 +57,31 @@ use-text-animate.ts        — Hook (useTextAnimate: animate/setAnimate/replay/i
 │   ├── Spinner.module.css — spin-clockwise/counterclockwise keyframes
 │   └── Spinner.story.tsx
 ├── NumberTicker/
-│   ├── NumberTicker.tsx   — Component (polymorphicFactory, prefix/suffix)
-│   ├── use-number-ticker.ts — Hook (requestAnimationFrame, 4 easing functions, Intl.NumberFormat)
+│   ├── NumberTicker.tsx   — Component (polymorphicFactory, prefix/suffix, formatValue)
+│   ├── use-number-ticker.ts — Hook (requestAnimationFrame, 4 easing functions, Intl.NumberFormat/formatValue)
 │   └── NumberTicker.story.tsx
 ├── TextTicker/
 │   ├── TextTicker.tsx     — Component (polymorphicFactory, monospace font)
 │   ├── use-text-ticker.ts — Hook (rAF, Fisher-Yates shuffle, 4 reveal directions)
 │   └── TextTicker.story.tsx
-└── Gradient/
-    ├── Gradient.tsx        — Component (polymorphicFactory, background-clip: text)
-    └── Gradient.module.css — gradient-shift keyframe
+├── Gradient/
+│   ├── Gradient.tsx        — Component (polymorphicFactory, background-clip: text)
+│   └── Gradient.module.css — gradient-shift keyframe
+├── Highlight/
+│   ├── Highlight.tsx       — Component (polymorphicFactory, CSS-only highlight marker)
+│   └── Highlight.module.css — highlight-sweep keyframe
+├── Scramble/
+│   ├── Scramble.tsx        — Component (polymorphicFactory, monospace font)
+│   ├── use-scramble.ts     — Hook (rAF, per-char stagger, 4 reveal directions)
+│   └── Scramble.module.css
+├── SplitFlap/
+│   ├── SplitFlap.tsx       — Component (polymorphicFactory, 3D flip per character)
+│   ├── use-split-flap.ts   — Hook (setTimeout chain, cycles through characterSet)
+│   └── SplitFlap.module.css — flip-top/flip-bottom keyframes, perspective 3D
+└── Morphing/
+    ├── Morphing.tsx        — Component (polymorphicFactory, monospace, absolute positioning)
+    ├── use-morphing.ts     — Hook (LCS algorithm, character state tracking)
+    └── Morphing.module.css — morph-enter/morph-exit keyframes
 ```
 
 ### Mantine Styles API Pattern (all components)
@@ -72,8 +91,8 @@ Every component follows: `polymorphicFactory` → `useProps('ComponentName', def
 ### Docs (`docs/`)
 
 - `docs/pages/` — MDX pages
-- `docs/demos/` — 24 interactive demo components (configurators, hooks, events, styles, trigger, gradient)
-- `docs/styles-api/` — Styles API definitions for all 6 components
+- `docs/demos/` — 34 interactive demo components (configurators, hooks, events, styles, trigger, gradient, highlight, scramble, split-flap, morphing)
+- `docs/styles-api/` — Styles API definitions for all 10 components
 - `docs/components/` — Shell, Footer, Logo
 - `docs/docgen.json` — Auto-generated prop docs
 
@@ -83,7 +102,7 @@ Rollup → ESM (`.mjs`) + CJS (`.cjs`). CSS modules hashed via `hash-css-selecto
 
 ## Test Coverage
 
-**42 tests** across 5 suites covering all components (TextAnimate, Typewriter, Spinner, NumberTicker, TextTicker) plus Gradient. Tests cover: render, props behavior, ARIA attributes, data attributes, animation direction, text splitting, trigger modes, prefix/suffix, ReactNode children. `jsdom.mocks.cjs` includes `requestAnimationFrame` mock for ticker hooks.
+**42 tests** across 5 suites covering components (TextAnimate, Typewriter, Spinner, NumberTicker, TextTicker). Tests cover: render, props behavior, ARIA attributes, data attributes, animation direction, text splitting, trigger modes, prefix/suffix, ReactNode children. `jsdom.mocks.cjs` includes `requestAnimationFrame` mock for ticker hooks.
 
 ## Conventions
 

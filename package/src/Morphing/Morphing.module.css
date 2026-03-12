@@ -1,0 +1,53 @@
+.root {
+  --text-animate-morphing-speed: 1s;
+
+  position: relative;
+  display: inline-block;
+  font-family: monospace;
+  white-space: pre;
+}
+
+.character {
+  position: absolute;
+  top: 0;
+  transition: all var(--text-animate-morphing-speed) ease;
+}
+
+.character[data-morph-state='entering'] {
+  animation: morph-enter var(--text-animate-morphing-speed) ease forwards;
+}
+
+.character[data-morph-state='exiting'] {
+  animation: morph-exit var(--text-animate-morphing-speed) ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@keyframes morph-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes morph-exit {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-0.5em);
+  }
+}

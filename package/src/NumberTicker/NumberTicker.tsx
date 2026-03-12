@@ -75,6 +75,7 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
     easing,
     animate,
     onCompleted,
+    formatValue,
     prefix,
     suffix,
 
@@ -98,6 +99,7 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
     easing,
     animate,
     onCompleted,
+    formatValue,
   });
 
   const getStyles = useStyles<NumberTickerFactory>({

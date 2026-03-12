@@ -88,6 +88,8 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
     withBlink,
     onTypeEnd,
     onTypeLoop,
+    onCharType,
+    pauseAt,
     leftSection,
 
     classNames,
@@ -111,6 +113,8 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
     loop,
     onTypeEnd,
     onTypeLoop,
+    onCharType,
+    pauseAt,
   });
 
   const getStyles = useStyles<TypewriterFactory>({

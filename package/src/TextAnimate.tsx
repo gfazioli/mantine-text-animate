@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
   createVarsResolver,
@@ -15,6 +15,8 @@ import {
   type TextStylesNames,
   type TextVariant,
 } from '@mantine/core';
+import { useMergedRef } from '@mantine/hooks';
+import { Gradient } from './Gradient/Gradient';
 import { NumberTicker } from './NumberTicker/NumberTicker';
 import { Spinner } from './Spinner/Spinner';
 import { TextTicker } from './TextTicker/TextTicker';
@@ -74,6 +76,31 @@ interface TextAnimateAnimateProps {
    * @default 10
    */
   blurAmount?: MantineSize;
+}
+
+/**
+ * Trigger mode for TextAnimate animation
+ * - `mount`: Animate on mount (default behavior)
+ * - `inView`: Animate when the element enters the viewport
+ * - `manual`: Do not auto-animate; control via `animate` prop only
+ */
+export type TextAnimateTrigger = 'mount' | 'inView' | 'manual';
+
+/**
+ * Options for the IntersectionObserver when trigger is "inView"
+ */
+export interface TextAnimateTriggerOptions {
+  /**
+   * IntersectionObserver threshold (0-1)
+   * @default 0.1
+   */
+  threshold?: number;
+
+  /**
+   * IntersectionObserver root margin
+   * @default "0px"
+   */
+  rootMargin?: string;
 }
 
 export type TextAnimateStylesNames = 'root' | 'segment' | TextStylesNames;
@@ -160,6 +187,26 @@ export interface TextAnimateBaseProps {
    * @param animate The direction of the animation
    */
   onAnimationEnd?: (animate: 'in' | 'out') => void;
+
+  /**
+   * Callback function called when all segments have completed their animation
+   * @param animate The direction of the animation
+   */
+  onAnimationComplete?: (animate: 'in' | 'out') => void;
+
+  /**
+   * Trigger mode for animation
+   * - `mount`: Animate on mount (default, preserves v2 behavior)
+   * - `inView`: Animate when element enters the viewport via IntersectionObserver
+   * - `manual`: Do not auto-animate; control via `animate` prop only
+   * @default "mount"
+   */
+  trigger?: TextAnimateTrigger;
+
+  /**
+   * Options for IntersectionObserver when trigger is "inView"
+   */
+  triggerOptions?: TextAnimateTriggerOptions;
 }
 
 export interface TextAnimateProps
@@ -181,6 +228,7 @@ export type TextAnimateFactory = PolymorphicFactory<{
     Spinner: typeof Spinner;
     NumberTicker: typeof NumberTicker;
     TextTicker: typeof TextTicker;
+    Gradient: typeof Gradient;
   };
 }>;
 
@@ -240,6 +288,9 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     animateProps,
     onAnimationStart,
     onAnimationEnd,
+    onAnimationComplete,
+    trigger,
+    triggerOptions,
 
     classNames,
     style,
@@ -255,6 +306,52 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   // Use provided segmentDelay or default based on animation type
   const staggerTiming = segmentDelay !== undefined ? segmentDelay : defaultStaggerTimings[by];
 
+  // Track completed segment animations and will-change lifecycle
+  const completedCountRef = useRef(0);
+  const prevAnimateRef = useRef(animate);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // Reset counter when animate direction changes
+  if (animate !== prevAnimateRef.current) {
+    completedCountRef.current = 0;
+    setIsAnimating(true);
+    prevAnimateRef.current = animate;
+  }
+
+  // IntersectionObserver for trigger="inView"
+  const inViewRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    if (trigger !== 'inView' || !inViewRef.current || typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: triggerOptions?.threshold ?? 0.1,
+        rootMargin: triggerOptions?.rootMargin ?? '0px',
+      }
+    );
+
+    observer.observe(inViewRef.current);
+    return () => observer.disconnect();
+  }, [trigger, triggerOptions?.threshold, triggerOptions?.rootMargin]);
+
+  const mergedRef = useMergedRef(ref, inViewRef);
+
+  // Resolve effective animate value based on trigger mode
+  let effectiveAnimate = animate;
+  if (trigger === 'inView') {
+    effectiveAnimate = inView ? animate || 'in' : undefined;
+  }
+
   const getStyles = useStyles<TextAnimateFactory>({
     name: 'TextAnimate',
     props,
@@ -268,39 +365,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     varsResolver,
   });
 
-  // If animate is "none" or false, render hidden text (preserves layout space)
-  if (animate === 'none' || animate === false || animate === undefined) {
-    return (
-      <Box ref={ref} {...getStyles('root')} style={containerStyles} aria-live="polite">
-        <Text component="span" {...others} style={{ visibility: 'hidden' }}>
-          {children}
-        </Text>
-      </Box>
-    );
-  }
-
-  // If animate is "static", render the text directly without animation
-  if (animate === 'static') {
-    return (
-      <Box ref={ref} {...getStyles('root')} style={containerStyles} aria-live="polite">
-        <Text component="span" {...others}>
-          {children}
-        </Text>
-      </Box>
-    );
-  }
-
-  // Handle animation events
-  function handleOnAnimationStart() {
-    onAnimationStart?.(animate as 'in' | 'out');
-  }
-
-  // Handle animation end event
-  function handleOnAnimationEnd() {
-    onAnimationEnd?.(animate as 'in' | 'out');
-  }
-
-  // Split text based on the 'by' prop
+  // Split text based on the 'by' prop — must be before early returns to keep hook order stable
   let segments: string[] = [];
   switch (by) {
     case 'word':
@@ -318,20 +383,58 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       break;
   }
 
+  // Handle animation events — hooks must be called before early returns
+  const handleOnAnimationStart = useCallback(() => {
+    setIsAnimating(true);
+    onAnimationStart?.(effectiveAnimate as 'in' | 'out');
+  }, [onAnimationStart, effectiveAnimate]);
+
+  const handleOnAnimationEnd = useCallback(() => {
+    onAnimationEnd?.(effectiveAnimate as 'in' | 'out');
+    completedCountRef.current += 1;
+    if (completedCountRef.current === segments.length) {
+      setIsAnimating(false);
+      onAnimationComplete?.(effectiveAnimate as 'in' | 'out');
+    }
+  }, [onAnimationEnd, onAnimationComplete, effectiveAnimate, segments.length]);
+
+  // If animate is "none" or false, render hidden text (preserves layout space)
+  if (effectiveAnimate === 'none' || effectiveAnimate === false || effectiveAnimate === undefined) {
+    return (
+      <Box ref={mergedRef} {...getStyles('root')} style={containerStyles} aria-live="polite">
+        <Text component="span" {...others} style={{ visibility: 'hidden' }}>
+          {children}
+        </Text>
+      </Box>
+    );
+  }
+
+  // If animate is "static", render the text directly without animation
+  if (effectiveAnimate === 'static') {
+    return (
+      <Box ref={mergedRef} {...getStyles('root')} style={containerStyles} aria-live="polite">
+        <Text component="span" {...others}>
+          {children}
+        </Text>
+      </Box>
+    );
+  }
+
   return (
-    <Box ref={ref} {...getStyles('root', { style: containerStyles })} aria-live="polite">
+    <Box ref={mergedRef} {...getStyles('root', { style: containerStyles })} aria-live="polite">
       {segments.map((segment, i) => (
         <Text
-          data-text-animate={animate}
+          data-text-animate={effectiveAnimate}
           data-text-animate-animation={animation}
-          key={`${by}-${animate}-${i}`}
+          data-animating={isAnimating || undefined}
+          key={`${by}-${effectiveAnimate}-${i}`}
           {...getStyles('segment', {
             style: {
               ...(by === 'line' ? { display: 'block', whiteSpace: 'normal' } : {}),
               animationDelay: `${delay + i * staggerTiming}s`,
               animationDuration: `${duration}s`,
               animationFillMode: 'forwards',
-              animationDirection: animate === 'in' ? 'normal' : 'reverse',
+              animationDirection: effectiveAnimate === 'in' ? 'normal' : 'reverse',
             },
           })}
           component="span"
@@ -352,3 +455,4 @@ TextAnimate.Typewriter = Typewriter;
 TextAnimate.Spinner = Spinner;
 TextAnimate.NumberTicker = NumberTicker;
 TextAnimate.TextTicker = TextTicker;
+TextAnimate.Gradient = Gradient;

@@ -12,8 +12,22 @@ export default function HomePage() {
       <PageHeader data={PACKAGE_DATA} />
       <DocsTabs
         docgen={docgen}
-        componentsProps={['TextAnimate', 'Typewriter', 'NumberTicker', 'TextTicker', 'Spinner']}
-        componentsStyles={['TextAnimate', 'Typewriter', 'Spinner', 'NumberTicker', 'TextTicker']}
+        componentsProps={[
+          'TextAnimate',
+          'Typewriter',
+          'NumberTicker',
+          'TextTicker',
+          'Spinner',
+          'Gradient',
+        ]}
+        componentsStyles={[
+          'TextAnimate',
+          'Typewriter',
+          'Spinner',
+          'NumberTicker',
+          'TextTicker',
+          'Gradient',
+        ]}
         componentPrefix="TextAnimate"
         stylesApiData={STYLES_API_DATA}
       >

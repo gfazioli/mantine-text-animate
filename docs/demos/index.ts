@@ -1,3 +1,5 @@
+export { configurator as gradientConfigurator } from './Gradient.demo.configurator';
+
 export { configurator as numberTickerConfigurator } from './NumberTicker.demo.configurator';
 export { example as numberTickerExample } from './NumberTicker.demo.example';
 export { hook as numberTickerHook } from './NumberTicker.demo.hook';
@@ -10,6 +12,8 @@ export { configurator as textAnimateConfigurator } from './TextAnimate.demo.conf
 export { events as textAnimateEvents } from './TextAnimate.demo.events';
 export { multiline as textAnimateMultiline } from './TextAnimate.demo.multiline';
 export { styles as textAnimateStyles } from './TextAnimate.demo.styles';
+export { trigger as textAnimateTrigger } from './TextAnimate.demo.trigger';
+export { useTextAnimateDemo } from './TextAnimate.demo.useTextAnimate';
 
 export { textTickerConfigurator } from './TextTicker.demo.configurator';
 export { example as textTickerExample } from './TextTicker.demo.example';

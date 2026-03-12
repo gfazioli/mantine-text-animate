@@ -4,13 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`@gfazioli/mantine-text-animate` (v2.4.2) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Four compound components are attached as static properties:
+`@gfazioli/mantine-text-animate` (v3.0.0) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Five compound components are attached as static properties:
 
-- **TextAnimate** — CSS animation (fade, blur, scale, slide variants) with `animate` direction control
-- **TextAnimate.Typewriter** — Character-by-character typing with cursor, blink, loop, multiline; hook: `useTypewriter`
-- **TextAnimate.Spinner** — Circular spinning text with radius, speed, direction control
-- **TextAnimate.NumberTicker** — Animated number counter with easing; hook: `useNumberTicker`
+- **TextAnimate** — CSS animation (fade, blur, scale, slide variants) with `animate` direction control, `trigger` mode (`mount`/`inView`/`manual`), `onAnimationComplete` callback; hook: `useTextAnimate`
+- **TextAnimate.Typewriter** — Character-by-character typing with cursor, blink, loop, multiline, `onCharType` callback, `pauseAt` pauses; hook: `useTypewriter`
+- **TextAnimate.Spinner** — Circular spinning text with radius, speed, direction control; accepts `string | ReactNode[]`
+- **TextAnimate.NumberTicker** — Animated number counter with easing, `prefix`/`suffix`; hook: `useNumberTicker`
 - **TextAnimate.TextTicker** — Random-to-target character reveal with direction control; hook: `useTextTicker`
+- **TextAnimate.Gradient** — Animated gradient text via `background-clip: text` with configurable colors, speed, direction
 
 ## Commands
 
@@ -40,24 +41,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 TextAnimate.tsx            — Main component (polymorphicFactory, CSS animations via data-* attributes)
 TextAnimate.module.css     — 13 keyframe animations (fade, blur, scale, slide*, elastic, blur-up/down)
-TextAnimate.test.tsx       — Tests (currently minimal)
+TextAnimate.test.tsx       — Tests (42 tests across 5 suites)
 TextAnimate.story.tsx      — Storybook stories
+use-text-animate.ts        — Hook (useTextAnimate: animate/setAnimate/replay/isAnimating/key)
 ├── Typewriter/
 │   ├── Typewriter.tsx     — Component (polymorphicFactory, cursor/blink via CSS)
-│   ├── use-typewriter.ts  — Hook (setTimeout-based typing loop, supports string | string[])
+│   ├── use-typewriter.ts  — Hook (setTimeout-based typing loop, onCharType, pauseAt)
 │   └── Typewriter.story.tsx
 ├── Spinner/
-│   ├── Spinner.tsx        — Component (polymorphicFactory, circular char positioning via transform)
+│   ├── Spinner.tsx        — Component (polymorphicFactory, string | ReactNode[] children)
 │   ├── Spinner.module.css — spin-clockwise/counterclockwise keyframes
 │   └── Spinner.story.tsx
 ├── NumberTicker/
-│   ├── NumberTicker.tsx   — Component (polymorphicFactory)
+│   ├── NumberTicker.tsx   — Component (polymorphicFactory, prefix/suffix)
 │   ├── use-number-ticker.ts — Hook (requestAnimationFrame, 4 easing functions, Intl.NumberFormat)
 │   └── NumberTicker.story.tsx
-└── TextTicker/
-    ├── TextTicker.tsx     — Component (polymorphicFactory, monospace font)
-    ├── use-text-ticker.ts — Hook (rAF, Fisher-Yates shuffle, 4 reveal directions)
-    └── TextTicker.story.tsx
+├── TextTicker/
+│   ├── TextTicker.tsx     — Component (polymorphicFactory, monospace font)
+│   ├── use-text-ticker.ts — Hook (rAF, Fisher-Yates shuffle, 4 reveal directions)
+│   └── TextTicker.story.tsx
+└── Gradient/
+    ├── Gradient.tsx        — Component (polymorphicFactory, background-clip: text)
+    └── Gradient.module.css — gradient-shift keyframe
 ```
 
 ### Mantine Styles API Pattern (all components)
@@ -67,8 +72,8 @@ Every component follows: `polymorphicFactory` → `useProps('ComponentName', def
 ### Docs (`docs/`)
 
 - `docs/pages/` — MDX pages
-- `docs/demos/` — 21 interactive demo components (configurators, hooks, events, styles)
-- `docs/styles-api/` — Styles API definitions (TextAnimate, Typewriter, Spinner only — NumberTicker and TextTicker missing)
+- `docs/demos/` — 24 interactive demo components (configurators, hooks, events, styles, trigger, gradient)
+- `docs/styles-api/` — Styles API definitions for all 6 components
 - `docs/components/` — Shell, Footer, Logo
 - `docs/docgen.json` — Auto-generated prop docs
 
@@ -76,35 +81,9 @@ Every component follows: `polymorphicFactory` → `useProps('ComponentName', def
 
 Rollup → ESM (`.mjs`) + CJS (`.cjs`). CSS modules hashed via `hash-css-selector` (prefix `me`). Non-index chunks get `'use client'` banner.
 
-## Known Issues (Audit 2026-03-11)
+## Test Coverage
 
-### Bugs
-
-1. ~~**Typewriter `useProps` name mismatch**~~ — FIXED (2026-03-12)
-2. ~~**TextAnimate key instability**~~ — FIXED (2026-03-12)
-3. ~~**TextTicker stale displayText**~~ — FIXED (2026-03-12)
-4. ~~**Typewriter memory leak risk**~~ — FIXED (2026-03-12)
-5. ~~**TextTicker ignores value changes during animation**~~ — FIXED (2026-03-12)
-
-### Missing Features
-
-1. ~~**No `prefers-reduced-motion` support**~~ — FIXED (2026-03-12)
-2. ~~**No ARIA attributes**~~ — FIXED (2026-03-12)
-3. ~~**Missing Styles API docs**~~ — FIXED (2026-03-12)
-
-### Test Coverage
-
-**30 tests** across 5 suites covering all components (TextAnimate, Typewriter, Spinner, NumberTicker, TextTicker). Tests cover: render, props behavior, ARIA attributes, data attributes, animation direction, text splitting. `jsdom.mocks.cjs` includes `requestAnimationFrame` mock for ticker hooks. Hook-level unit tests are still a gap.
-
-### Minor (all fixed 2026-03-12)
-
-- ~~TextAnimate `containerStyles` recreated every render~~ — moved to module-level constant
-- ~~NumberTicker float comparison without epsilon~~ — added epsilon tolerance
-- TextTicker `Math.random()` in stabilization — **by design** (aesthetic randomness, not a bug)
-
-### Demo Code Issues
-
-~~All 7 demo code block errors fixed (2026-03-12)~~
+**42 tests** across 5 suites covering all components (TextAnimate, Typewriter, Spinner, NumberTicker, TextTicker) plus Gradient. Tests cover: render, props behavior, ARIA attributes, data attributes, animation direction, text splitting, trigger modes, prefix/suffix, ReactNode children. `jsdom.mocks.cjs` includes `requestAnimationFrame` mock for ticker hooks.
 
 ## Conventions
 

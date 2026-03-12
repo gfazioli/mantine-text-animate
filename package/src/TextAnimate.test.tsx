@@ -116,4 +116,92 @@ describe('TextAnimate', () => {
     const segment = container.querySelector('[data-text-animate="in"]');
     expect(segment).toHaveStyle({ animationDelay: '0.5s', animationDuration: '1s' });
   });
+
+  it('renders hidden when trigger="inView" and not yet in view', () => {
+    const { container } = render(<TextAnimate trigger="inView">Hello</TextAnimate>);
+    const hidden = container.querySelector('span[style*="visibility: hidden"]');
+    expect(hidden).toBeInTheDocument();
+  });
+
+  it('renders hidden when trigger="manual" and animate is undefined', () => {
+    const { container } = render(<TextAnimate trigger="manual">Hello</TextAnimate>);
+    const hidden = container.querySelector('span[style*="visibility: hidden"]');
+    expect(hidden).toBeInTheDocument();
+  });
+
+  it('renders animated when trigger="manual" and animate="in"', () => {
+    const { container } = render(
+      <TextAnimate trigger="manual" animate="in" by="text">
+        Hello
+      </TextAnimate>
+    );
+    const segment = container.querySelector('[data-text-animate="in"]');
+    expect(segment).toBeInTheDocument();
+  });
+});
+
+describe('TextAnimate.NumberTicker', () => {
+  it('renders prefix and suffix', () => {
+    const { container } = render(
+      <TextAnimate.NumberTicker value={42} prefix="$" suffix="%" animate={false} />
+    );
+    expect(container.textContent).toContain('$');
+    expect(container.textContent).toContain('%');
+  });
+});
+
+describe('TextAnimate.Spinner', () => {
+  it('renders string children as characters', () => {
+    const { container } = render(<TextAnimate.Spinner>ABC</TextAnimate.Spinner>);
+    expect(container.textContent).toContain('A');
+    expect(container.textContent).toContain('B');
+    expect(container.textContent).toContain('C');
+  });
+
+  it('renders ReactNode array children', () => {
+    const { container } = render(
+      <TextAnimate.Spinner aria-label="icons">
+        {[<span key="1">X</span>, <span key="2">Y</span>]}
+      </TextAnimate.Spinner>
+    );
+    expect(container.textContent).toContain('X');
+    expect(container.textContent).toContain('Y');
+  });
+
+  it('does not set auto aria-label for ReactNode array', () => {
+    const { container } = render(
+      <TextAnimate.Spinner>{[<span key="1">X</span>]}</TextAnimate.Spinner>
+    );
+    const root = container.querySelector('[role="img"]');
+    expect(root).not.toHaveAttribute('aria-label');
+  });
+});
+
+describe('TextAnimate.Gradient', () => {
+  it('renders children with gradient', () => {
+    const { container } = render(
+      <TextAnimate.Gradient colors={['red', 'blue']}>Hello</TextAnimate.Gradient>
+    );
+    expect(container.textContent).toContain('Hello');
+  });
+
+  it('sets animate data attribute', () => {
+    const { container } = render(
+      <TextAnimate.Gradient colors={['red', 'blue']} animate>
+        Hello
+      </TextAnimate.Gradient>
+    );
+    const el = container.querySelector('[data-text-animate-gradient-animate="true"]');
+    expect(el).toBeInTheDocument();
+  });
+
+  it('does not animate when animate is false', () => {
+    const { container } = render(
+      <TextAnimate.Gradient colors={['red', 'blue']} animate={false}>
+        Hello
+      </TextAnimate.Gradient>
+    );
+    const el = container.querySelector('[data-text-animate-gradient-animate="false"]');
+    expect(el).toBeInTheDocument();
+  });
 });

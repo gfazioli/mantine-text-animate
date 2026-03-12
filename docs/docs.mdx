@@ -1,6 +1,24 @@
 import { InstallScript } from './components/InstallScript/InstallScript';
 import * as demos from './demos';
 
+## Update from v2 to v3
+
+v3.0.0 introduces new features and breaking changes:
+
+### Breaking Changes
+
+- **Spinner `children` type**: Now accepts `string | React.ReactNode[]`. When passing a `ReactNode[]`, text processing (repeat/reverse) is skipped and you must provide an explicit `aria-label`.
+
+### New Features
+
+- **`onCharType` callback** on Typewriter — called for each character typed with `(char, index)`
+- **`pauseAt` prop** on Typewriter — map of char index → pause duration (ms) for custom pauses
+- **`prefix` / `suffix` props** on NumberTicker — render content before/after the number
+- **`onAnimationComplete` callback** on TextAnimate — fires when all segments finish animating
+- **`trigger` prop** on TextAnimate — `'mount'` (default), `'inView'` (IntersectionObserver), or `'manual'`
+- **`useTextAnimate()` hook** — returns `{ animate, setAnimate, replay, isAnimating, key, onAnimationComplete }`
+- **`TextAnimate.Gradient`** compound component — animated gradient text via `background-clip: text`
+
 ## Installation
 
 <InstallScript packages="@gfazioli/mantine-text-animate" />
@@ -73,6 +91,38 @@ Of course, you can use the component with your own styles.
 You can use the `onAnimationStart` and `onAnimationEnd` props to handle animation events.
 
 <Demo data={demos.textAnimateEvents} />
+
+## trigger
+
+The `trigger` prop controls when the animation starts. Use `"inView"` to animate when the element enters the viewport via IntersectionObserver.
+You can pass `triggerOptions` to customize `threshold` and `rootMargin`.
+
+<Demo data={demos.textAnimateTrigger} />
+
+## useTextAnimate() hook
+
+The `useTextAnimate` hook provides state and controls for managing TextAnimate animation direction, replay capability, and animation status tracking.
+
+<Demo data={demos.useTextAnimateDemo} />
+
+The return value of the `useTextAnimate` hook is the following:
+
+```tsx
+export interface UseTextAnimateResult {
+  /** The current animation direction */
+  animate: TextAnimateAnimationDirection;
+  /** Set the animation direction */
+  setAnimate: (direction: TextAnimateAnimationDirection) => void;
+  /** Replay the animation by forcing a remount via key change */
+  replay: () => void;
+  /** Whether the animation is currently running */
+  isAnimating: boolean;
+  /** Key to pass to TextAnimate for remount-based replay */
+  key: number;
+  /** Callback to pass to TextAnimate's onAnimationComplete prop */
+  onAnimationComplete: (direction: 'in' | 'out') => void;
+}
+```
 
 ## TextAnimate.Typewriter component
 
@@ -159,6 +209,16 @@ export interface TypewriterBaseProps {
    * and the animation is about to start again
    */
   onTypeLoop?: () => void;
+
+  /**
+   * Callback function called for each character typed
+   */
+  onCharType?: (char: string, index: number) => void;
+
+  /**
+   * Map of character indices to custom pause durations (in milliseconds)
+   */
+  pauseAt?: Record<number, number>;
 }
 ```
 
@@ -210,6 +270,7 @@ Below a funny example of a terminal.
 ## TextAnimate.Spinner component
 
 The `TextAnimate.Spinner` component allows you to animate text with a spinner effect.
+The `children` prop accepts either a string (for text processing) or an array of `React.ReactNode` (for custom content like icons).
 
 <Demo data={demos.spinnerConfigurator} />
 
@@ -220,6 +281,7 @@ The `TextAnimate.Spinner` component allows you to animate text with a spinner ef
 ## TextAnimate.NumberTicker component
 
 The `TextAnimate.NumberTicker` component allows you to animate text with a number ticker effect.
+You can use the `prefix` and `suffix` props to display content before and after the number.
 
 <Demo data={demos.numberTickerConfigurator} />
 
@@ -440,3 +502,9 @@ export interface UseTextTickerResult {
 ## Example: TextTicker
 
 <Demo data={demos.textTickerExample} />
+
+## TextAnimate.Gradient component
+
+The `TextAnimate.Gradient` component allows you to display text with an animated gradient background.
+
+<Demo data={demos.gradientConfigurator} />

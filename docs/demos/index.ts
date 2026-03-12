@@ -21,6 +21,7 @@ export { hook as textTickerHook } from './TextTicker.demo.hook';
 
 export { configurator as typeWriterConfigurator } from './Typewriter.demo.configurator';
 export { events as typeWriterEvents } from './Typewriter.demo.events';
+export { onCharType as typeWriterOnCharType } from './Typewriter.demo.onCharType';
 export { hook as typeWriterHook } from './Typewriter.demo.hook';
 export { hookMultiLine as typeWriterHookMultiLine } from './Typewriter.demo.hookMultiLine';
 export { leftSection as typeWriterLeftSection } from './Typewriter.demo.leftSection';

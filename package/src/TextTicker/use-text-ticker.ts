@@ -197,6 +197,7 @@ export function useTextTicker({
   const manualStartRef = useRef(false);
   const animatePropRef = useRef(animate);
   const animationCompletedRef = useRef(false);
+  const displayTextRef = useRef<string[]>([]);
 
   // Get character pool
   const getCharacterPool = () => {
@@ -308,19 +309,22 @@ export function useTextTicker({
         if (Math.random() < changeThreshold) {
           newTextArray[i] = pool[Math.floor(Math.random() * pool.length)];
         } else {
-          // Otherwise keep the previous character if possible
-          const currentChar = displayText[i] || pool[Math.floor(Math.random() * pool.length)];
+          // Otherwise keep the previous character from the ref (avoids stale closure)
+          const currentChar =
+            displayTextRef.current[i] || pool[Math.floor(Math.random() * pool.length)];
           newTextArray[i] = currentChar;
         }
         allStable = false;
       }
     }
 
+    displayTextRef.current = newTextArray;
     setDisplayText(newTextArray.join(''));
 
     // Check if animation is complete
     if (progress >= 1 || allStable) {
       // Set final text
+      displayTextRef.current = [...value];
       setDisplayText(value);
 
       // Reset animation state
@@ -412,7 +416,9 @@ export function useTextTicker({
     stop();
 
     // Reset to initial text
-    setDisplayText(generateInitialText());
+    const initial = generateInitialText();
+    displayTextRef.current = [...initial];
+    setDisplayText(initial);
 
     // Reset animation state
     startTimeRef.current = 0;
@@ -423,7 +429,9 @@ export function useTextTicker({
   // Initialize text on mount
   useEffect(() => {
     if (isFirstRenderRef.current) {
-      setDisplayText(generateInitialText());
+      const initial = generateInitialText();
+      displayTextRef.current = [...initial];
+      setDisplayText(initial);
       isFirstRenderRef.current = false;
     }
   }, []);
@@ -451,8 +459,26 @@ export function useTextTicker({
 
   // Handle value text changes
   useEffect(() => {
-    if (!isAnimating) {
-      setDisplayText(generateInitialText());
+    // Invalidate random order cache when value length changes
+    if (randomOrderRef.current.length !== value.length) {
+      randomOrderRef.current = [];
+    }
+
+    if (isAnimating) {
+      // Restart animation with new value
+      stop();
+      startTimeRef.current = 0;
+      charStabilityRef.current = Array(value.length).fill(false);
+      animationCompletedRef.current = false;
+      const initial = generateInitialText();
+      displayTextRef.current = [...initial];
+      setDisplayText(initial);
+      // Re-start on next tick so that stop() state updates are applied
+      setTimeout(() => start(), 0);
+    } else {
+      const initial = generateInitialText();
+      displayTextRef.current = [...initial];
+      setDisplayText(initial);
     }
   }, [value, initialText, characterSet, customCharacters]);
 

@@ -80,11 +80,11 @@ Rollup → ESM (`.mjs`) + CJS (`.cjs`). CSS modules hashed via `hash-css-selecto
 
 ### Bugs
 
-1. **Typewriter `useProps` name mismatch** — `Typewriter.tsx` calls `useProps('TextAnimate', ...)` instead of `useProps('Typewriter', ...)`. This breaks Mantine theme overrides for Typewriter.
-2. **TextAnimate key instability** — Uses `JSON.stringify(animateProps)` in segment keys, causing DOM thrashing on every render if animateProps object reference changes.
-3. **TextTicker stale displayText** — `use-text-ticker.ts` animation frame reads `displayText` from stale closure instead of previous frame array.
-4. **Typewriter memory leak risk** — Multiple `setTimeout` calls without guaranteed cleanup of previous timeouts when `animate` prop changes rapidly.
-5. **TextTicker ignores value changes during animation** — If `value` prop changes while animating, the new value is not picked up.
+1. ~~**Typewriter `useProps` name mismatch**~~ — FIXED (2026-03-12)
+2. ~~**TextAnimate key instability**~~ — FIXED (2026-03-12)
+3. ~~**TextTicker stale displayText**~~ — FIXED (2026-03-12)
+4. ~~**Typewriter memory leak risk**~~ — FIXED (2026-03-12)
+5. ~~**TextTicker ignores value changes during animation**~~ — FIXED (2026-03-12)
 
 ### Missing Features
 

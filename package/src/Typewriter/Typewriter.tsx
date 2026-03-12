@@ -74,7 +74,7 @@ const defaultProps: Partial<TypewriterProps> = {
  * A component that creates a typewriter effect using TextAnimate.
  */
 export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) => {
-  const props = useProps('TextAnimate', defaultProps, _props);
+  const props = useProps('Typewriter', defaultProps, _props);
 
   const {
     animate,

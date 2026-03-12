@@ -90,7 +90,7 @@ Rollup → ESM (`.mjs`) + CJS (`.cjs`). CSS modules hashed via `hash-css-selecto
 
 1. **No `prefers-reduced-motion` support** — All components ignore user motion preferences (CSS and JS)
 2. **No ARIA attributes** — Animated content has no screen reader announcements
-3. **Missing Styles API docs** — `NumberTicker` and `TextTicker` have no styles-api files in `docs/styles-api/`
+3. ~~**Missing Styles API docs**~~ — FIXED (2026-03-12)
 
 ### Test Coverage
 

@@ -151,6 +151,7 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
             {withCursor && (
               <Text
                 span
+                aria-hidden="true"
                 data-text-animate-typewriter-with-blink={withBlink}
                 {...getStyles('cursor')}
                 {...others}
@@ -167,6 +168,7 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
           {withCursor && (
             <Text
               span
+              aria-hidden="true"
               data-text-animate-typewriter-with-blink={withBlink}
               {...getStyles('cursor')}
               {...others}
@@ -180,4 +182,5 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
   );
 });
 
+Typewriter.classes = classes;
 Typewriter.displayName = 'Typewriter';

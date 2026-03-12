@@ -91,6 +91,22 @@ describe('TextAnimate', () => {
     expect(segment).toHaveStyle({ animationDirection: 'normal' });
   });
 
+  it('has aria-live="polite" on root element', () => {
+    const { container } = render(
+      <TextAnimate animate="in" by="text">
+        Hello
+      </TextAnimate>
+    );
+    const root = container.querySelector('[aria-live="polite"]');
+    expect(root).toBeInTheDocument();
+  });
+
+  it('has aria-live="polite" when hidden', () => {
+    const { container } = render(<TextAnimate>Hello</TextAnimate>);
+    const root = container.querySelector('[aria-live="polite"]');
+    expect(root).toBeInTheDocument();
+  });
+
   it('applies custom delay and duration', () => {
     const { container } = render(
       <TextAnimate animate="in" by="text" delay={0.5} duration={1}>

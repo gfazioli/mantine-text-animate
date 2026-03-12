@@ -6,7 +6,7 @@ export default {
   title: 'Spinner',
   args: {
     animate: false,
-    speed: 10,
+    speed: 2,
     radius: 150,
     direction: 'clockwise',
     charOffset: 0,

@@ -56,8 +56,8 @@ export const configurator: MantineDemo = {
     {
       prop: 'speed',
       type: 'number',
-      initialValue: 8,
-      libraryValue: 8,
+      initialValue: 2,
+      libraryValue: 2,
       step: 1,
       min: 0,
       max: 10,
@@ -75,7 +75,7 @@ export const configurator: MantineDemo = {
       libraryValue: 0,
       step: 1,
       min: 0,
-      max: 400,
+      max: 360,
     },
     {
       prop: 'reverseText',
@@ -92,8 +92,8 @@ export const configurator: MantineDemo = {
     {
       prop: 'repeatCount',
       type: 'number',
-      initialValue: 0,
-      libraryValue: 0,
+      initialValue: 1,
+      libraryValue: 1,
       step: 1,
       min: 0,
       max: 20,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Box,
   createVarsResolver,
@@ -255,17 +255,6 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   // Use provided segmentDelay or default based on animation type
   const staggerTiming = segmentDelay !== undefined ? segmentDelay : defaultStaggerTimings[by];
 
-  // Add state to track if we're transitioning from "none" to "in"
-  const [isInitialRender, setIsInitialRender] = useState(true);
-
-  // Use useEffect to handle the transition
-  useEffect(() => {
-    if (animate === 'in') {
-      // If we're animating in, we're no longer in initial render state
-      setIsInitialRender(false);
-    }
-  }, [animate]);
-
   const getStyles = useStyles<TextAnimateFactory>({
     name: 'TextAnimate',
     props,
@@ -279,14 +268,10 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     varsResolver,
   });
 
-  // If animate is "none" or false, return null (don't render anything)
+  // If animate is "none" or false, render hidden text (preserves layout space)
   if (animate === 'none' || animate === false || animate === undefined) {
-    // Reset the initial render state when we hide the component
-    if (!isInitialRender) {
-      setIsInitialRender(true);
-    }
     return (
-      <Box ref={ref} {...getStyles('root')} style={containerStyles}>
+      <Box ref={ref} {...getStyles('root')} style={containerStyles} aria-live="polite">
         <Text component="span" {...others} style={{ visibility: 'hidden' }}>
           {children}
         </Text>
@@ -297,7 +282,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   // If animate is "static", render the text directly without animation
   if (animate === 'static') {
     return (
-      <Box ref={ref} {...getStyles('root')} style={containerStyles}>
+      <Box ref={ref} {...getStyles('root')} style={containerStyles} aria-live="polite">
         <Text component="span" {...others}>
           {children}
         </Text>
@@ -334,7 +319,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   }
 
   return (
-    <Box ref={ref} {...getStyles('root', { style: containerStyles })}>
+    <Box ref={ref} {...getStyles('root', { style: containerStyles })} aria-live="polite">
       {segments.map((segment, i) => (
         <Text
           data-text-animate={animate}

@@ -35,7 +35,7 @@ export const configurator: MantineDemo = {
       prop: 'animate',
       type: 'boolean',
       initialValue: false,
-      libraryValue: false,
+      libraryValue: true,
     },
     {
       prop: 'loop',
@@ -46,8 +46,8 @@ export const configurator: MantineDemo = {
     {
       prop: 'delay',
       type: 'number',
-      initialValue: 0,
-      libraryValue: 0,
+      initialValue: 2000,
+      libraryValue: 2000,
       step: 500,
       min: 0,
       max: 10000,
@@ -55,8 +55,8 @@ export const configurator: MantineDemo = {
     {
       prop: 'speed',
       type: 'number',
-      initialValue: 0.05,
-      libraryValue: 0.05,
+      initialValue: 0.03,
+      libraryValue: 0.03,
       step: 0.01,
       min: 0,
       max: 1,
@@ -76,8 +76,8 @@ export const configurator: MantineDemo = {
     {
       prop: 'cursorChar',
       type: 'string',
-      initialValue: '▌',
-      libraryValue: '▌',
+      initialValue: '|',
+      libraryValue: '|',
     },
   ],
 };

@@ -88,11 +88,11 @@ export const configurator: MantineDemo = {
     {
       prop: 'speed',
       type: 'number',
-      initialValue: 0.2,
-      libraryValue: 0.2,
-      step: 0.001,
-      min: 0,
-      max: 1,
+      initialValue: 1,
+      libraryValue: 1,
+      step: 0.1,
+      min: 0.1,
+      max: 10,
     },
     {
       prop: 'easing',

@@ -2,12 +2,20 @@ import { TextAnimate, type GradientProps } from '@gfazioli/mantine-text-animate'
 import { Center } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
-function Wrapper(props: GradientProps) {
+interface WrapperProps extends GradientProps {
+  color1: string;
+  color2: string;
+  color3: string;
+  color4: string;
+  color5: string;
+}
+
+function Wrapper({ color1, color2, color3, color4, color5, ...props }: WrapperProps) {
   return (
     <Center>
       <TextAnimate.Gradient
         {...props}
-        colors={['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6b6b']}
+        colors={[color1, color2, color3, color4, color5]}
         fz={48}
         fw={700}
       >
@@ -25,7 +33,6 @@ function Demo() {
   return (
     <Center>
       <TextAnimate.Gradient{{props}}
-        colors={['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6b6b']}
         fz={48}
         fw={700}
       >
@@ -64,6 +71,36 @@ export const configurator: MantineDemo = {
       step: 15,
       min: 0,
       max: 360,
+    },
+    {
+      prop: 'color1',
+      type: 'color',
+      initialValue: '#ff6b6b',
+      libraryValue: '#ff6b6b',
+    },
+    {
+      prop: 'color2',
+      type: 'color',
+      initialValue: '#ffd93d',
+      libraryValue: '#ffd93d',
+    },
+    {
+      prop: 'color3',
+      type: 'color',
+      initialValue: '#6bcb77',
+      libraryValue: '#6bcb77',
+    },
+    {
+      prop: 'color4',
+      type: 'color',
+      initialValue: '#4d96ff',
+      libraryValue: '#4d96ff',
+    },
+    {
+      prop: 'color5',
+      type: 'color',
+      initialValue: '#ff6b6b',
+      libraryValue: '#ff6b6b',
     },
   ],
 };

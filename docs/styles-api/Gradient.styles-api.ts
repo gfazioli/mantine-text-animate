@@ -10,6 +10,10 @@ export const GradientStylesApi: StylesApiData<GradientFactory> = {
     root: {
       '--text-animate-gradient-speed': 'Controls animation `speed`',
       '--text-animate-gradient-direction': 'Controls gradient `direction` in degrees',
+      '--text-animate-gradient-end-x':
+        'Computed X end position for the animation based on `direction`',
+      '--text-animate-gradient-end-y':
+        'Computed Y end position for the animation based on `direction`',
     },
   },
 };

@@ -165,7 +165,7 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
   });
 
   return (
-    <Box ref={ref} {...getStyles('root')} {...others}>
+    <Box ref={ref} {...getStyles('root')} role="img" aria-label={children} {...others}>
       <Box
         className={classes.container}
         data-text-animate-spinner-animate={animate}

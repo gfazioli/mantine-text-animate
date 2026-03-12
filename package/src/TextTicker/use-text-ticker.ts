@@ -429,10 +429,24 @@ export function useTextTicker({
   // Initialize text on mount
   useEffect(() => {
     if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+
+      // Skip animation if user prefers reduced motion
+      const prefersReducedMotion =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion && animate) {
+        displayTextRef.current = [...value];
+        setDisplayText(value);
+        animationCompletedRef.current = true;
+        onCompleted?.();
+        return;
+      }
+
       const initial = generateInitialText();
       displayTextRef.current = [...initial];
       setDisplayText(initial);
-      isFirstRenderRef.current = false;
     }
   }, []);
 

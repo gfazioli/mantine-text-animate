@@ -301,6 +301,15 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .segment {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
 @keyframes blur-down {
   from {
     opacity: 0;

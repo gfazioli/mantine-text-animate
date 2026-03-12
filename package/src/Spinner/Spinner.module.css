@@ -46,6 +46,12 @@
   margin-left: -10px; /* Center the character */
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    animation: none !important;
+  }
+}
+
 @keyframes spin-clockwise {
   from {
     transform: rotate(0deg);

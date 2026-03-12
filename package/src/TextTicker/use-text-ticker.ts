@@ -488,7 +488,7 @@ export function useTextTicker({
       displayTextRef.current = [...initial];
       setDisplayText(initial);
       // Re-start on next tick so that stop() state updates are applied
-      setTimeout(() => start(), 0);
+      delayTimeoutRef.current = setTimeout(() => start(), 0);
     } else {
       const initial = generateInitialText();
       displayTextRef.current = [...initial];

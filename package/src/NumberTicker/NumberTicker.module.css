@@ -7,5 +7,5 @@
 
   display: inline-block;
   font-variant-numeric: tabular-nums;
-  letter-spacing: wider;
+  letter-spacing: 0.05em;
 }

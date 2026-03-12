@@ -127,4 +127,5 @@ export const TextTicker = polymorphicFactory<TextTickerFactory>((_props, ref) =>
   );
 });
 
+TextTicker.classes = classes;
 TextTicker.displayName = 'TextTicker';

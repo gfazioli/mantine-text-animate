@@ -108,7 +108,7 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
         style: {
           display: 'inline-block',
           fontVariantNumeric: 'tabular-nums',
-          letterSpacing: 'wider',
+          letterSpacing: '0.05em',
         },
       })}
       component="p"
@@ -120,4 +120,5 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
   );
 });
 
+NumberTicker.classes = classes;
 NumberTicker.displayName = 'NumberTicker';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import {
   Box,
   createVarsResolver,
@@ -35,8 +35,8 @@ export interface SpinnerBaseProps {
   radius?: MantineSize | number | string;
 
   /**
-   * The rotation speed in seconds per full rotation
-   * @default 10
+   * The rotation speed multiplier (higher = faster)
+   * @default 2
    */
   speed?: number;
 
@@ -89,7 +89,7 @@ export type SpinnerFactory = PolymorphicFactory<{
 
 const defaultProps: Partial<SpinnerProps> = {
   radius: 'md',
-  speed: 10,
+  speed: 2,
   direction: 'clockwise',
   animate: true,
   charOffset: 0,
@@ -101,8 +101,8 @@ const defaultProps: Partial<SpinnerProps> = {
 const varsResolver = createVarsResolver<SpinnerFactory>((_, { radius, speed, charOffset }) => ({
   root: {
     '--text-animate-spinner-radius':
-      radius !== undefined ? getSize(radius, 'text-animate-spinner-radius') : 'md',
-    '--text-animate-spinner-speed': `${speed}s`,
+      radius != null ? getSize(radius, 'text-animate-spinner-radius') : 'md',
+    '--text-animate-spinner-speed': `${Math.max(0.1, 20 / (speed || 1))}s`,
     '--text-animate-spinner-char-offset': `${charOffset}deg`,
   },
 }));
@@ -136,20 +136,13 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
     ...others
   } = props;
 
-  const [displayText, setDisplayText] = useState('');
-
-  // Process text for repetition if needed
-  useEffect(() => {
-    if (repeatText && repeatCount && repeatCount > 1) {
-      setDisplayText(children.repeat(repeatCount));
-    } else {
-      setDisplayText(children);
-    }
-  }, [children, repeatText, repeatCount]);
-
-  // Prepare the text for display
-  const processedText = reverseText ? displayText.split('').reverse().join('') : displayText;
-  const characters = processedText.split('');
+  // Process text: repeat if needed, reverse if needed, split into characters
+  const characters = useMemo(() => {
+    const base =
+      repeatText && repeatCount && repeatCount > 1 ? children.repeat(repeatCount) : children;
+    const processed = reverseText ? base.split('').reverse().join('') : base;
+    return processed.split('');
+  }, [children, repeatText, repeatCount, reverseText]);
 
   const getStyles = useStyles<SpinnerFactory>({
     name: 'Spinner',
@@ -175,7 +168,7 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
           const angle = (360 / characters.length) * index + (charOffset || 0);
           return (
             <Box
-              key={`${char}-${direction}-${speed}-${radius}-${index}`}
+              key={index}
               className={classes.char}
               style={{
                 transform: `rotate(${angle}deg)`,
@@ -190,4 +183,5 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
   );
 });
 
+Spinner.classes = classes;
 Spinner.displayName = 'Spinner';

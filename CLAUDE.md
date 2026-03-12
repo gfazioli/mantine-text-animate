@@ -96,6 +96,12 @@ Rollup → ESM (`.mjs`) + CJS (`.cjs`). CSS modules hashed via `hash-css-selecto
 
 **30 tests** across 5 suites covering all components (TextAnimate, Typewriter, Spinner, NumberTicker, TextTicker). Tests cover: render, props behavior, ARIA attributes, data attributes, animation direction, text splitting. `jsdom.mocks.cjs` includes `requestAnimationFrame` mock for ticker hooks. Hook-level unit tests are still a gap.
 
+### Minor (all fixed 2026-03-12)
+
+- ~~TextAnimate `containerStyles` recreated every render~~ — moved to module-level constant
+- ~~NumberTicker float comparison without epsilon~~ — added epsilon tolerance
+- TextTicker `Math.random()` in stabilization — **by design** (aesthetic randomness, not a bug)
+
 ### Demo Code Issues
 
 ~~All 7 demo code block errors fixed (2026-03-12)~~

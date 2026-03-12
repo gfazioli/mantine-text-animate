@@ -208,6 +208,13 @@ const defaultStaggerTimings: Record<TextAnimateAnimationType, number> = {
   line: 0.06,
 };
 
+const containerStyles: React.CSSProperties = {
+  whiteSpace: 'pre-wrap',
+  position: 'relative',
+  display: 'block',
+  minHeight: '1em',
+};
+
 const varsResolver = createVarsResolver<TextAnimateFactory>(
   (_, { animateProps: { translateDistance, blurAmount, scaleAmount } }) => ({
     root: {
@@ -258,14 +265,6 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       setIsInitialRender(false);
     }
   }, [animate]);
-
-  // Container styles
-  const containerStyles: React.CSSProperties = {
-    whiteSpace: 'pre-wrap',
-    position: 'relative',
-    display: 'block',
-    minHeight: '1em',
-  };
 
   const getStyles = useStyles<TextAnimateFactory>({
     name: 'TextAnimate',

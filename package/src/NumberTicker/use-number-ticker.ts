@@ -206,8 +206,13 @@ export function useNumberTicker({
 
   // Start animation from a specific value to a target
   const startAnimationFrom = (fromValue: number, toValue: number) => {
-    // Don't restart if already animating to the same target
-    if (isAnimating && toValue === value && fromValue === displayValue) {
+    // Don't restart if already animating to the same target (epsilon for float safety)
+    const epsilon = 1e-10;
+    if (
+      isAnimating &&
+      Math.abs(toValue - value) < epsilon &&
+      Math.abs(fromValue - displayValue) < epsilon
+    ) {
       return;
     }
 

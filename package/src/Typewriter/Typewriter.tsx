@@ -126,7 +126,12 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
   });
 
   return (
-    <Box ref={ref} {...getStyles('root')} data-text-animate-typewriter-multiline={multiline}>
+    <Box
+      ref={ref}
+      {...getStyles('root')}
+      data-text-animate-typewriter-multiline={multiline}
+      aria-live="polite"
+    >
       {multiline ? (
         <Stack gap={0}>
           {/* Render completed lines */}

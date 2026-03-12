@@ -114,6 +114,11 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
   // Previous animate value for comparison
   const prevAnimateRef = useRef(animate);
 
+  // Track reduced motion preference
+  const prefersReducedMotionRef = useRef(
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
   // Current full text being typed
   const currentFullText = textArray[currentTextIndex];
 
@@ -124,6 +129,21 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         clearTimeout(timeoutRef.current);
       }
     };
+  }, []);
+
+  // Skip animation if user prefers reduced motion — show all text immediately
+  useEffect(() => {
+    if (prefersReducedMotionRef.current && animate) {
+      if (multiline) {
+        setCompletedLines(textArray);
+        setDisplayText('');
+      } else {
+        setDisplayText(textArray[textArray.length - 1]);
+      }
+      setIsTyping(false);
+      setIsActive(false);
+      onTypeEnd?.();
+    }
   }, []);
 
   // Handle changes to the animate prop

@@ -88,8 +88,8 @@ Rollup → ESM (`.mjs`) + CJS (`.cjs`). CSS modules hashed via `hash-css-selecto
 
 ### Missing Features
 
-1. **No `prefers-reduced-motion` support** — All components ignore user motion preferences (CSS and JS)
-2. **No ARIA attributes** — Animated content has no screen reader announcements
+1. ~~**No `prefers-reduced-motion` support**~~ — FIXED (2026-03-12)
+2. ~~**No ARIA attributes**~~ — FIXED (2026-03-12)
 3. ~~**Missing Styles API docs**~~ — FIXED (2026-03-12)
 
 ### Test Coverage

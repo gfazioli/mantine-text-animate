@@ -249,8 +249,21 @@ export function useNumberTicker({
   // Initialize on mount
   useEffect(() => {
     if (isFirstRenderRef.current) {
-      setDisplayValue(startValue);
       isFirstRenderRef.current = false;
+
+      // Skip animation if user prefers reduced motion
+      const prefersReducedMotion =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion && animate) {
+        setDisplayValue(value);
+        animationCompletedRef.current = true;
+        onCompleted?.();
+        return;
+      }
+
+      setDisplayValue(startValue);
 
       // Start animation if animate is true
       if (animate) {

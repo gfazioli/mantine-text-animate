@@ -112,6 +112,7 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
         },
       })}
       component="p"
+      aria-live="polite"
       {...others}
     >
       {text}

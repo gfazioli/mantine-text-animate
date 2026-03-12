@@ -22,6 +22,12 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none !important;
+  }
+}
+
 /* Keyframes for cursor blinking */
 @keyframes blink-caret {
   0%,

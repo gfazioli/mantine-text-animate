@@ -135,6 +135,11 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
 
     // If animate changed from true to false
     if (prevAnimateRef.current && !animate) {
+      // Cancel any pending timeout before resetting
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
       // Reset the animation
       setIsActive(false);
       setDisplayText('');
@@ -150,6 +155,10 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
 
   // Reset function
   const reset = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     setDisplayText('');
     setCompletedLines([]);
     setCurrentTextIndex(0);
@@ -164,6 +173,10 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
 
   // Stop function
   const stop = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     setIsActive(false);
   }, []);
 
@@ -253,6 +266,13 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         }
       }
     }
+    // Cleanup: cancel pending timeout when effect re-runs or unmounts
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
   }, [
     displayText,
     isActive,

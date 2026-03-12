@@ -340,7 +340,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
         <Text
           data-text-animate={animate}
           data-text-animate-animation={animation}
-          key={`${by}-${segment}-${delay}-${animate}-${duration}-${JSON.stringify(animateProps)}-${i}`}
+          key={`${by}-${animate}-${i}`}
           {...getStyles('segment', {
             style: {
               ...(by === 'line' ? { display: 'block', whiteSpace: 'normal' } : {}),

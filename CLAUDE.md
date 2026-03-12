@@ -94,7 +94,7 @@ Rollup → ESM (`.mjs`) + CJS (`.cjs`). CSS modules hashed via `hash-css-selecto
 
 ### Test Coverage
 
-Currently **1 test** (basic render check for TextAnimate). No tests exist for Typewriter, Spinner, NumberTicker, TextTicker, or any hooks. `jsdom.mocks.cjs` lacks `requestAnimationFrame` mock needed for ticker hooks.
+**30 tests** across 5 suites covering all components (TextAnimate, Typewriter, Spinner, NumberTicker, TextTicker). Tests cover: render, props behavior, ARIA attributes, data attributes, animation direction, text splitting. `jsdom.mocks.cjs` includes `requestAnimationFrame` mock for ticker hooks. Hook-level unit tests are still a gap.
 
 ### Demo Code Issues
 

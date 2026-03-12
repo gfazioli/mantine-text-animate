@@ -14,7 +14,11 @@ import classes from './Gradient.module.css';
 export type GradientStylesNames = 'root';
 
 export type GradientCssVariables = {
-  root: '--text-animate-gradient-speed' | '--text-animate-gradient-direction';
+  root:
+    | '--text-animate-gradient-speed'
+    | '--text-animate-gradient-direction'
+    | '--text-animate-gradient-end-x'
+    | '--text-animate-gradient-end-y';
 };
 
 export interface GradientBaseProps {
@@ -65,12 +69,22 @@ const defaultProps: Partial<GradientProps> = {
   animate: true,
 };
 
-const varsResolver = createVarsResolver<GradientFactory>((_, { speed, direction }) => ({
-  root: {
-    '--text-animate-gradient-speed': `${speed || 3}s`,
-    '--text-animate-gradient-direction': `${direction ?? 90}deg`,
-  },
-}));
+const varsResolver = createVarsResolver<GradientFactory>((_, { speed, direction }) => {
+  const d = direction ?? 90;
+  const rad = (d * Math.PI) / 180;
+  // CSS gradient angles: 0deg=up, 90deg=right → sin for x, -cos for y
+  const endX = Math.round(Math.sin(rad) * 200);
+  const endY = Math.round(-Math.cos(rad) * 200);
+
+  return {
+    root: {
+      '--text-animate-gradient-speed': `${speed || 3}s`,
+      '--text-animate-gradient-direction': `${d}deg`,
+      '--text-animate-gradient-end-x': `${endX}%`,
+      '--text-animate-gradient-end-y': `${endY}%`,
+    },
+  };
+});
 
 /**
  * Gradient Component

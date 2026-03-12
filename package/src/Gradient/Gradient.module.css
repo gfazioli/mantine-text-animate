@@ -1,12 +1,14 @@
 .root {
   --text-animate-gradient-speed: 3s;
   --text-animate-gradient-direction: 90deg;
+  --text-animate-gradient-end-x: 200%;
+  --text-animate-gradient-end-y: 0%;
 
   display: inline-block;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-size: 200% auto;
+  background-size: 200% 200%;
 }
 
 .root[data-text-animate-gradient-animate='true'] {
@@ -21,10 +23,10 @@
 
 @keyframes gradient-shift {
   0% {
-    background-position: 0% center;
+    background-position: 0% 0%;
   }
 
   100% {
-    background-position: 200% center;
+    background-position: var(--text-animate-gradient-end-x) var(--text-animate-gradient-end-y);
   }
 }

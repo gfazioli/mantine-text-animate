@@ -1,0 +1,30 @@
+.root {
+  --text-animate-gradient-speed: 3s;
+  --text-animate-gradient-direction: 90deg;
+
+  display: inline-block;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+}
+
+.root[data-text-animate-gradient-animate='true'] {
+  animation: gradient-shift var(--text-animate-gradient-speed) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-text-animate-gradient-animate='true'] {
+    animation: none !important;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}

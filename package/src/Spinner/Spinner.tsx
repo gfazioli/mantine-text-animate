@@ -24,9 +24,12 @@ export type SpinnerCssVariables = {
 
 export interface SpinnerBaseProps {
   /**
-   * The text content to animate
+   * The text content to animate.
+   * Pass a string for text processing (repeat/reverse), or an array of ReactNode
+   * for custom content (repeat/reverse will be skipped).
+   * When passing ReactNode[], you must provide an explicit `aria-label`.
    */
-  children: string;
+  children: string | React.ReactNode[];
 
   /**
    * The radius of the circle in pixels or Mantine size
@@ -136,13 +139,19 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
     ...others
   } = props;
 
+  // If children is a ReactNode array, use it directly (skip text processing)
+  const isNodeArray = Array.isArray(children);
+
   // Process text: repeat if needed, reverse if needed, split into characters
-  const characters = useMemo(() => {
-    const base =
-      repeatText && repeatCount && repeatCount > 1 ? children.repeat(repeatCount) : children;
+  const items: React.ReactNode[] = useMemo(() => {
+    if (isNodeArray) {
+      return children;
+    }
+    const text = children as string;
+    const base = repeatText && repeatCount && repeatCount > 1 ? text.repeat(repeatCount) : text;
     const processed = reverseText ? base.split('').reverse().join('') : base;
     return processed.split('');
-  }, [children, repeatText, repeatCount, reverseText]);
+  }, [children, isNodeArray, repeatText, repeatCount, reverseText]);
 
   const getStyles = useStyles<SpinnerFactory>({
     name: 'Spinner',
@@ -158,14 +167,20 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
   });
 
   return (
-    <Box ref={ref} {...getStyles('root')} role="img" aria-label={children} {...others}>
+    <Box
+      ref={ref}
+      {...getStyles('root')}
+      role="img"
+      aria-label={isNodeArray ? undefined : (children as string)}
+      {...others}
+    >
       <Box
         className={classes.container}
         data-text-animate-spinner-animate={animate}
         data-text-animate-spinner-direction={direction}
       >
-        {characters.map((char, index) => {
-          const angle = (360 / characters.length) * index + (charOffset || 0);
+        {items.map((item, index) => {
+          const angle = (360 / items.length) * index + (charOffset || 0);
           return (
             <Box
               key={index}
@@ -174,7 +189,7 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
                 transform: `rotate(${angle}deg)`,
               }}
             >
-              {char}
+              {item}
             </Box>
           );
         })}

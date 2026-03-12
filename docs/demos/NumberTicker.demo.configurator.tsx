@@ -101,5 +101,17 @@ export const configurator: MantineDemo = {
       initialValue: 'ease-out',
       libraryValue: 'ease-out',
     },
+    {
+      prop: 'prefix',
+      type: 'string',
+      initialValue: '',
+      libraryValue: '',
+    },
+    {
+      prop: 'suffix',
+      type: 'string',
+      initialValue: '',
+      libraryValue: '',
+    },
   ],
 };

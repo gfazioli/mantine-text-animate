@@ -46,6 +46,20 @@ export interface TypewriterBaseProps {
    * and the animation is about to start again
    */
   onTypeLoop?: () => void;
+
+  /**
+   * Callback function called for each character typed
+   * @param char The character that was typed
+   * @param index The index of the character in the current text
+   */
+  onCharType?: (char: string, index: number) => void;
+
+  /**
+   * Map of character indices to custom pause durations (in milliseconds)
+   * The typing will pause for the specified duration at the given character index
+   * @example { 5: 1000, 10: 500 } — pause 1s after char 5, 500ms after char 10
+   */
+  pauseAt?: Record<number, number>;
 }
 
 export interface UseTypewriterResult {
@@ -89,6 +103,8 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     loop = true,
     onTypeEnd,
     onTypeLoop,
+    onCharType,
+    pauseAt,
   } = options;
 
   // Convert single text to array if needed
@@ -210,9 +226,12 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     if (isTyping && !isDeleting) {
       if (displayText.length < currentFullText.length) {
         // Type the next character
+        const nextIndex = displayText.length;
+        const charDelay = pauseAt?.[nextIndex] ?? speed * 1000;
         timeoutRef.current = setTimeout(() => {
-          setDisplayText(currentFullText.substring(0, displayText.length + 1));
-        }, speed * 1000);
+          onCharType?.(currentFullText[nextIndex], nextIndex);
+          setDisplayText(currentFullText.substring(0, nextIndex + 1));
+        }, charDelay);
       } else {
         // Finished typing
         setIsTyping(false);
@@ -286,13 +305,6 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         }
       }
     }
-    // Cleanup: cancel pending timeout when effect re-runs or unmounts
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-    };
   }, [
     displayText,
     isActive,
@@ -307,6 +319,8 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     loop,
     onTypeEnd,
     onTypeLoop,
+    onCharType,
+    pauseAt,
   ]);
 
   // Return the appropriate text format based on multiline

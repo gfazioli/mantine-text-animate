@@ -8,7 +8,6 @@
 .segment {
   display: inline-block;
   white-space: pre;
-  will-change: opacity, transform, filter;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 
   &[data-text-animate='in'] {
@@ -17,6 +16,10 @@
 
   &[data-text-animate='out'] {
     opacity: 1;
+  }
+
+  &[data-animating='true'] {
+    will-change: opacity, transform, filter;
   }
 
   &[data-text-animate-animation='fade'] {

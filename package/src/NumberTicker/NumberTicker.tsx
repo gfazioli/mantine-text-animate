@@ -18,7 +18,17 @@ export type NumberTickerCssVariables = {
   root: '--number-ticker-animation-duration' | '--number-ticker-animation-delay';
 };
 export interface NumberTickerProps
-  extends BoxProps, NumberTickerBaseProps, StylesApiProps<NumberTickerFactory> {}
+  extends BoxProps, NumberTickerBaseProps, StylesApiProps<NumberTickerFactory> {
+  /**
+   * Content to display before the number
+   */
+  prefix?: React.ReactNode;
+
+  /**
+   * Content to display after the number
+   */
+  suffix?: React.ReactNode;
+}
 
 export type NumberTickerFactory = PolymorphicFactory<{
   props: NumberTickerProps;
@@ -65,6 +75,8 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
     easing,
     animate,
     onCompleted,
+    prefix,
+    suffix,
 
     classNames,
     style,
@@ -115,7 +127,9 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
       aria-live="polite"
       {...others}
     >
+      {prefix}
       {text}
+      {suffix}
     </Box>
   );
 });

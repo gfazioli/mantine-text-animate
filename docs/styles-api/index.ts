@@ -1,3 +1,4 @@
+import { GradientStylesApi } from './Gradient.styles-api';
 import { NumberTickerStylesApi } from './NumberTicker.styles-api';
 import { SpinnerStylesApi } from './Spinner.styles-api';
 import { TextAnimateStylesApi } from './TextAnimate.styles-api';
@@ -10,4 +11,5 @@ export const STYLES_API_DATA = {
   Spinner: SpinnerStylesApi,
   NumberTicker: NumberTickerStylesApi,
   TextTicker: TextTickerStylesApi,
+  Gradient: GradientStylesApi,
 };

@@ -6,6 +6,7 @@ const getComponentPath = (componentPath: string) =>
 
 generateDeclarations({
   componentsPaths: [
+    getComponentPath('Gradient/Gradient.tsx'),
     getComponentPath('NumberTicker/NumberTicker.tsx'),
     getComponentPath('Spinner/Spinner.tsx'),
     getComponentPath('TextTicker/TextTicker.tsx'),

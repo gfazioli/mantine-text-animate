@@ -9,7 +9,7 @@ v3.0.0 introduces new features and breaking changes:
 
 - **Spinner `children` type**: Now accepts `string | React.ReactNode[]`. When passing a `ReactNode[]`, text processing (repeat/reverse) is skipped and you must provide an explicit `aria-label`.
 
-### New Features
+### New Features (v3.0)
 
 - **`onCharType` callback** on Typewriter — called for each character typed with `(char, index)`
 - **`pauseAt` prop** on Typewriter — map of char index → pause duration (ms) for custom pauses
@@ -18,6 +18,13 @@ v3.0.0 introduces new features and breaking changes:
 - **`trigger` prop** on TextAnimate — `'mount'` (default), `'inView'` (IntersectionObserver), or `'manual'`
 - **`useTextAnimate()` hook** — returns `{ animate, setAnimate, replay, isAnimating, key, onAnimationComplete }`
 - **`TextAnimate.Gradient`** compound component — animated gradient text via `background-clip: text`
+- **`animate="loop"`** on TextAnimate — automatic in→pause→out→pause cycle with configurable `loopDelay`
+- **`withSound` prop** on Typewriter — synthesized mechanical keyboard click via Web Audio API
+- **`formatValue` prop** on NumberTicker — override the default `Intl.NumberFormat` formatting
+- **Scramble mode** on TextTicker — deterministic per-character scramble via `scrambleDuration` and `staggerDelay`
+- **`TextAnimate.Highlight`** compound component — animated highlighter marker effect (CSS-only)
+- **`TextAnimate.SplitFlap`** compound component — airport departure board (Solari board) 3D flip display
+- **`TextAnimate.Morphing`** compound component — fluid text transitions using LCS algorithm
 
 ## Installation
 
@@ -35,7 +42,7 @@ You can import styles within a layer `@layer mantine-text-animate` by importing 
 import '@gfazioli/mantine-text-animate/styles.layer.css';
 ```
 
-## Usage
+## TextAnimate
 
 The `TextAnimate` component allows you to animate text with various effects. The `animate` prop controls the initial display and the direction of the animation.
 In the example below, try selecting `none` to display nothing. With `static`, the text will appear static.
@@ -43,7 +50,7 @@ Selecting `Animate In` will display the entering animation, and with `Animate Ou
 
 <Demo data={demos.textAnimateConfigurator} />
 
-## animateProps
+### animateProps
 
 The `animateProps` prop allows you to pass additional props to the animation.
 
@@ -73,39 +80,39 @@ interface AnimateProps {
 
 <Demo data={demos.textAnimateAnimateProps} />
 
-## by
+### by
 
 The `by` prop allows you to animate text by the entire text, character by character, per word or line by line.
 By using the `by="line"` prop, you can animate text line by line.
 
 <Demo data={demos.textAnimateMultiline} />
 
-## Styling
+### Styling
 
 Of course, you can use the component with your own styles.
 
 <Demo data={demos.textAnimateStyles} />
 
-## onAnimationStart and onAnimationEnd
+### onAnimationStart and onAnimationEnd
 
 You can use the `onAnimationStart` and `onAnimationEnd` props to handle animation events.
 
 <Demo data={demos.textAnimateEvents} />
 
-## trigger
+### trigger
 
 The `trigger` prop controls when the animation starts. Use `"inView"` to animate when the element enters the viewport via IntersectionObserver.
 You can pass `triggerOptions` to customize `threshold` and `rootMargin`.
 
 <Demo data={demos.textAnimateTrigger} />
 
-## Loop mode
+### Loop mode
 
 Set `animate="loop"` to automatically cycle through in→pause→out→pause→in. Use `loopDelay` to control the pause duration between phases (default: 2000ms).
 
 <Demo data={demos.textAnimateLoop} />
 
-## useTextAnimate() hook
+### useTextAnimate() hook
 
 The `useTextAnimate` hook provides state and controls for managing TextAnimate animation direction, replay capability, and animation status tracking.
 
@@ -130,51 +137,51 @@ export interface UseTextAnimateResult {
 }
 ```
 
-## TextAnimate.Typewriter component
+## TextAnimate.Typewriter
 
 The `TextAnimate.Typewriter` component allows you to animate text with a typewriter effect.
 
 <Demo data={demos.typeWriterConfigurator} />
 
-## multiline
+### Multiline
 
 By using the `multiline` prop, you can animate text line by line.
 
 <Demo data={demos.typeWriterWithMultiLine} />
 
-## leftSection
+### leftSection
 
 You may use the `leftSection` prop to display a section before the text.
 
 <Demo data={demos.typeWriterLeftSection} />
 
-## Styling
+### Styling
 
 Of course, you can use the component with your own styles.
 
 <Demo data={demos.typeWriterStyles} />
 
-## onTypeEnd and onTypeLoop
+### onTypeEnd and onTypeLoop
 
 You can use the `onTypeEnd` and `onTypeLoop` props to handle typewriter events.
 
 <Demo data={demos.typeWriterEvents} />
 
-## withSound
+### withSound
 
 Enable `withSound` to play a synthesized mechanical keyboard click on each character typed. The sound is generated via Web Audio API (no external files). Use `soundVolume` to control volume (0–1). The AudioContext is lazily initialized on the first sound, so a user gesture is required. Respects `prefers-reduced-motion`.
 
 <Demo data={demos.typeWriterSound} />
 
-## onCharType and pauseAt
+### onCharType and pauseAt
 
 The `onCharType` callback is called for each character typed, receiving the character and its index. Combined with `pauseAt`, you can create dramatic pauses at specific character positions — for example, pausing after punctuation for a more natural typing rhythm.
 
 <Demo data={demos.typeWriterOnCharType} />
 
-## useTypewriter() hook
+### useTypewriter() hook
 
-The `TypeWriter` is build by using the `useTypewriter` hook.
+The `TextAnimate.Typewriter` is built by using the `useTypewriter` hook.
 
 <Demo data={demos.typeWriterHook} />
 
@@ -272,44 +279,44 @@ export interface UseTypewriterResult {
 }
 ```
 
-## multiline with useTypewriter() hook
+### Multiline with useTypewriter()
 
 You may use the `multiline` prop with the `useTypewriter` hook.
 In this case the `text` will be an array of strings.
 
 <Demo data={demos.typeWriterHookMultiLine} />
 
-## Example: Terminal
+### Example: Terminal
 
-Below a funny example of a terminal.
+Below a fun example of a terminal.
 
 <Demo data={demos.typeWriterTerminal} />
 
-## TextAnimate.Spinner component
+## TextAnimate.Spinner
 
 The `TextAnimate.Spinner` component allows you to animate text with a spinner effect.
 The `children` prop accepts either a string (for text processing) or an array of `React.ReactNode` (for custom content like icons).
 
 <Demo data={demos.spinnerConfigurator} />
 
-## repeatText and repeatCount
+### repeatText and repeatCount
 
 <Demo data={demos.spinnerRepeatText} />
 
-## TextAnimate.NumberTicker component
+## TextAnimate.NumberTicker
 
 The `TextAnimate.NumberTicker` component allows you to animate text with a number ticker effect.
 You can use the `prefix` and `suffix` props to display content before and after the number.
 
 <Demo data={demos.numberTickerConfigurator} />
 
-## formatValue
+### formatValue
 
 Use the `formatValue` prop to override the default `Intl.NumberFormat` formatting. This is useful for custom currency, percentage, or unit formatting.
 
 <Demo data={demos.numberTickerFormat} />
 
-## useNumberTicker() hook
+### useNumberTicker() hook
 
 The `TextAnimate.NumberTicker` is built by using the `useNumberTicker` hook.
 
@@ -367,7 +374,7 @@ export interface NumberTickerBaseProps {
 }
 ```
 
-and the return value of the `useNumberTicker` hook is the following:
+And the return value of the `useNumberTicker` hook is the following:
 
 ```tsx
 export interface UseNumberTickerResult {
@@ -403,7 +410,7 @@ export interface UseNumberTickerResult {
 }
 ```
 
-## Example: NumberTicker
+### Example
 
 <Demo data={demos.numberTickerExample} />
 
@@ -413,7 +420,13 @@ The `TextAnimate.TextTicker` component allows you to animate text with a text ti
 
 <Demo data={demos.textTickerConfigurator} />
 
-## useTextTicker() hook
+### Scramble mode
+
+When `scrambleDuration` is set, TextTicker switches to a deterministic "scramble" mode where each character cycles through random characters for a fixed duration before settling on the target. Use `staggerDelay` to control the delay between each character starting its animation.
+
+<Demo data={demos.textTickerScramble} />
+
+### useTextTicker() hook
 
 The `TextAnimate.TextTicker` is built by using the `useTextTicker` hook.
 
@@ -505,7 +518,7 @@ export interface TextTickerBaseProps {
 }
 ```
 
-and the return value of the `useTextTicker` hook is the following:
+And the return value of the `useTextTicker` hook is the following:
 
 ```tsx
 export interface UseTextTickerResult {
@@ -536,51 +549,45 @@ export interface UseTextTickerResult {
 }
 ```
 
-## Example: TextTicker
+### Example
 
 <Demo data={demos.textTickerExample} />
 
-## TextTicker Scramble Mode
+## TextAnimate.Gradient
 
-When `scrambleDuration` is set, TextTicker switches to a deterministic "scramble" mode where each character cycles through random characters for a fixed duration before settling on the target. Use `staggerDelay` to control the delay between each character starting its animation.
-
-<Demo data={demos.textTickerScramble} />
-
-## TextAnimate.Gradient component
-
-The `TextAnimate.Gradient` component allows you to display text with an animated gradient background.
+The `TextAnimate.Gradient` component displays text with an animated gradient background. It accepts an array of Mantine colors and animates the gradient via `background-clip: text`.
 
 <Demo data={demos.gradientConfigurator} />
 
-## TextAnimate.Highlight component
+## TextAnimate.Highlight
 
 The `TextAnimate.Highlight` component creates an animated highlighter marker effect on text. It uses a CSS animation to sweep a colored background from left to right, simulating a text highlighter pen.
 
 <Demo data={demos.highlightConfigurator} />
 
-## TextAnimate.SplitFlap component
+## TextAnimate.SplitFlap
 
 The `TextAnimate.SplitFlap` component recreates the classic airport/train station split-flap display (Solari board). Each character flips through the character set in order until reaching its target, with a 3D CSS flip animation.
 
 <Demo data={demos.splitFlapConfigurator} />
 
-## useSplitFlap() hook
+### useSplitFlap() hook
 
 The `TextAnimate.SplitFlap` is built by using the `useSplitFlap` hook.
 
 <Demo data={demos.splitFlapHook} />
 
-## SplitFlap Styles API
+### Styles API
 
 <Demo data={demos.splitFlapStylesApi} />
 
-## TextAnimate.Morphing component
+## TextAnimate.Morphing
 
 The `TextAnimate.Morphing` component creates fluid text transitions between two strings. It uses the Longest Common Subsequence (LCS) algorithm to identify shared characters — common characters smoothly move to their new positions, while removed characters fade out and new characters fade in. Requires a monospace font for accurate positioning (uses `ch` units).
 
 <Demo data={demos.morphingConfigurator} />
 
-## useMorphing() hook
+### useMorphing() hook
 
 The `TextAnimate.Morphing` is built by using the `useMorphing` hook.
 

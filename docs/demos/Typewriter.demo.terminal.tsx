@@ -16,8 +16,7 @@ function Demo() {
           ff="monospace"
           cursorChar="█"
           withBlink
-          speed={0.02}
-          delay={200}
+          delay={500}
           value={[
             '$ cd /home/user/projects',
             '$ ls -la',
@@ -50,8 +49,7 @@ function Demo() {
         ff="monospace"
         cursorChar="█"
         withBlink={true}
-        speed={0.02}
-        delay={200}
+        delay={500}
         value={[
           '$ cd /home/user/projects',
           '$ ls -la',

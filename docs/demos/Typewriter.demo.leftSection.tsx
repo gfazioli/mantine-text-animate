@@ -12,7 +12,6 @@ function Demo() {
         <TextAnimate.Typewriter
           animate={inViewport}
           multiline
-          speed={0.05}
           leftSection={
             <Text c="red" mr={4}>
               &gt;{' '}
@@ -46,7 +45,6 @@ function Demo() {
       <Stack w="100%">
         <TextAnimate.Typewriter
           multiline
-          speed={0.05}
           leftSection={
             <Text c="red" mr={4}>
               &gt;{' '}

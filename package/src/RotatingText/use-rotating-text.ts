@@ -78,7 +78,8 @@ export function useRotatingText(options: RotatingTextBaseProps): UseRotatingText
   const nextIndex = (currentIndex + 1) % values.length;
 
   // Transition duration in ms (matches CSS: 0.5s / speed)
-  const transitionDuration = 500 / (speed || 1);
+  const safeSpeed = Math.max(0.1, speed || 1);
+  const transitionDuration = 500 / safeSpeed;
 
   const completeTransition = useCallback(() => {
     if (fallbackTimerRef.current) {

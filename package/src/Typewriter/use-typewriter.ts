@@ -112,7 +112,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     value,
     animate = true,
     multiline = false,
-    speed = 1,
+    speed: _speed = 1,
     delay = 2000,
     loop = true,
     onTypeEnd,
@@ -122,6 +122,8 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     withSound = false,
     soundVolume = 0.3,
   } = options;
+
+  const speed = Math.max(0.1, _speed);
 
   // Convert single text to array if needed
   const textArray = Array.isArray(value) ? value : [value];
@@ -163,31 +165,35 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         return;
       }
 
-      // Lazy-init AudioContext (requires user gesture)
-      if (!audioContextRef.current) {
-        audioContextRef.current = new AudioContext();
+      try {
+        // Lazy-init AudioContext (requires user gesture)
+        if (!audioContextRef.current) {
+          audioContextRef.current = new AudioContext();
+        }
+
+        const ctx = audioContextRef.current;
+        if (ctx.state === 'suspended') {
+          ctx.resume().catch(() => {});
+        }
+
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+
+        oscillator.frequency.value = isDeleting ? 400 : 800;
+        oscillator.type = 'square';
+
+        const vol = Math.max(0, Math.min(1, soundVolume));
+        gain.gain.setValueAtTime(vol, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.015);
+
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.015);
+      } catch {
+        // AudioContext may fail without user gesture or in restricted environments
       }
-
-      const ctx = audioContextRef.current;
-      if (ctx.state === 'suspended') {
-        ctx.resume();
-      }
-
-      const oscillator = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-
-      oscillator.frequency.value = isDeleting ? 400 : 800;
-      oscillator.type = 'square';
-
-      const vol = Math.max(0, Math.min(1, soundVolume));
-      gain.gain.setValueAtTime(vol, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.015);
-
-      oscillator.start(ctx.currentTime);
-      oscillator.stop(ctx.currentTime + 0.015);
     },
     [withSound, soundVolume]
   );

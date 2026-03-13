@@ -168,11 +168,12 @@ describe('TextAnimate.Spinner', () => {
     expect(container.textContent).toContain('Y');
   });
 
-  it('does not set auto aria-label for ReactNode array', () => {
+  it('does not set role="img" for ReactNode array without aria-label', () => {
     const { container } = render(
       <TextAnimate.Spinner>{[<span key="1">X</span>]}</TextAnimate.Spinner>
     );
-    const root = container.querySelector('[role="img"]');
+    const root = container.firstChild;
+    expect(root).not.toHaveAttribute('role');
     expect(root).not.toHaveAttribute('aria-label');
   });
 });

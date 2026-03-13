@@ -110,13 +110,14 @@ function createInitialCharacters(length: number): SplitFlapCharacter[] {
 export function useSplitFlap({
   value,
   animate = true,
-  speed = 1,
+  speed: _speed = 1,
   characterSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ',
   flipDuration = 300,
   staggerDelay = 80,
   delay = 0,
   onCompleted,
 }: UseSplitFlapProps): UseSplitFlapResult {
+  const speed = Math.max(0.1, _speed);
   const targetText = value.toUpperCase();
 
   const [characters, setCharacters] = useState<SplitFlapCharacter[]>(() =>

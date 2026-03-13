@@ -170,8 +170,8 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
     <Box
       ref={ref}
       {...getStyles('root')}
-      role="img"
-      aria-label={isNodeArray ? undefined : (children as string)}
+      role={isNodeArray && !others['aria-label'] ? undefined : 'img'}
+      aria-label={isNodeArray ? others['aria-label'] : (children as string)}
       {...others}
     >
       <Box

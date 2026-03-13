@@ -41,8 +41,9 @@ export const configurator: MantineDemo = {
         { label: 'Static', value: 'static' },
         { label: 'Animate In', value: 'in' },
         { label: 'Animate Out', value: 'out' },
+        { label: 'Loop', value: 'loop' },
       ],
-      initialValue: 'in',
+      initialValue: 'loop',
       libraryValue: 'none',
     },
     {
@@ -74,6 +75,15 @@ export const configurator: MantineDemo = {
       libraryValue: 'word',
     },
 
+    {
+      prop: 'loopDelay',
+      type: 'number',
+      initialValue: 2000,
+      libraryValue: 2000,
+      step: 500,
+      min: 0,
+      max: 10000,
+    },
     {
       prop: 'duration',
       type: 'number',

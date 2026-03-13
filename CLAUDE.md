@@ -4,16 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`@gfazioli/mantine-text-animate` (v3.1.0) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Nine compound components are attached as static properties:
+`@gfazioli/mantine-text-animate` (v3.1.0) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Eight compound components are attached as static properties:
 
 - **TextAnimate** — CSS animation (fade, blur, scale, slide variants) with `animate` direction control (incl. `'loop'` mode), `trigger` mode (`mount`/`inView`/`manual`), `onAnimationComplete` callback; hook: `useTextAnimate`
 - **TextAnimate.Typewriter** — Character-by-character typing with cursor, blink, loop, multiline, `onCharType` callback, `pauseAt` pauses, `withSound` Web Audio; hook: `useTypewriter`
 - **TextAnimate.Spinner** — Circular spinning text with radius, speed, direction control; accepts `string | ReactNode[]`
 - **TextAnimate.NumberTicker** — Animated number counter with easing, `prefix`/`suffix`, `formatValue` custom formatter; hook: `useNumberTicker`
-- **TextAnimate.TextTicker** — Random-to-target character reveal with direction control; hook: `useTextTicker`
+- **TextAnimate.TextTicker** — Random-to-target character reveal with direction control, optional scramble mode (`scrambleDuration`/`staggerDelay`); hook: `useTextTicker`
 - **TextAnimate.Gradient** — Animated gradient text via `background-clip: text` with configurable colors, speed, direction
 - **TextAnimate.Highlight** — Animated highlighter marker effect (CSS-only, no hook)
-- **TextAnimate.Scramble** — Hacker/decryption effect with per-character random cycling; hook: `useScramble`
 - **TextAnimate.SplitFlap** — Airport departure board (Solari board) 3D flip display; hook: `useSplitFlap`
 - **TextAnimate.Morphing** — Fluid text transitions using LCS algorithm; hook: `useMorphing`
 
@@ -70,10 +69,6 @@ use-text-animate.ts        — Hook (useTextAnimate: animate/setAnimate/replay/i
 ├── Highlight/
 │   ├── Highlight.tsx       — Component (polymorphicFactory, CSS-only highlight marker)
 │   └── Highlight.module.css — highlight-sweep keyframe
-├── Scramble/
-│   ├── Scramble.tsx        — Component (polymorphicFactory, monospace font)
-│   ├── use-scramble.ts     — Hook (rAF, per-char stagger, 4 reveal directions)
-│   └── Scramble.module.css
 ├── SplitFlap/
 │   ├── SplitFlap.tsx       — Component (polymorphicFactory, 3D flip per character)
 │   ├── use-split-flap.ts   — Hook (setTimeout chain, cycles through characterSet)
@@ -91,8 +86,8 @@ Every component follows: `polymorphicFactory` → `useProps('ComponentName', def
 ### Docs (`docs/`)
 
 - `docs/pages/` — MDX pages
-- `docs/demos/` — 34 interactive demo components (configurators, hooks, events, styles, trigger, gradient, highlight, scramble, split-flap, morphing)
-- `docs/styles-api/` — Styles API definitions for all 10 components
+- `docs/demos/` — 32 interactive demo components (configurators, hooks, events, styles, trigger, gradient, highlight, split-flap, morphing)
+- `docs/styles-api/` — Styles API definitions for all 9 components
 - `docs/components/` — Shell, Footer, Logo
 - `docs/docgen.json` — Auto-generated prop docs
 

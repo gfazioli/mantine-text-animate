@@ -92,6 +92,22 @@ export interface TextTickerBaseProps {
   revealDirection?: TextTickerRevealDirection;
 
   /**
+   * When set, enables "scramble" mode: each character cycles through random characters
+   * for exactly this duration (in ms) before settling on the target.
+   * This replaces the default probabilistic reveal with a deterministic per-character timer.
+   * @example 800
+   */
+  scrambleDuration?: number;
+
+  /**
+   * Delay in milliseconds between each character starting its scramble animation.
+   * Only used when `scrambleDuration` is set.
+   * Creates a wave-like "decryption" effect from the reveal direction.
+   * @default 50
+   */
+  staggerDelay?: number;
+
+  /**
    * Callback function called when animation completes
    */
   onCompleted?: () => void;
@@ -181,6 +197,8 @@ export function useTextTicker({
   easing = 'ease-out',
   randomChangeSpeed = 1,
   revealDirection = 'left-to-right',
+  scrambleDuration,
+  staggerDelay = 50,
   onCompleted,
 }: UseTextTickerProps): UseTextTickerResult {
   // State
@@ -198,6 +216,7 @@ export function useTextTicker({
   const animatePropRef = useRef(animate);
   const animationCompletedRef = useRef(false);
   const displayTextRef = useRef<string[]>([]);
+  const charStartTimesRef = useRef<number[]>([]);
 
   // Get character pool
   const getCharacterPool = () => {
@@ -270,8 +289,82 @@ export function useTextTicker({
     }
   };
 
-  // Animation function
-  const animateFrame = (timestamp: number) => {
+  // Build a map from character index to its order position (for scramble mode)
+  const getOrderMap = () => {
+    const order = getCharIndexOrder();
+    const map = new Map<number, number>();
+    order.forEach((charIndex, orderPosition) => {
+      map.set(charIndex, orderPosition);
+    });
+    return map;
+  };
+
+  // Scramble mode animation: deterministic per-character timing
+  const animateFrameScramble = (timestamp: number) => {
+    if (!startTimeRef.current) {
+      startTimeRef.current = timestamp;
+      charStabilityRef.current = Array(value.length).fill(false);
+
+      // Initialize per-character start times based on stagger and reveal order
+      const orderMap = getOrderMap();
+      charStartTimesRef.current = Array.from(
+        { length: value.length },
+        (_, i) => timestamp + (orderMap.get(i) || 0) * staggerDelay
+      );
+    }
+
+    const pool = getCharacterPool();
+    const newTextArray: string[] = [];
+    let allSettled = true;
+
+    for (let i = 0; i < value.length; i++) {
+      if (charStabilityRef.current[i]) {
+        newTextArray.push(value[i]);
+        continue;
+      }
+
+      // Character hasn't started scrambling yet
+      if (timestamp < charStartTimesRef.current[i]) {
+        newTextArray.push(value[i] === ' ' ? ' ' : pool[Math.floor(Math.random() * pool.length)]);
+        allSettled = false;
+        continue;
+      }
+
+      const charElapsed = timestamp - charStartTimesRef.current[i];
+
+      if (charElapsed >= scrambleDuration!) {
+        charStabilityRef.current[i] = true;
+        newTextArray.push(value[i]);
+        continue;
+      }
+
+      // Actively scrambling — cycle through random chars
+      if (value[i] === ' ') {
+        newTextArray.push(' ');
+      } else {
+        newTextArray.push(pool[Math.floor(Math.random() * pool.length)]);
+      }
+      allSettled = false;
+    }
+
+    displayTextRef.current = newTextArray;
+    setDisplayText(newTextArray.join(''));
+
+    if (allSettled) {
+      displayTextRef.current = [...value];
+      setDisplayText(value);
+      setIsAnimating(false);
+      startTimeRef.current = 0;
+      animationCompletedRef.current = true;
+      onCompleted?.();
+      return;
+    }
+
+    animationFrameRef.current = requestAnimationFrame(animateFrameScramble);
+  };
+
+  // Default mode animation: probabilistic easing-based reveal
+  const animateFrameDefault = (timestamp: number) => {
     if (!startTimeRef.current) {
       startTimeRef.current = timestamp;
       charStabilityRef.current = Array(value.length).fill(false);
@@ -343,8 +436,11 @@ export function useTextTicker({
     }
 
     // Continue animation
-    animationFrameRef.current = requestAnimationFrame(animateFrame);
+    animationFrameRef.current = requestAnimationFrame(animateFrameDefault);
   };
+
+  // Choose animation mode based on scrambleDuration
+  const animateFrame = scrambleDuration != null ? animateFrameScramble : animateFrameDefault;
 
   // Start animation
   const start = () => {

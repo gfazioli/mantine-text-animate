@@ -10,7 +10,6 @@ generateDeclarations({
     getComponentPath('Highlight/Highlight.tsx'),
     getComponentPath('Morphing/Morphing.tsx'),
     getComponentPath('NumberTicker/NumberTicker.tsx'),
-    getComponentPath('Scramble/Scramble.tsx'),
     getComponentPath('Spinner/Spinner.tsx'),
     getComponentPath('SplitFlap/SplitFlap.tsx'),
     getComponentPath('TextTicker/TextTicker.tsx'),

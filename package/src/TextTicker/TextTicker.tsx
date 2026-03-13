@@ -68,6 +68,8 @@ export const TextTicker = polymorphicFactory<TextTickerFactory>((_props, ref) =>
     easing,
     randomChangeSpeed,
     revealDirection,
+    scrambleDuration,
+    staggerDelay,
     onCompleted,
 
     classNames,
@@ -92,6 +94,8 @@ export const TextTicker = polymorphicFactory<TextTickerFactory>((_props, ref) =>
     easing,
     randomChangeSpeed,
     revealDirection,
+    scrambleDuration,
+    staggerDelay,
     onCompleted,
   });
 

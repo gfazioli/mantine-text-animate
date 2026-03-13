@@ -2,7 +2,6 @@ import { GradientStylesApi } from './Gradient.styles-api';
 import { HighlightStylesApi } from './Highlight.styles-api';
 import { MorphingStylesApi } from './Morphing.styles-api';
 import { NumberTickerStylesApi } from './NumberTicker.styles-api';
-import { ScrambleStylesApi } from './Scramble.styles-api';
 import { SpinnerStylesApi } from './Spinner.styles-api';
 import { SplitFlapStylesApi } from './SplitFlap.styles-api';
 import { TextAnimateStylesApi } from './TextAnimate.styles-api';
@@ -17,7 +16,6 @@ export const STYLES_API_DATA = {
   TextTicker: TextTickerStylesApi,
   Gradient: GradientStylesApi,
   Highlight: HighlightStylesApi,
-  Scramble: ScrambleStylesApi,
   SplitFlap: SplitFlapStylesApi,
   Morphing: MorphingStylesApi,
 };

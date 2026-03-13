@@ -20,7 +20,6 @@ export default function HomePage() {
           'Spinner',
           'Gradient',
           'Highlight',
-          'Scramble',
           'SplitFlap',
           'Morphing',
         ]}
@@ -32,7 +31,6 @@ export default function HomePage() {
           'TextTicker',
           'Gradient',
           'Highlight',
-          'Scramble',
           'SplitFlap',
           'Morphing',
         ]}

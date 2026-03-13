@@ -486,6 +486,19 @@ export interface TextTickerBaseProps {
   revealDirection?: TextTickerRevealDirection;
 
   /**
+   * Duration in milliseconds for each character's scramble phase (deterministic mode).
+   * When set, switches from probabilistic to deterministic per-character timing.
+   */
+  scrambleDuration?: number;
+
+  /**
+   * Delay in milliseconds between each character starting its animation.
+   * Only used when scrambleDuration is set.
+   * @default 50
+   */
+  staggerDelay?: number;
+
+  /**
    * Callback function called when animation completes
    */
   onCompleted?: () => void;
@@ -527,6 +540,12 @@ export interface UseTextTickerResult {
 
 <Demo data={demos.textTickerExample} />
 
+## TextTicker Scramble Mode
+
+When `scrambleDuration` is set, TextTicker switches to a deterministic "scramble" mode where each character cycles through random characters for a fixed duration before settling on the target. Use `staggerDelay` to control the delay between each character starting its animation.
+
+<Demo data={demos.textTickerScramble} />
+
 ## TextAnimate.Gradient component
 
 The `TextAnimate.Gradient` component allows you to display text with an animated gradient background.
@@ -538,18 +557,6 @@ The `TextAnimate.Gradient` component allows you to display text with an animated
 The `TextAnimate.Highlight` component creates an animated highlighter marker effect on text. It uses a CSS animation to sweep a colored background from left to right, simulating a text highlighter pen.
 
 <Demo data={demos.highlightConfigurator} />
-
-## TextAnimate.Scramble component
-
-The `TextAnimate.Scramble` component creates a "hacker/decryption" effect where each character rapidly cycles through random characters before settling on the target text. Each character starts scrambling at a staggered time and settles after `scrambleDuration` milliseconds.
-
-<Demo data={demos.scrambleConfigurator} />
-
-## useScramble() hook
-
-The `TextAnimate.Scramble` is built by using the `useScramble` hook.
-
-<Demo data={demos.scrambleHook} />
 
 ## TextAnimate.SplitFlap component
 

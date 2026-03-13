@@ -10,9 +10,6 @@ export { example as numberTickerExample } from './NumberTicker.demo.example';
 export { format as numberTickerFormat } from './NumberTicker.demo.format';
 export { hook as numberTickerHook } from './NumberTicker.demo.hook';
 
-export { configurator as scrambleConfigurator } from './Scramble.demo.configurator';
-export { hook as scrambleHook } from './Scramble.demo.hook';
-
 export { configurator as spinnerConfigurator } from './Spinner.demo.configurator';
 export { repeatText as spinnerRepeatText } from './Spinner.demo.repeatText';
 
@@ -31,6 +28,7 @@ export { useTextAnimateDemo } from './TextAnimate.demo.useTextAnimate';
 export { textTickerConfigurator } from './TextTicker.demo.configurator';
 export { example as textTickerExample } from './TextTicker.demo.example';
 export { hook as textTickerHook } from './TextTicker.demo.hook';
+export { scramble as textTickerScramble } from './TextTicker.demo.scramble';
 
 export { configurator as typeWriterConfigurator } from './Typewriter.demo.configurator';
 export { events as typeWriterEvents } from './Typewriter.demo.events';

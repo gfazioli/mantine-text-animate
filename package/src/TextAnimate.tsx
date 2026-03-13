@@ -329,15 +329,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
 
   // Track completed segment animations and will-change lifecycle
   const completedCountRef = useRef(0);
-  const prevAnimateRef = useRef(animate);
   const [isAnimating, setIsAnimating] = useState(false);
-
-  // Reset counter when animate direction changes
-  if (animate !== prevAnimateRef.current) {
-    completedCountRef.current = 0;
-    setIsAnimating(true);
-    prevAnimateRef.current = animate;
-  }
 
   // Loop mode state machine
   const [loopPhase, setLoopPhase] = useState<'in' | 'out'>('in');
@@ -387,6 +379,14 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   }
   if (trigger === 'inView') {
     effectiveAnimate = inView ? (animate === 'loop' ? loopPhase : animate || 'in') : undefined;
+  }
+
+  // Reset counter when effective animation direction changes (includes loop phase transitions)
+  const prevEffectiveRef = useRef(effectiveAnimate);
+  if (effectiveAnimate !== prevEffectiveRef.current) {
+    completedCountRef.current = 0;
+    setIsAnimating(true);
+    prevEffectiveRef.current = effectiveAnimate;
   }
 
   const getStyles = useStyles<TextAnimateFactory>({

@@ -22,6 +22,7 @@ export default function HomePage() {
           'Highlight',
           'SplitFlap',
           'Morphing',
+          'RotatingText',
         ]}
         componentsStyles={[
           'TextAnimate',
@@ -33,6 +34,7 @@ export default function HomePage() {
           'Highlight',
           'SplitFlap',
           'Morphing',
+          'RotatingText',
         ]}
         componentPrefix="TextAnimate"
         stylesApiData={STYLES_API_DATA}

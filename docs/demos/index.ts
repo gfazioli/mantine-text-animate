@@ -10,6 +10,9 @@ export { example as numberTickerExample } from './NumberTicker.demo.example';
 export { format as numberTickerFormat } from './NumberTicker.demo.format';
 export { hook as numberTickerHook } from './NumberTicker.demo.hook';
 
+export { configurator as rotatingTextConfigurator } from './RotatingText.demo.configurator';
+export { hook as rotatingTextHook } from './RotatingText.demo.hook';
+
 export { configurator as spinnerConfigurator } from './Spinner.demo.configurator';
 export { repeatText as spinnerRepeatText } from './Spinner.demo.repeatText';
 

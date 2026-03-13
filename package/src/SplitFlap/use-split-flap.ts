@@ -12,6 +12,8 @@ export interface SplitFlapCharacter {
   isFlipping: boolean;
   /** Whether this character has reached its target */
   settled: boolean;
+  /** Key that changes on every flip step — used to force-remount flap elements so CSS animations restart */
+  flipKey: number;
 }
 
 /**
@@ -95,6 +97,7 @@ function createInitialCharacters(length: number): SplitFlapCharacter[] {
     next: ' ',
     isFlipping: false,
     settled: false,
+    flipKey: 0,
   }));
 }
 
@@ -164,7 +167,13 @@ export function useSplitFlap({
         // Target is space, already there — settle immediately
         setCharacters((prev) => {
           const next = [...prev];
-          next[index] = { current: ' ', next: ' ', isFlipping: false, settled: true };
+          next[index] = {
+            current: ' ',
+            next: ' ',
+            isFlipping: false,
+            settled: true,
+            flipKey: 0,
+          };
           return next;
         });
         return;
@@ -174,7 +183,13 @@ export function useSplitFlap({
         // Character not in set — show it directly
         setCharacters((prev) => {
           const next = [...prev];
-          next[index] = { current: target, next: target, isFlipping: false, settled: true };
+          next[index] = {
+            current: target,
+            next: target,
+            isFlipping: false,
+            settled: true,
+            flipKey: 0,
+          };
           return next;
         });
         return;
@@ -196,16 +211,18 @@ export function useSplitFlap({
         }
       }
 
-      // Remove the first element (space, our starting point) — we start displaying from space
-      // and flip to each subsequent character
+      // Remove the leading space (our starting point)
       if (sequence.length > 0 && sequence[0] === ' ') {
         sequence = sequence.slice(1);
       }
 
-      // Schedule each flip
+      // Schedule each flip — each step sets isFlipping: true with a new flipKey
+      // which forces React to re-mount the flap elements, restarting CSS animations
       sequence.forEach((nextChar, stepIndex) => {
-        // Start flip: show isFlipping with current and next
-        const flipStartTimeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
+          if (!isAnimatingRef.current) {
+            return;
+          }
           setCharacters((prev) => {
             const updated = [...prev];
             const currentChar = stepIndex === 0 ? ' ' : sequence[stepIndex - 1];
@@ -214,31 +231,33 @@ export function useSplitFlap({
               next: nextChar,
               isFlipping: true,
               settled: false,
+              flipKey: stepIndex + 1,
             };
             return updated;
           });
         }, stepIndex * effectiveFlipDuration);
-        timeoutsRef.current.push(flipStartTimeout);
-
-        // End flip: settle on nextChar
-        const flipEndTimeout = setTimeout(
-          () => {
-            const isLast = stepIndex === sequence.length - 1;
-            setCharacters((prev) => {
-              const updated = [...prev];
-              updated[index] = {
-                current: nextChar,
-                next: nextChar,
-                isFlipping: false,
-                settled: isLast,
-              };
-              return updated;
-            });
-          },
-          stepIndex * effectiveFlipDuration + effectiveFlipDuration * 0.9
-        );
-        timeoutsRef.current.push(flipEndTimeout);
+        timeoutsRef.current.push(timeout);
       });
+
+      // Settle after the last flip completes
+      const settleTimeout = setTimeout(() => {
+        if (!isAnimatingRef.current) {
+          return;
+        }
+        const lastChar = sequence[sequence.length - 1];
+        setCharacters((prev) => {
+          const updated = [...prev];
+          updated[index] = {
+            current: lastChar,
+            next: lastChar,
+            isFlipping: false,
+            settled: true,
+            flipKey: sequence.length + 1,
+          };
+          return updated;
+        });
+      }, sequence.length * effectiveFlipDuration);
+      timeoutsRef.current.push(settleTimeout);
     },
     [characterSet, flipDuration, speed]
   );
@@ -263,6 +282,7 @@ export function useSplitFlap({
           next: char,
           isFlipping: false,
           settled: true,
+          flipKey: 0,
         }))
       );
       setIsAnimating(false);
@@ -295,9 +315,8 @@ export function useSplitFlap({
         timeoutsRef.current.push(charStartTimeout);
       });
 
-      // Calculate total animation duration and schedule completion check
+      // Calculate total animation duration and schedule completion
       const lastCharStart = staggerDelay * (targetText.length - 1);
-      // Max possible sequence length is the full character set
       const maxFlips = characterSet.length;
       const totalDuration =
         lastCharStart + maxFlips * effectiveFlipDuration + effectiveFlipDuration;
@@ -310,6 +329,7 @@ export function useSplitFlap({
             next: char,
             isFlipping: false,
             settled: true,
+            flipKey: 0,
           }))
         );
         setIsAnimating(false);

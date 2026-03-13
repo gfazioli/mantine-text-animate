@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Box,
   createVarsResolver,
+  parseThemeColor,
   polymorphicFactory,
   useProps,
   useStyles,
@@ -86,10 +87,12 @@ const defaultProps: Partial<SplitFlapProps> = {
 };
 
 const varsResolver = createVarsResolver<SplitFlapFactory>(
-  (_, { bg, textColor, gap, flipDuration, speed, charWidth, charHeight }) => ({
+  (theme, { bg, textColor, gap, flipDuration, speed, charWidth, charHeight }) => ({
     root: {
-      '--text-animate-split-flap-bg': bg,
-      '--text-animate-split-flap-color': textColor,
+      '--text-animate-split-flap-bg': bg ? parseThemeColor({ color: bg, theme }).value : undefined,
+      '--text-animate-split-flap-color': textColor
+        ? parseThemeColor({ color: textColor, theme }).value
+        : undefined,
       '--text-animate-split-flap-gap': gap !== undefined ? `${gap}px` : undefined,
       '--text-animate-split-flap-flip-duration':
         flipDuration !== undefined && speed !== undefined
@@ -165,20 +168,27 @@ export const SplitFlap = polymorphicFactory<SplitFlapFactory>((_props, ref) => {
     <Box ref={ref} {...getStyles('root')} component="div" aria-live="polite" {...others}>
       {characters.map((char, i) => (
         <Box {...getStyles('character')} key={i}>
-          {/* Top half - shows upper part of current char */}
-          <Box {...getStyles('charTop')}>{char.current}</Box>
-          {/* Bottom half - shows lower part of current char */}
-          <Box {...getStyles('charBottom')}>{char.current}</Box>
-          {/* Flipping flaps */}
+          {/* Top half: shows NEXT char during flip (revealed behind flapTop),
+              otherwise shows current char */}
+          <Box {...getStyles('charTop')}>
+            <span className={classes.charInner}>{char.isFlipping ? char.next : char.current}</span>
+          </Box>
+
+          {/* Bottom half: shows current (old) char — visible until flapBottom covers it */}
+          <Box {...getStyles('charBottom')}>
+            <span className={classes.charInner}>{char.current}</span>
+          </Box>
+
+          {/* Animated flaps — key changes on each flip step to restart CSS animations */}
           {char.isFlipping && (
-            <>
-              <Box {...getStyles('flapTop')} data-flipping>
-                {char.current}
+            <React.Fragment key={char.flipKey}>
+              <Box {...getStyles('flapTop')}>
+                <span className={classes.charInner}>{char.current}</span>
               </Box>
-              <Box {...getStyles('flapBottom')} data-flipping>
-                {char.next}
+              <Box {...getStyles('flapBottom')}>
+                <span className={classes.charInner}>{char.next}</span>
               </Box>
-            </>
+            </React.Fragment>
           )}
         </Box>
       ))}

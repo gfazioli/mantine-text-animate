@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Box,
   createVarsResolver,
+  parseThemeColor,
   polymorphicFactory,
   useProps,
   useStyles,
@@ -78,14 +79,18 @@ const defaultProps: Partial<HighlightProps> = {
 };
 
 const varsResolver = createVarsResolver<HighlightFactory>(
-  (_, { speed, highlightHeight, highlightOffset, color }) => ({
-    root: {
-      '--text-animate-highlight-speed': `${speed || 1}s`,
-      '--text-animate-highlight-height': highlightHeight || '40%',
-      '--text-animate-highlight-offset': highlightOffset || '60%',
-      '--text-animate-highlight-color': color || '#ffeb3b',
-    },
-  })
+  (theme, { speed, highlightHeight, highlightOffset, color }) => {
+    const resolvedColor = color ? parseThemeColor({ color, theme }).value : '#ffeb3b';
+
+    return {
+      root: {
+        '--text-animate-highlight-speed': `${speed || 1}s`,
+        '--text-animate-highlight-height': highlightHeight || '40%',
+        '--text-animate-highlight-offset': highlightOffset || '60%',
+        '--text-animate-highlight-color': resolvedColor,
+      },
+    };
+  }
 );
 
 /**
@@ -132,7 +137,7 @@ export const Highlight = polymorphicFactory<HighlightFactory>((_props, ref) => {
       ref={ref}
       {...getStyles('root', {
         style: {
-          backgroundImage: `linear-gradient(to right, ${color}, ${color})`,
+          backgroundImage: `linear-gradient(to right, var(--text-animate-highlight-color), var(--text-animate-highlight-color))`,
         },
       })}
       component="span"

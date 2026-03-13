@@ -20,6 +20,17 @@
   font-size: inherit;
 }
 
+/* Full-height inner element: text is vertically centred here.
+   The half-height parent clips it to show only the relevant half. */
+.charInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--text-animate-split-flap-char-height);
+}
+
+/* Shared rules for every half-cell */
 .charTop,
 .charBottom,
 .flapTop,
@@ -27,46 +38,49 @@
   position: absolute;
   left: 0;
   right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 50%;
+  overflow: hidden;
   background: var(--text-animate-split-flap-bg);
   color: var(--text-animate-split-flap-color);
-  overflow: hidden;
   box-sizing: border-box;
 }
 
+/* --- Top halves --------------------------------------------------------- */
 .charTop,
 .flapTop {
   top: 0;
-  height: 50%;
-  align-items: flex-end;
   border-radius: 4px 4px 0 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
+/* --- Bottom halves ------------------------------------------------------ */
 .charBottom,
 .flapBottom {
   bottom: 0;
-  height: 50%;
-  align-items: flex-start;
   border-radius: 0 0 4px 4px;
 }
 
+/* Shift inner content UP so the bottom portion of the character is visible */
+.charBottom .charInner,
+.flapBottom .charInner {
+  margin-top: calc(var(--text-animate-split-flap-char-height) * -0.5);
+}
+
+/* --- Animated flaps ----------------------------------------------------- */
 .flapTop {
   z-index: 2;
   transform-origin: bottom center;
-  animation: flip-top var(--text-animate-split-flap-flip-duration) ease-in forwards;
   backface-visibility: hidden;
+  animation: flip-top calc(var(--text-animate-split-flap-flip-duration) * 0.5) ease-in forwards;
 }
 
 .flapBottom {
   z-index: 1;
   transform-origin: top center;
-  transform: rotateX(-90deg);
-  animation: flip-bottom var(--text-animate-split-flap-flip-duration) ease-out forwards;
-  animation-delay: calc(var(--text-animate-split-flap-flip-duration) * 0.5);
+  transform: rotateX(90deg);
   backface-visibility: hidden;
+  animation: flip-bottom calc(var(--text-animate-split-flap-flip-duration) * 0.5) ease-out forwards;
+  animation-delay: calc(var(--text-animate-split-flap-flip-duration) * 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -88,7 +102,7 @@
 
 @keyframes flip-bottom {
   0% {
-    transform: rotateX(-90deg);
+    transform: rotateX(90deg);
   }
 
   100% {

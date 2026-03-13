@@ -1,14 +1,15 @@
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
-import { Button, Center, Stack } from '@mantine/core';
+import { Center, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
 function Demo() {
-  const [animated, { open, close }] = useDisclosure();
+  const [animated, { close, toggle }] = useDisclosure();
 
   return (
     <Center>
-      <Stack>
+      <Stack align="center">
+        <Switch size="xl" checked={animated} onLabel="ON" offLabel="OFF" onChange={toggle} />
         <TextAnimate.TextTicker
           fz="xl"
           value="Scramble Mode"
@@ -18,7 +19,6 @@ function Demo() {
           revealDirection="left-to-right"
           onCompleted={close}
         />
-        <Button onClick={open}>Start</Button>
       </Stack>
     </Center>
   );
@@ -26,15 +26,16 @@ function Demo() {
 
 const code = `
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
-import { Button, Center, Stack } from '@mantine/core';
+import { Center, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 function Demo() {
-  const [animated, { open, close }] = useDisclosure();
+  const [animated, { close, toggle }] = useDisclosure();
 
   return (
     <Center>
-      <Stack>
+      <Stack align="center">
+        <Switch size="xl" checked={animated} onLabel="ON" offLabel="OFF" onChange={toggle} />
         <TextAnimate.TextTicker
           fz="xl"
           value="Scramble Mode"
@@ -44,7 +45,6 @@ function Demo() {
           revealDirection="left-to-right"
           onCompleted={close}
         />
-        <Button onClick={open}>Start</Button>
       </Stack>
     </Center>
   );

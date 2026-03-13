@@ -20,6 +20,9 @@ export const SplitFlapStylesApi: StylesApiData<SplitFlapFactory> = {
         'Controls the flip animation duration (`flipDuration`)',
       '--text-animate-split-flap-char-width': 'Controls character width (`charWidth`)',
       '--text-animate-split-flap-char-height': 'Controls character height (`charHeight`)',
+      '--text-animate-split-flap-radius': 'Controls the border radius of each flap card (`radius`)',
+      '--text-animate-split-flap-divider-color':
+        'Controls the color of the horizontal divider line (`dividerColor`)',
     },
   },
 };

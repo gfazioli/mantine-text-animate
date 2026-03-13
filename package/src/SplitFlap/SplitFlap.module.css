@@ -5,6 +5,8 @@
   --text-animate-split-flap-flip-duration: 300ms;
   --text-animate-split-flap-char-width: 1.2em;
   --text-animate-split-flap-char-height: 1.8em;
+  --text-animate-split-flap-radius: 4px;
+  --text-animate-split-flap-divider-color: rgba(0, 0, 0, 0.3);
 
   display: inline-flex;
   gap: var(--text-animate-split-flap-gap);
@@ -49,15 +51,15 @@
 .charTop,
 .flapTop {
   top: 0;
-  border-radius: 4px 4px 0 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: var(--text-animate-split-flap-radius) var(--text-animate-split-flap-radius) 0 0;
+  border-bottom: 1px solid var(--text-animate-split-flap-divider-color);
 }
 
 /* --- Bottom halves ------------------------------------------------------ */
 .charBottom,
 .flapBottom {
   bottom: 0;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--text-animate-split-flap-radius) var(--text-animate-split-flap-radius);
 }
 
 /* Shift inner content UP so the bottom portion of the character is visible */

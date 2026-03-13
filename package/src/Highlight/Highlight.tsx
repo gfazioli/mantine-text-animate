@@ -7,6 +7,7 @@ import {
   useProps,
   useStyles,
   type BoxProps,
+  type MantineColor,
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
@@ -32,7 +33,7 @@ export interface HighlightBaseProps {
    * Highlight color
    * @default '#ffeb3b'
    */
-  color?: string;
+  color?: MantineColor;
 
   /**
    * Whether the highlight animation is active

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-`@gfazioli/mantine-text-animate` (v3.1.0) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Eight compound components are attached as static properties:
+`@gfazioli/mantine-text-animate` (v3.1.0) is a Mantine UI extension providing text animation components. The main `TextAnimate` component uses CSS keyframe animations with entry/exit states, controllable by character/word/line granularity. Nine compound components are attached as static properties:
 
 - **TextAnimate** — CSS animation (fade, blur, scale, slide variants) with `animate` direction control (incl. `'loop'` mode), `trigger` mode (`mount`/`inView`/`manual`), `onAnimationComplete` callback; hook: `useTextAnimate`
 - **TextAnimate.Typewriter** — Character-by-character typing with cursor, blink, loop, multiline, `onCharType` callback, `pauseAt` pauses, `withSound` Web Audio; hook: `useTypewriter`

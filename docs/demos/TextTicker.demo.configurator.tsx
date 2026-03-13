@@ -21,7 +21,7 @@ import { TextAnimate, type TextTickerProps } from '@gfazioli/mantine-text-animat
 import { Center, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-function Demo() {
+function Demo(props: TextTickerProps) {
   const [animated, { close, toggle }] = useDisclosure();
 
   return (

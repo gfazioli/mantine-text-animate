@@ -383,13 +383,35 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
     effectiveAnimate = inView ? (animate === 'loop' ? loopPhase : animate || 'in') : undefined;
   }
 
+  // Detect prefers-reduced-motion (CSS disables animations, so onAnimationEnd never fires)
+  const prefersReducedMotion =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // Reset counter when effective animation direction changes (includes loop phase transitions)
   const prevEffectiveRef = useRef(effectiveAnimate);
-  if (effectiveAnimate !== prevEffectiveRef.current) {
-    completedCountRef.current = 0;
-    setIsAnimating(true);
-    prevEffectiveRef.current = effectiveAnimate;
-  }
+  useEffect(() => {
+    if (effectiveAnimate !== prevEffectiveRef.current) {
+      completedCountRef.current = 0;
+      prevEffectiveRef.current = effectiveAnimate;
+
+      if (prefersReducedMotion) {
+        // CSS animations are disabled — short-circuit: fire completion synchronously
+        setIsAnimating(false);
+        onAnimationComplete?.(effectiveAnimate as 'in' | 'out');
+        if (animate === 'loop') {
+          const delayMs = loopDelay ?? 2000;
+          if (loopTimerRef.current) {
+            clearTimeout(loopTimerRef.current);
+          }
+          loopTimerRef.current = setTimeout(() => {
+            setLoopPhase((prev) => (prev === 'in' ? 'out' : 'in'));
+          }, delayMs);
+        }
+      } else {
+        setIsAnimating(true);
+      }
+    }
+  }, [effectiveAnimate, prefersReducedMotion, onAnimationComplete, animate, loopDelay]);
 
   const getStyles = useStyles<TextAnimateFactory>({
     name: 'TextAnimate',
@@ -438,6 +460,9 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
       // Loop mode: schedule next phase transition
       if (animate === 'loop') {
         const delayMs = loopDelay ?? 2000;
+        if (loopTimerRef.current) {
+          clearTimeout(loopTimerRef.current);
+        }
         loopTimerRef.current = setTimeout(() => {
           setLoopPhase((prev) => (prev === 'in' ? 'out' : 'in'));
         }, delayMs);

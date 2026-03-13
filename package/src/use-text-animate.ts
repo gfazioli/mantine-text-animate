@@ -57,7 +57,7 @@ export function useTextAnimate(
 
   const handleSetAnimate = useCallback((direction: TextAnimateAnimationDirection) => {
     setAnimate(direction);
-    if (direction === 'in' || direction === 'out') {
+    if (direction === 'in' || direction === 'out' || direction === 'loop') {
       animatingRef.current = true;
       setIsAnimating(true);
     }

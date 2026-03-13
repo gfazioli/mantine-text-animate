@@ -21,7 +21,6 @@ function Demo() {
         </Text>
         <TextAnimate.Typewriter
           value="Hello, World! Welcome to Mantine"
-          speed={0.04}
           loop
           onCharType={(char, index) => {
             setLastChar(char);
@@ -57,7 +56,6 @@ function Demo() {
       </Text>
       <TextAnimate.Typewriter
         value="Hello, World! Welcome to Mantine"
-        speed={0.04}
         loop
         onCharType={(char, index) => {
           setLastChar(char);

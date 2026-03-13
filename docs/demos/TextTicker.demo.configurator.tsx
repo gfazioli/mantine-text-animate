@@ -1,16 +1,16 @@
 import { TextAnimate, type TextTickerProps } from '@gfazioli/mantine-text-animate';
-import { Button, Center, Stack } from '@mantine/core';
+import { Center, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
 
 function Demo(props: TextTickerProps) {
-  const [animated, { open, close }] = useDisclosure();
+  const [animated, { close, toggle }] = useDisclosure();
 
   return (
     <Center>
       <Stack>
+        <Switch size="xl" checked={animated} onLabel="ON" offLabel="OFF" onChange={toggle} />
         <TextAnimate.TextTicker fz="xl" {...props} animate={animated} onCompleted={close} />
-        <Button onClick={open}>Start</Button>
       </Stack>
     </Center>
   );
@@ -18,17 +18,17 @@ function Demo(props: TextTickerProps) {
 
 const code = `
 import { TextAnimate, type TextTickerProps } from '@gfazioli/mantine-text-animate';
-import { Button, Center, Stack } from '@mantine/core';
+import { Center, Stack, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 function Demo() {
-  const [animated, { open, close }] = useDisclosure();
+  const [animated, { close, toggle }] = useDisclosure();
 
   return (
     <Center>
       <Stack>
+        <Switch size="xl" checked={animated} onLabel="ON" offLabel="OFF" onChange={toggle} />
         <TextAnimate.TextTicker fz="xl" {...props} animate={animated} onCompleted={close} />
-        <Button onClick={open}>Start</Button>
       </Stack>
     </Center>
   );

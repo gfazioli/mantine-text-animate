@@ -15,6 +15,7 @@ export { repeatText as spinnerRepeatText } from './Spinner.demo.repeatText';
 
 export { configurator as splitFlapConfigurator } from './SplitFlap.demo.configurator';
 export { hook as splitFlapHook } from './SplitFlap.demo.hook';
+export { stylesApi as splitFlapStylesApi } from './SplitFlap.demo.stylesApi';
 
 export { animateProps as textAnimateAnimateProps } from './TextAnimate.demo.animateProps';
 export { configurator as textAnimateConfigurator } from './TextAnimate.demo.configurator';

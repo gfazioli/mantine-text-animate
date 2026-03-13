@@ -2,11 +2,14 @@ import React from 'react';
 import {
   Box,
   createVarsResolver,
+  getRadius,
   parseThemeColor,
   polymorphicFactory,
   useProps,
   useStyles,
   type BoxProps,
+  type MantineColor,
+  type MantineRadius,
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
@@ -28,7 +31,9 @@ export type SplitFlapCssVariables = {
     | '--text-animate-split-flap-gap'
     | '--text-animate-split-flap-flip-duration'
     | '--text-animate-split-flap-char-width'
-    | '--text-animate-split-flap-char-height';
+    | '--text-animate-split-flap-char-height'
+    | '--text-animate-split-flap-radius'
+    | '--text-animate-split-flap-divider-color';
 };
 
 export interface SplitFlapProps
@@ -37,13 +42,13 @@ export interface SplitFlapProps
    * Background color of each flap
    * @default '#1a1a2e'
    */
-  bg?: string;
+  bg?: MantineColor;
 
   /**
    * Text color
    * @default '#e0e0e0'
    */
-  textColor?: string;
+  textColor?: MantineColor;
 
   /**
    * Gap between characters in px
@@ -62,6 +67,19 @@ export interface SplitFlapProps
    * @default '1.8em'
    */
   charHeight?: string;
+
+  /**
+   * Border radius of each flap card
+   * @default '4px'
+   */
+  radius?: MantineRadius;
+
+  /**
+   * Color of the horizontal divider line between top and bottom halves.
+   * Set to 'transparent' to hide it.
+   * @default 'rgba(0,0,0,0.3)'
+   */
+  dividerColor?: MantineColor;
 }
 
 export type SplitFlapFactory = PolymorphicFactory<{
@@ -84,10 +102,15 @@ const defaultProps: Partial<SplitFlapProps> = {
   gap: 4,
   charWidth: '1.2em',
   charHeight: '1.8em',
+  radius: '4px',
+  dividerColor: 'rgba(0,0,0,0.3)',
 };
 
 const varsResolver = createVarsResolver<SplitFlapFactory>(
-  (theme, { bg, textColor, gap, flipDuration, speed, charWidth, charHeight }) => ({
+  (
+    theme,
+    { bg, textColor, gap, flipDuration, speed, charWidth, charHeight, radius, dividerColor }
+  ) => ({
     root: {
       '--text-animate-split-flap-bg': bg ? parseThemeColor({ color: bg, theme }).value : undefined,
       '--text-animate-split-flap-color': textColor
@@ -102,6 +125,12 @@ const varsResolver = createVarsResolver<SplitFlapFactory>(
             : undefined,
       '--text-animate-split-flap-char-width': charWidth,
       '--text-animate-split-flap-char-height': charHeight,
+      '--text-animate-split-flap-radius': radius !== undefined ? getRadius(radius) : undefined,
+      '--text-animate-split-flap-divider-color': dividerColor
+        ? dividerColor === 'transparent'
+          ? 'transparent'
+          : parseThemeColor({ color: dividerColor, theme }).value
+        : undefined,
     },
   })
 );
@@ -129,6 +158,8 @@ export const SplitFlap = polymorphicFactory<SplitFlapFactory>((_props, ref) => {
     gap,
     charWidth,
     charHeight,
+    radius,
+    dividerColor,
 
     classNames,
     style,

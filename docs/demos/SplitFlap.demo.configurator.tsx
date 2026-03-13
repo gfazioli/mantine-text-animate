@@ -88,5 +88,20 @@ export const configurator: MantineDemo = {
       initialValue: '#e0e0e0',
       libraryValue: '#e0e0e0',
     },
+    {
+      prop: 'dividerColor',
+      type: 'color',
+      initialValue: 'rgba(0,0,0,0.3)',
+      libraryValue: 'rgba(0,0,0,0.3)',
+    },
+    {
+      prop: 'radius',
+      type: 'number',
+      initialValue: 4,
+      libraryValue: 4,
+      step: 1,
+      min: 0,
+      max: 16,
+    },
   ],
 };

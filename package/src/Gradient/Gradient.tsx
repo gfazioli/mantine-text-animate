@@ -8,6 +8,7 @@ import {
   useProps,
   useStyles,
   type BoxProps,
+  type MantineColor,
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
@@ -25,10 +26,10 @@ export type GradientCssVariables = {
 
 export interface GradientBaseProps {
   /**
-   * Array of CSS color values for the gradient
-   * @example ['#ff0000', '#00ff00', '#0000ff']
+   * Array of color values for the gradient — accepts Mantine color names or CSS values
+   * @example ['red', '#00ff00', 'blue']
    */
-  colors: string[];
+  colors: MantineColor[];
 
   /**
    * Animation speed in seconds (lower = faster)

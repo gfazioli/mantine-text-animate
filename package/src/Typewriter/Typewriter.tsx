@@ -57,7 +57,7 @@ export type TypewriterFactory = PolymorphicFactory<{
 }>;
 
 const defaultProps: Partial<TypewriterProps> = {
-  speed: 0.03,
+  speed: 1,
   delay: 2000,
   loop: true,
   withCursor: true,

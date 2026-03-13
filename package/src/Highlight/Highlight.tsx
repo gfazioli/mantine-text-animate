@@ -42,7 +42,7 @@ export interface HighlightBaseProps {
   animate?: boolean;
 
   /**
-   * Animation speed in seconds
+   * Animation speed multiplier (higher = faster)
    * @default 1
    */
   speed?: number;
@@ -85,7 +85,7 @@ const varsResolver = createVarsResolver<HighlightFactory>(
 
     return {
       root: {
-        '--text-animate-highlight-speed': `${speed || 1}s`,
+        '--text-animate-highlight-speed': `${1 / (speed || 1)}s`,
         '--text-animate-highlight-height': highlightHeight || '40%',
         '--text-animate-highlight-offset': highlightOffset || '60%',
         '--text-animate-highlight-color': resolvedColor,

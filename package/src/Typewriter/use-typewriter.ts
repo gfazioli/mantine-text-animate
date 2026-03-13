@@ -19,8 +19,8 @@ export interface TypewriterBaseProps {
   multiline?: boolean;
 
   /**
-   * The typing speed in seconds per character
-   * @default 0.03
+   * Animation speed multiplier (higher = faster)
+   * @default 1
    */
   speed?: number;
 
@@ -112,7 +112,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     value,
     animate = true,
     multiline = false,
-    speed = 0.03,
+    speed = 1,
     delay = 2000,
     loop = true,
     onTypeEnd,
@@ -288,7 +288,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
       if (displayText.length < currentFullText.length) {
         // Type the next character
         const nextIndex = displayText.length;
-        const charDelay = pauseAt?.[nextIndex] ?? speed * 1000;
+        const charDelay = pauseAt?.[nextIndex] ?? 30 / speed;
         timeoutRef.current = setTimeout(() => {
           playClick(false);
           onCharType?.(currentFullText[nextIndex], nextIndex);
@@ -352,7 +352,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         timeoutRef.current = setTimeout(() => {
           playClick(true);
           setDisplayText(displayText.substring(0, displayText.length - 1));
-        }, speed * 500); // Deleting is faster than typing
+        }, 15 / speed); // Deleting is faster than typing
       } else {
         // Finished deleting
         setIsDeleting(false);

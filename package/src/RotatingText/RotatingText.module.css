@@ -1,0 +1,240 @@
+.root {
+  --text-animate-rotating-speed: 0.5s;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  vertical-align: bottom;
+  height: 1lh;
+}
+
+.text {
+  display: inline-block;
+}
+
+.exiting {
+  position: absolute;
+  left: 0;
+  display: inline-block;
+}
+
+.entering {
+  display: inline-block;
+}
+
+/* slideUp */
+.exiting[data-rotating-text-animation='slideUp'] {
+  animation: rotate-out-up var(--text-animate-rotating-speed) ease-in forwards;
+}
+
+.entering[data-rotating-text-animation='slideUp'] {
+  animation: rotate-in-up var(--text-animate-rotating-speed) ease-out forwards;
+}
+
+/* slideDown */
+.exiting[data-rotating-text-animation='slideDown'] {
+  animation: rotate-out-down var(--text-animate-rotating-speed) ease-in forwards;
+}
+
+.entering[data-rotating-text-animation='slideDown'] {
+  animation: rotate-in-down var(--text-animate-rotating-speed) ease-out forwards;
+}
+
+/* fade */
+.exiting[data-rotating-text-animation='fade'] {
+  animation: rotate-out-fade var(--text-animate-rotating-speed) ease-in forwards;
+}
+
+.entering[data-rotating-text-animation='fade'] {
+  animation: rotate-in-fade var(--text-animate-rotating-speed) ease-out forwards;
+}
+
+/* blur */
+.exiting[data-rotating-text-animation='blur'] {
+  animation: rotate-out-blur var(--text-animate-rotating-speed) ease-in forwards;
+}
+
+.entering[data-rotating-text-animation='blur'] {
+  animation: rotate-in-blur var(--text-animate-rotating-speed) ease-out forwards;
+}
+
+/* blurUp */
+.exiting[data-rotating-text-animation='blurUp'] {
+  animation: rotate-out-blur-up var(--text-animate-rotating-speed) ease-in forwards;
+}
+
+.entering[data-rotating-text-animation='blurUp'] {
+  animation: rotate-in-blur-up var(--text-animate-rotating-speed) ease-out forwards;
+}
+
+/* blurDown */
+.exiting[data-rotating-text-animation='blurDown'] {
+  animation: rotate-out-blur-down var(--text-animate-rotating-speed) ease-in forwards;
+}
+
+.entering[data-rotating-text-animation='blurDown'] {
+  animation: rotate-in-blur-down var(--text-animate-rotating-speed) ease-out forwards;
+}
+
+/* --- Keyframes --- */
+
+@keyframes rotate-in-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate-out-up {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes rotate-in-down {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate-out-down {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes rotate-in-fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rotate-out-fade {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rotate-in-blur {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes rotate-out-blur {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes rotate-in-blur-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes rotate-out-blur-up {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes rotate-in-blur-down {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes rotate-out-blur-down {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+/* Reduced motion: instant swap, no animation */
+@media (prefers-reduced-motion: reduce) {
+  .exiting,
+  .entering {
+    animation: none;
+  }
+
+  .exiting {
+    display: none;
+  }
+}

@@ -26,6 +26,7 @@ v3.0.0 introduces new features and breaking changes:
 - **`TextAnimate.Highlight`** compound component — animated highlighter marker effect (CSS-only)
 - **`TextAnimate.SplitFlap`** compound component — airport departure board (Solari board) 3D flip display
 - **`TextAnimate.Morphing`** compound component — fluid text transitions using LCS algorithm
+- **`TextAnimate.RotatingText`** compound component — animated text carousel with slide/fade/blur transitions
 
 ## Installation
 
@@ -565,6 +566,103 @@ The `TextAnimate.Gradient` component displays text with an animated gradient bac
 The `TextAnimate.Highlight` component creates an animated highlighter marker effect on text. It uses a CSS animation to sweep a colored background from left to right, simulating a text highlighter pen.
 
 <Demo data={demos.highlightConfigurator} />
+
+## TextAnimate.RotatingText
+
+The `TextAnimate.RotatingText` component cycles through an array of text strings with smooth enter/exit animations. It supports multiple transition variants (slide, fade, blur) and is designed to be used inline alongside static text.
+
+<Demo data={demos.rotatingTextConfigurator} />
+
+### useRotatingText() hook
+
+The `TextAnimate.RotatingText` is built by using the `useRotatingText` hook.
+
+<Demo data={demos.rotatingTextHook} />
+
+The interface of the `useRotatingText` hook is the following:
+
+```tsx
+export interface RotatingTextBaseProps {
+  /**
+   * Array of text strings to rotate through
+   */
+  values: string[];
+
+  /**
+   * Whether the rotation animation is active
+   * @default true
+   */
+  animate?: boolean;
+
+  /**
+   * Time in milliseconds each text stays visible before rotating
+   * @default 3000
+   */
+  interval?: number;
+
+  /**
+   * Animation speed multiplier (higher = faster transition)
+   * @default 1
+   */
+  speed?: number;
+
+  /**
+   * Callback fired when the text rotates to a new index
+   */
+  onCycle?: (index: number) => void;
+}
+```
+
+And the return value of the `useRotatingText` hook is the following:
+
+```tsx
+export interface UseRotatingTextResult {
+  /**
+   * Index of the currently displayed text
+   */
+  currentIndex: number;
+
+  /**
+   * The currently displayed text
+   */
+  currentText: string;
+
+  /**
+   * Index of the next text to display
+   */
+  nextIndex: number;
+
+  /**
+   * The next text to display
+   */
+  nextText: string;
+
+  /**
+   * Whether a transition animation is in progress
+   */
+  isTransitioning: boolean;
+
+  /**
+   * Callback to attach to the entering element's onAnimationEnd
+   */
+  onTransitionEnd: () => void;
+
+  /**
+   * Start the rotation
+   */
+  start: () => void;
+
+  /**
+   * Stop the rotation
+   */
+  stop: () => void;
+
+  /**
+   * Reset to the first text
+   */
+  reset: () => void;
+}
+```
 
 ## TextAnimate.SplitFlap
 

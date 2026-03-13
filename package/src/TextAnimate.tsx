@@ -20,6 +20,7 @@ import { Gradient } from './Gradient/Gradient';
 import { Highlight } from './Highlight/Highlight';
 import { Morphing } from './Morphing/Morphing';
 import { NumberTicker } from './NumberTicker/NumberTicker';
+import { RotatingText } from './RotatingText/RotatingText';
 import { Spinner } from './Spinner/Spinner';
 import { SplitFlap } from './SplitFlap/SplitFlap';
 import { TextTicker } from './TextTicker/TextTicker';
@@ -249,6 +250,7 @@ export type TextAnimateFactory = PolymorphicFactory<{
     Highlight: typeof Highlight;
     SplitFlap: typeof SplitFlap;
     Morphing: typeof Morphing;
+    RotatingText: typeof RotatingText;
   };
 }>;
 
@@ -504,3 +506,4 @@ TextAnimate.Gradient = Gradient;
 TextAnimate.Highlight = Highlight;
 TextAnimate.SplitFlap = SplitFlap;
 TextAnimate.Morphing = Morphing;
+TextAnimate.RotatingText = RotatingText;

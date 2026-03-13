@@ -55,11 +55,11 @@ export const configurator: MantineDemo = {
     {
       prop: 'speed',
       type: 'number',
-      initialValue: 0.03,
-      libraryValue: 0.03,
-      step: 0.01,
-      min: 0,
-      max: 1,
+      initialValue: 1,
+      libraryValue: 1,
+      step: 0.1,
+      min: 0.1,
+      max: 10,
     },
     {
       prop: 'withCursor',

@@ -7,7 +7,7 @@ export default {
   title: 'Typewriter',
   args: {
     animate: false,
-    speed: 0.03,
+    speed: 1,
     delay: 2000,
     loop: true,
     withCursor: true,
@@ -17,7 +17,7 @@ export default {
   },
   argTypes: {
     animate: { control: { type: 'boolean' } },
-    speed: { control: { type: 'range', min: 0, max: 1, step: 0.01 } },
+    speed: { control: { type: 'range', min: 0.1, max: 10, step: 0.1 } },
     delay: { control: { type: 'range', min: 0, max: 10000, step: 100 } },
     loop: { control: { type: 'boolean' } },
     withCursor: { control: { type: 'boolean' } },

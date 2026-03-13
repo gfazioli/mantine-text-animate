@@ -57,11 +57,11 @@ export const configurator: MantineDemo = {
     {
       prop: 'speed',
       type: 'number',
-      initialValue: 3,
-      libraryValue: 3,
-      step: 0.5,
-      min: 0.5,
-      max: 10,
+      initialValue: 1,
+      libraryValue: 1,
+      step: 0.1,
+      min: 0.1,
+      max: 5,
     },
     {
       prop: 'direction',

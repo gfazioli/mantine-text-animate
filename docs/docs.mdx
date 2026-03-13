@@ -8,6 +8,7 @@ v3.0.0 introduces new features and breaking changes:
 ### Breaking Changes
 
 - **Spinner `children` type**: Now accepts `string | React.ReactNode[]`. When passing a `ReactNode[]`, text processing (repeat/reverse) is skipped and you must provide an explicit `aria-label`.
+- **`speed` prop semantics**: The `speed` prop on Typewriter, Gradient, and Highlight now works as a multiplier — higher values mean faster animation (consistent with all other components). Previous behavior was inverted (higher = slower). Default values changed: Typewriter `0.03` → `1`, Gradient `3` → `1`. If you were using custom `speed` values, invert them (e.g., old `speed={0.01}` on Typewriter ≈ new `speed={3}`).
 
 ### New Features (v3.0)
 
@@ -207,8 +208,8 @@ export interface TypewriterBaseProps {
   multiline?: boolean;
 
   /**
-   * The typing speed in seconds per character
-   * @default 0.03
+   * Animation speed multiplier (higher = faster)
+   * @default 1
    */
   speed?: number;
 

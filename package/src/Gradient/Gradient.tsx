@@ -32,8 +32,8 @@ export interface GradientBaseProps {
   colors: MantineColor[];
 
   /**
-   * Animation speed in seconds (lower = faster)
-   * @default 3
+   * Animation speed multiplier (higher = faster)
+   * @default 1
    */
   speed?: number;
 
@@ -67,7 +67,7 @@ export type GradientFactory = PolymorphicFactory<{
 }>;
 
 const defaultProps: Partial<GradientProps> = {
-  speed: 3,
+  speed: 1,
   direction: 90,
   animate: true,
 };
@@ -81,7 +81,7 @@ const varsResolver = createVarsResolver<GradientFactory>((_, { speed, direction 
 
   return {
     root: {
-      '--text-animate-gradient-speed': `${speed || 3}s`,
+      '--text-animate-gradient-speed': `${3 / (speed || 1)}s`,
       '--text-animate-gradient-direction': `${d}deg`,
       '--text-animate-gradient-end-x': `${endX}%`,
       '--text-animate-gradient-end-y': `${endY}%`,

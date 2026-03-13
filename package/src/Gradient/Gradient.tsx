@@ -2,7 +2,9 @@ import React from 'react';
 import {
   Box,
   createVarsResolver,
+  parseThemeColor,
   polymorphicFactory,
+  useMantineTheme,
   useProps,
   useStyles,
   type BoxProps,
@@ -111,6 +113,8 @@ export const Gradient = polymorphicFactory<GradientFactory>((_props, ref) => {
     ...others
   } = props;
 
+  const theme = useMantineTheme();
+
   const getStyles = useStyles<GradientFactory>({
     name: 'Gradient',
     props,
@@ -124,9 +128,12 @@ export const Gradient = polymorphicFactory<GradientFactory>((_props, ref) => {
     varsResolver,
   });
 
-  // Build the gradient string from colors array
-  const gradientColors = colors.length > 0 ? colors.join(', ') : '#000, #fff';
-  const backgroundImage = `linear-gradient(${direction ?? 90}deg, ${gradientColors}, ${colors[0] || '#000'})`;
+  // Resolve Mantine color names (e.g. "grape") to CSS color values
+  const resolvedColors = colors.map((c) => parseThemeColor({ color: c, theme }).value);
+
+  // Build the gradient string from resolved colors
+  const gradientColors = resolvedColors.length > 0 ? resolvedColors.join(', ') : '#000, #fff';
+  const backgroundImage = `linear-gradient(${direction ?? 90}deg, ${gradientColors}, ${resolvedColors[0] || '#000'})`;
 
   return (
     <Box

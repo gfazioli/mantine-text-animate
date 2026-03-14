@@ -3,7 +3,13 @@ import { Center } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
 function Wrapper(props: RotatingTextProps & { values: any }) {
-  const values = typeof props.values === 'string' ? props.values.split(',') : props.values;
+  const values =
+    typeof props.values === 'string'
+      ? props.values
+          .split(',')
+          .map((s: string) => s.trim())
+          .filter(Boolean)
+      : props.values;
 
   return (
     <Center h={100}>
@@ -14,7 +20,28 @@ function Wrapper(props: RotatingTextProps & { values: any }) {
   );
 }
 
-const code = `
+function getCode(props: Record<string, any>) {
+  const valuesRaw = props.values || 'React,Mantine,TypeScript';
+  const animation = props.animation ?? 'slideUp';
+  const interval = props.interval ?? 3000;
+  const speed = props.speed ?? 1;
+
+  const values = valuesRaw
+    .split(',')
+    .map((s: string) => s.trim())
+    .filter(Boolean);
+  const valuesStr = `{[${values.map((v: string) => `'${v}'`).join(', ')}]}`;
+
+  const extraProps = [
+    animation !== 'slideUp' ? `animation="${animation}"` : '',
+    interval !== 3000 ? `interval={${interval}}` : '',
+    speed !== 1 ? `speed={${speed}}` : '',
+  ]
+    .filter(Boolean)
+    .map((p) => `\n          ${p}`)
+    .join('');
+
+  return `
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Center } from '@mantine/core';
 
@@ -24,7 +51,7 @@ function Demo() {
       <span style={{ fontSize: 32, fontWeight: 700 }}>
         I love{' '}
         <TextAnimate.RotatingText
-          values={['React', 'Mantine', 'TypeScript']}{{props}}
+          values=${valuesStr}${extraProps}
           fz={32}
           fw={700}
           c="blue"
@@ -34,17 +61,18 @@ function Demo() {
   );
 }
 `;
+}
 
 export const configurator: MantineDemo = {
   type: 'configurator',
   component: Wrapper,
-  code,
+  code: getCode,
   controls: [
     {
       prop: 'values',
       type: 'string',
       initialValue: 'React,Mantine,TypeScript',
-      libraryValue: 'React,Mantine,TypeScript',
+      libraryValue: '',
     },
     {
       prop: 'animation',

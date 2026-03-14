@@ -2,14 +2,21 @@ import { TextAnimate, type RotatingTextProps } from '@gfazioli/mantine-text-anim
 import { Center } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
+const DEFAULT_VALUES = ['React', 'Mantine', 'TypeScript'];
+
+function parseValues(raw: any): string[] {
+  if (typeof raw !== 'string') {
+    return DEFAULT_VALUES;
+  }
+  const parsed = raw
+    .split(',')
+    .map((s: string) => s.trim())
+    .filter(Boolean);
+  return parsed.length > 0 ? parsed : DEFAULT_VALUES;
+}
+
 function Wrapper(props: RotatingTextProps & { values: any }) {
-  const values =
-    typeof props.values === 'string'
-      ? props.values
-          .split(',')
-          .map((s: string) => s.trim())
-          .filter(Boolean)
-      : props.values;
+  const values = parseValues(props.values);
 
   return (
     <Center h={100}>
@@ -21,16 +28,12 @@ function Wrapper(props: RotatingTextProps & { values: any }) {
 }
 
 function getCode(props: Record<string, any>) {
-  const valuesRaw = props.values || 'React,Mantine,TypeScript';
+  const values = parseValues(props.values);
   const animation = props.animation ?? 'slideUp';
   const interval = props.interval ?? 3000;
   const speed = props.speed ?? 1;
 
-  const values = valuesRaw
-    .split(',')
-    .map((s: string) => s.trim())
-    .filter(Boolean);
-  const valuesStr = `{[${values.map((v: string) => `'${v}'`).join(', ')}]}`;
+  const valuesStr = `{${JSON.stringify(values)}}`;
 
   const extraProps = [
     animation !== 'slideUp' ? `animation="${animation}"` : '',

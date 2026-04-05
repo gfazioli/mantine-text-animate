@@ -115,7 +115,7 @@ const varsResolver = createVarsResolver<SpinnerFactory>((_, { radius, speed, cha
  *
  * A component that displays text in a circle and rotates it.
  */
-export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
+export const Spinner = polymorphicFactory<SpinnerFactory>((_props) => {
   const props = useProps('Spinner', defaultProps, _props);
 
   const {
@@ -168,10 +168,13 @@ export const Spinner = polymorphicFactory<SpinnerFactory>((_props, ref) => {
 
   return (
     <Box
-      ref={ref}
       {...getStyles('root')}
-      role={isNodeArray && !others['aria-label'] ? undefined : 'img'}
-      aria-label={isNodeArray ? others['aria-label'] : (children as string)}
+      role={isNodeArray && !(others as Record<string, unknown>)['aria-label'] ? undefined : 'img'}
+      aria-label={
+        isNodeArray
+          ? ((others as Record<string, unknown>)['aria-label'] as string)
+          : (children as string)
+      }
       {...others}
     >
       <Box

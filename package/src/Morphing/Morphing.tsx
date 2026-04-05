@@ -47,7 +47,7 @@ const varsResolver = createVarsResolver<MorphingFactory>((_, { speed }) => ({
  * identify shared characters. Shared characters slide to their new positions
  * while unique characters fade in or out.
  */
-export const Morphing = polymorphicFactory<MorphingFactory>((_props, ref) => {
+export const Morphing = polymorphicFactory<MorphingFactory>((_props) => {
   const props = useProps('Morphing', defaultProps, _props);
 
   const {
@@ -88,7 +88,6 @@ export const Morphing = polymorphicFactory<MorphingFactory>((_props, ref) => {
 
   return (
     <Box
-      ref={ref}
       {...getStyles('root')}
       component="div"
       aria-live="polite"

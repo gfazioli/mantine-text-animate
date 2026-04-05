@@ -63,7 +63,7 @@ const varsResolver = createVarsResolver<NumberTickerFactory>((_, { delay, speed 
  * The animation can be controlled using the `started` prop, which allows
  * you to start and stop the animation programmatically.
  */
-export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref) => {
+export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props) => {
   const props = useProps('NumberTicker', defaultProps, _props);
 
   const {
@@ -117,7 +117,6 @@ export const NumberTicker = polymorphicFactory<NumberTickerFactory>((_props, ref
 
   return (
     <Box
-      ref={ref}
       {...getStyles('root', {
         style: {
           display: 'inline-block',

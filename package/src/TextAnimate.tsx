@@ -285,20 +285,23 @@ const containerStyles: React.CSSProperties = {
   minHeight: '1em',
 };
 
-const varsResolver = createVarsResolver<TextAnimateFactory>(
-  (_, { animateProps: { translateDistance, blurAmount, scaleAmount } }) => ({
-    root: {
-      '--text-animate-translation-distance': translateDistance
-        ? getSize(translateDistance, 'translate-distance')
-        : '20px',
-      '--text-animate-blur-amount': blurAmount ? getSize(blurAmount, 'blur-amount') : '10px',
-      '--text-animate-scale-amount': scaleAmount ? scaleAmount.toString() : '0.8',
-    },
-  })
-);
+const varsResolver = createVarsResolver<TextAnimateFactory>((_, { animateProps }) => ({
+  root: {
+    '--text-animate-translation-distance': animateProps?.translateDistance
+      ? getSize(animateProps.translateDistance, 'translate-distance')
+      : '20px',
+    '--text-animate-blur-amount': animateProps?.blurAmount
+      ? getSize(animateProps.blurAmount, 'blur-amount')
+      : '10px',
+    '--text-animate-scale-amount': animateProps?.scaleAmount
+      ? animateProps.scaleAmount.toString()
+      : '0.8',
+  },
+}));
 
-export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) => {
-  const props = useProps('TextAnimate', defaultProps, _props);
+export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props) => {
+  const { ref, ...restProps } = _props as typeof _props & { ref?: React.Ref<HTMLDivElement> };
+  const props = useProps('TextAnimate', defaultProps, restProps);
   const {
     delay,
     duration,
@@ -327,7 +330,8 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
   } = props;
 
   // Use provided segmentDelay or default based on animation type
-  const staggerTiming = segmentDelay !== undefined ? segmentDelay : defaultStaggerTimings[by];
+  const staggerTiming =
+    segmentDelay !== undefined ? segmentDelay : defaultStaggerTimings[by ?? 'character'];
 
   // Track completed segment animations and will-change lifecycle
   const completedCountRef = useRef(0);
@@ -503,7 +507,7 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props, ref) 
           {...getStyles('segment', {
             style: {
               ...(by === 'line' ? { display: 'block', whiteSpace: 'normal' } : {}),
-              animationDelay: `${delay + i * staggerTiming}s`,
+              animationDelay: `${(delay ?? 0) + i * staggerTiming}s`,
               animationDuration: `${duration}s`,
               animationFillMode: 'forwards',
               animationDirection: effectiveAnimate === 'in' ? 'normal' : 'reverse',

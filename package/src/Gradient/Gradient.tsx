@@ -94,7 +94,7 @@ const varsResolver = createVarsResolver<GradientFactory>((_, { speed, direction 
  *
  * A component that displays text with an animated gradient background.
  */
-export const Gradient = polymorphicFactory<GradientFactory>((_props, ref) => {
+export const Gradient = polymorphicFactory<GradientFactory>((_props) => {
   const props = useProps('Gradient', defaultProps, _props);
 
   const {
@@ -138,7 +138,6 @@ export const Gradient = polymorphicFactory<GradientFactory>((_props, ref) => {
 
   return (
     <Box
-      ref={ref}
       {...getStyles('root', {
         style: {
           backgroundImage,

@@ -99,7 +99,7 @@ const varsResolver = createVarsResolver<HighlightFactory>(
  *
  * A component that displays text with an animated highlight (marker) effect.
  */
-export const Highlight = polymorphicFactory<HighlightFactory>((_props, ref) => {
+export const Highlight = polymorphicFactory<HighlightFactory>((_props) => {
   const props = useProps('Highlight', defaultProps, _props);
 
   const {
@@ -135,7 +135,6 @@ export const Highlight = polymorphicFactory<HighlightFactory>((_props, ref) => {
 
   return (
     <Box
-      ref={ref}
       {...getStyles('root', {
         style: {
           backgroundImage: `linear-gradient(to right, var(--text-animate-highlight-color), var(--text-animate-highlight-color))`,

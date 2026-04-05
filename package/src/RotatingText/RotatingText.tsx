@@ -62,7 +62,7 @@ const varsResolver = createVarsResolver<RotatingTextFactory>((_, { speed }) => (
  * A component that cycles through an array of text strings with smooth
  * enter/exit animations, similar to an animated text carousel.
  */
-export const RotatingText = polymorphicFactory<RotatingTextFactory>((_props, ref) => {
+export const RotatingText = polymorphicFactory<RotatingTextFactory>((_props) => {
   const props = useProps('RotatingText', defaultProps, _props);
 
   const {
@@ -105,7 +105,7 @@ export const RotatingText = polymorphicFactory<RotatingTextFactory>((_props, ref
   });
 
   return (
-    <Box ref={ref} {...getStyles('root')} component="span" aria-live="polite" {...others}>
+    <Box {...getStyles('root')} component="span" aria-live="polite" {...others}>
       {isTransitioning ? (
         <>
           <Box component="span" {...getStyles('exiting')} data-rotating-text-animation={animation}>

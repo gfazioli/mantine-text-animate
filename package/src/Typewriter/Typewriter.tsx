@@ -73,7 +73,7 @@ const defaultProps: Partial<TypewriterProps> = {
  *
  * A component that creates a typewriter effect using TextAnimate.
  */
-export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) => {
+export const Typewriter = polymorphicFactory<TypewriterFactory>((_props) => {
   const props = useProps('Typewriter', defaultProps, _props);
 
   const {
@@ -135,7 +135,6 @@ export const Typewriter = polymorphicFactory<TypewriterFactory>((_props, ref) =>
 
   return (
     <Box
-      ref={ref}
       {...getStyles('root')}
       data-text-animate-typewriter-multiline={multiline}
       aria-live="polite"

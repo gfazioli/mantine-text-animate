@@ -54,7 +54,7 @@ const varsResolver = createVarsResolver<TextTickerFactory>((_, { delay, speed })
  * A component that animates text from random characters to a target string.
  * This implementation uses the useTextTicker hook internally.
  */
-export const TextTicker = polymorphicFactory<TextTickerFactory>((_props, ref) => {
+export const TextTicker = polymorphicFactory<TextTickerFactory>((_props) => {
   const props = useProps('TextTicker', defaultProps, _props);
 
   const {
@@ -114,7 +114,6 @@ export const TextTicker = polymorphicFactory<TextTickerFactory>((_props, ref) =>
 
   return (
     <Box
-      ref={ref}
       {...getStyles('root', {
         style: {
           display: 'inline-block',

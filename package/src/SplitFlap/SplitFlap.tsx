@@ -141,7 +141,7 @@ const varsResolver = createVarsResolver<SplitFlapFactory>(
  * An airport departure board (split-flap display) effect that animates text
  * by cycling each character through a character set with a 3D flip animation.
  */
-export const SplitFlap = polymorphicFactory<SplitFlapFactory>((_props, ref) => {
+export const SplitFlap = polymorphicFactory<SplitFlapFactory>((_props) => {
   const props = useProps('SplitFlap', defaultProps, _props);
 
   const {
@@ -196,7 +196,7 @@ export const SplitFlap = polymorphicFactory<SplitFlapFactory>((_props, ref) => {
   });
 
   return (
-    <Box ref={ref} {...getStyles('root')} component="div" aria-live="polite" {...others}>
+    <Box {...getStyles('root')} component="div" aria-live="polite" {...others}>
       {characters.map((char, i) => (
         <Box {...getStyles('character')} key={i}>
           {/* Top half: shows NEXT char during flip (revealed behind flapTop),

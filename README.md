@@ -18,6 +18,7 @@
 ## Overview
 
 This component is created on top of the [Mantine](https://mantine.dev/) library.
+It requires **Mantine 9.x** and **React 19**.
 
 [Mantine TextAnimate](https://gfazioli.github.io/mantine-text-animate/) is a comprehensive animation toolkit for text in React, designed to integrate seamlessly with Mantine UI. At its core, the TextAnimate component lets you choose entry/exit/static states and apply animations such as slide, scale, and blur, while controlling granularity with the by prop (character, word, line) and timing through duration, delay, and segmentDelay. Fine‑tuning is enabled via animateProps—translateDistance, scaleAmount, and blurAmount—so you can tailor motion intensity per effect. Event handlers like onAnimationStart and onAnimationEnd make it straightforward to react to animation lifecycles.
 

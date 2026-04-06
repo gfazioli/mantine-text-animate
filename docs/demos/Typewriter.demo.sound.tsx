@@ -21,7 +21,7 @@ function Demo() {
           animate={playing}
           withSound
           soundVolume={0.3}
-          speed={0.1}
+          speed={0.25}
         />
       </Stack>
     </Center>
@@ -51,7 +51,7 @@ function Demo() {
           animate={playing}
           withSound
           soundVolume={0.3}
-          speed={0.1}
+          speed={0.25}
         />
       </Stack>
     </Center>

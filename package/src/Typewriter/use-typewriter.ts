@@ -183,33 +183,31 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         oscillator.connect(gain);
         gain.connect(ctx.destination);
 
-        oscillator.frequency.value = isDeleting ? 400 : 800;
+        // Randomize frequency per keystroke for a natural mechanical keyboard feel
+        const baseFreq = isDeleting ? 400 : 800;
+        const freqVariation = (Math.random() - 0.5) * 200; // ±100Hz
+        oscillator.frequency.value = baseFreq + freqVariation;
         oscillator.type = 'square';
 
-        const vol = Math.max(0, Math.min(1, soundVolume));
+        // Randomize volume slightly for natural variation
+        const baseVol = Math.max(0, Math.min(1, soundVolume));
+        const volVariation = (Math.random() - 0.5) * 0.15; // ±7.5%
+        const vol = Math.max(0.01, Math.min(1, baseVol + volVariation));
+
+        // Randomize duration slightly (12-18ms)
+        const duration = 0.012 + Math.random() * 0.006;
+
         gain.gain.setValueAtTime(vol, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
 
         oscillator.start(ctx.currentTime);
-        oscillator.stop(ctx.currentTime + 0.015);
+        oscillator.stop(ctx.currentTime + duration);
       } catch {
         // AudioContext may fail without user gesture or in restricted environments
       }
     },
     [withSound, soundVolume]
   );
-
-  // Play sound in sync with rendered text — triggered by displayText changes, not in the timeout
-  const prevDisplayLengthRef = useRef(0);
-  useEffect(() => {
-    if (!isTyping || displayText.length === prevDisplayLengthRef.current) {
-      prevDisplayLengthRef.current = displayText.length;
-      return;
-    }
-    const wasDeleting = displayText.length < prevDisplayLengthRef.current;
-    prevDisplayLengthRef.current = displayText.length;
-    playClick(wasDeleting);
-  }, [displayText, isTyping, playClick]);
 
   // Current full text being typed
   const currentFullText = textArray[currentTextIndex];

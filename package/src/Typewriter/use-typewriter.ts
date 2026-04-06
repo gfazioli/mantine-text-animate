@@ -199,6 +199,18 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     [withSound, soundVolume]
   );
 
+  // Play sound in sync with rendered text — triggered by displayText changes, not in the timeout
+  const prevDisplayLengthRef = useRef(0);
+  useEffect(() => {
+    if (!isTyping || displayText.length === prevDisplayLengthRef.current) {
+      prevDisplayLengthRef.current = displayText.length;
+      return;
+    }
+    const wasDeleting = displayText.length < prevDisplayLengthRef.current;
+    prevDisplayLengthRef.current = displayText.length;
+    playClick(wasDeleting);
+  }, [displayText, isTyping, playClick]);
+
   // Current full text being typed
   const currentFullText = textArray[currentTextIndex];
 
@@ -297,7 +309,6 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         const nextIndex = displayText.length;
         const charDelay = pauseAt?.[nextIndex] ?? 30 / speed;
         timeoutRef.current = setTimeout(() => {
-          playClick(false);
           onCharType?.(currentFullText[nextIndex], nextIndex);
           setDisplayText(currentFullText.substring(0, nextIndex + 1));
         }, charDelay);
@@ -357,7 +368,6 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
       if (displayText.length > 0) {
         // Delete a character
         timeoutRef.current = setTimeout(() => {
-          playClick(true);
           setDisplayText(displayText.substring(0, displayText.length - 1));
         }, 15 / speed); // Deleting is faster than typing
       } else {
@@ -392,7 +402,6 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     onTypeLoop,
     onCharType,
     pauseAt,
-    playClick,
   ]);
 
   // Return the appropriate text format based on multiline

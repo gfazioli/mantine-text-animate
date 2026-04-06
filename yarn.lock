@@ -2214,23 +2214,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mantine/code-highlight@npm:9.0.0":
-  version: 9.0.0
-  resolution: "@mantine/code-highlight@npm:9.0.0"
+"@mantine/code-highlight@npm:9.0.1":
+  version: 9.0.1
+  resolution: "@mantine/code-highlight@npm:9.0.1"
   dependencies:
     clsx: "npm:^2.1.1"
   peerDependencies:
-    "@mantine/core": 9.0.0
-    "@mantine/hooks": 9.0.0
+    "@mantine/core": 9.0.1
+    "@mantine/hooks": 9.0.1
     react: ^19.2.0
     react-dom: ^19.2.0
-  checksum: 10c0/37feb021fa273e794fe8ced4900f7748db1a5f77100be1c58c0f23503741c73c499768b2e341360ca66f6895efc9f0f1b8eb17a5c742c11a4efcfd76ac8f2bbc
+  checksum: 10c0/107c2cf71143550e51b9c1a2d896958ab77bef966d11b87ff762dd83e2616bd16d130124af4455338ebad8615b0874204f0cfdd0b3da37d46965c827262bdaf4
   languageName: node
   linkType: hard
 
-"@mantine/core@npm:9.0.0":
-  version: 9.0.0
-  resolution: "@mantine/core@npm:9.0.0"
+"@mantine/core@npm:9.0.1":
+  version: 9.0.1
+  resolution: "@mantine/core@npm:9.0.1"
   dependencies:
     "@floating-ui/react": "npm:^0.27.19"
     clsx: "npm:^2.1.1"
@@ -2238,19 +2238,19 @@ __metadata:
     react-remove-scroll: "npm:^2.7.2"
     type-fest: "npm:^5.5.0"
   peerDependencies:
-    "@mantine/hooks": 9.0.0
+    "@mantine/hooks": 9.0.1
     react: ^19.2.0
     react-dom: ^19.2.0
-  checksum: 10c0/7310fbb15d03fb8c5ba7941553e4ef33e61f4213d64416b56e0a053316e43b406a4df5bb66368f977c3c42944eb7d764d741e31d2cda9444fd167647e8b159c1
+  checksum: 10c0/64cc3297ab48dc9c3d7d3d27379fac70838889b2f72d715654df2b73220d5eb122476ad87750ceb5d35108f986d8fd47de89fbd6a0eb9d8916b38b294cf011d0
   languageName: node
   linkType: hard
 
-"@mantine/hooks@npm:9.0.0":
-  version: 9.0.0
-  resolution: "@mantine/hooks@npm:9.0.0"
+"@mantine/hooks@npm:9.0.1":
+  version: 9.0.1
+  resolution: "@mantine/hooks@npm:9.0.1"
   peerDependencies:
     react: ^19.2.0
-  checksum: 10c0/fec1cd50d19df964c9d080d93b75a063c6bbaa15ac75bc5d3da4d72f1c0a601ef867f639206c6d2503505bb7db2b0b66764b426fa24ea10bf9d15eea4d328f6a
+  checksum: 10c0/1d2f97f51d25466f0e0f13ac30a2557a1e9295b5475daa6fee52eedc95ad4c4c2e888ff07ecb12c06c82a2fcd78c5bcf0f804c2ba9c0da0206d2aebe11f36cde
   languageName: node
   linkType: hard
 
@@ -3223,6 +3223,22 @@ __metadata:
   version: 10.0.2
   resolution: "@shikijs/vscode-textmate@npm:10.0.2"
   checksum: 10c0/36b682d691088ec244de292dc8f91b808f95c89466af421cf84cbab92230f03c8348649c14b3251991b10ce632b0c715e416e992dd5f28ff3221dc2693fd9462
+  languageName: node
+  linkType: hard
+
+"@simple-git/args-pathspec@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@simple-git/args-pathspec@npm:1.0.1"
+  checksum: 10c0/3ea2175e676c682255d4a10f275062d46dbb31a834eb53960a120681bde5c9f4ca7dbffdb2c6ec79e9969336604641df0f2595f36574068e7abefc2840614e2f
+  languageName: node
+  linkType: hard
+
+"@simple-git/argv-parser@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@simple-git/argv-parser@npm:1.0.2"
+  dependencies:
+    "@simple-git/args-pathspec": "npm:^1.0.1"
+  checksum: 10c0/f3e91ff99b35e2f190d071d127a6e4fcb05ea489fb13b959c0369767e2a639c01ca3cf98cc397d84fcf437a890a67597c1c35bd659263026bf0ef505cd49ee1d
   languageName: node
   linkType: hard
 
@@ -6292,9 +6308,9 @@ __metadata:
   resolution: "extension-template-docs@workspace:docs"
   dependencies:
     "@gfazioli/mantine-text-animate": "workspace:*"
-    "@mantine/code-highlight": "npm:9.0.0"
-    "@mantine/core": "npm:9.0.0"
-    "@mantine/hooks": "npm:9.0.0"
+    "@mantine/code-highlight": "npm:9.0.1"
+    "@mantine/core": "npm:9.0.1"
+    "@mantine/hooks": "npm:9.0.1"
     "@mantinex/demo": "npm:^2.0.0"
     "@mantinex/dev-icons": "npm:^2.0.0"
     "@mantinex/mantine-header": "npm:^2.0.0"
@@ -8627,8 +8643,8 @@ __metadata:
   resolution: "m-90d2bb8@workspace:."
   dependencies:
     "@mantine-tests/core": "npm:^2.1.0"
-    "@mantine/core": "npm:9.0.0"
-    "@mantine/hooks": "npm:9.0.0"
+    "@mantine/core": "npm:9.0.1"
+    "@mantine/hooks": "npm:9.0.1"
     "@rollup/plugin-node-resolve": "npm:^16.0.3"
     "@rollup/plugin-replace": "npm:^6.0.3"
     "@storybook/addon-themes": "npm:^10.3.4"
@@ -8672,7 +8688,7 @@ __metadata:
     rollup-plugin-node-externals: "npm:^8.1.2"
     rollup-plugin-postcss: "npm:^4.0.2"
     signale: "npm:^1.4.0"
-    simple-git: "npm:^3.33.0"
+    simple-git: "npm:^3.35.1"
     storybook: "npm:^10.3.4"
     stylelint: "npm:^16.26.1"
     stylelint-config-standard-scss: "npm:^14.0.0"
@@ -8680,7 +8696,7 @@ __metadata:
     tsx: "npm:^4.21.0"
     typescript: "npm:6.0.2"
     version-next: "npm:^1.0.2"
-    vite: "npm:^6.4.1"
+    vite: "npm:^6.4.2"
     yargs: "npm:^17.7.2"
     zx: "npm:^8.8.5"
   languageName: unknown
@@ -12065,14 +12081,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:^3.33.0":
-  version: 3.33.0
-  resolution: "simple-git@npm:3.33.0"
+"simple-git@npm:^3.35.1":
+  version: 3.35.1
+  resolution: "simple-git@npm:3.35.1"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
+    "@simple-git/args-pathspec": "npm:^1.0.1"
+    "@simple-git/argv-parser": "npm:^1.0.2"
     debug: "npm:^4.4.0"
-  checksum: 10c0/463e91f3ee04b7fc445284c64502a4ee3d607f626f18c8bcc036815a30fe178d2216976e683c6368edd7b3093801d6e534deeb8e700a4863a76ef23f881a0712
+  checksum: 10c0/9318c7b98f52d993cc48f966df407238e70b1398d73d0e6f83d8228e0621b47df7c59bf036cd5dd53c85c0c219ad5f0842249d3e4d1a16e9ab63b1cefdfc8381
   languageName: node
   linkType: hard
 
@@ -13505,9 +13523,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.4.1":
-  version: 6.4.1
-  resolution: "vite@npm:6.4.1"
+"vite@npm:^6.4.2":
+  version: 6.4.2
+  resolution: "vite@npm:6.4.2"
   dependencies:
     esbuild: "npm:^0.25.0"
     fdir: "npm:^6.4.4"
@@ -13556,7 +13574,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/77bb4c5b10f2a185e7859cc9a81c789021bc18009b02900347d1583b453b58e4b19ff07a5e5a5b522b68fc88728460bb45a63b104d969e8c6a6152aea3b849f7
+  checksum: 10c0/9a62bb4259b4b11b9084c8dc5c25a21c9340d87d83de163d3643f15629d8ac3c2a3a4cda565f1a61e98afc9d78e9cb78eb25d1ae3c302e95d42d13ab61537267
   languageName: node
   linkType: hard
 

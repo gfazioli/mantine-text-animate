@@ -402,6 +402,7 @@ export function useSplitFlap({
       // Update character count if value length changed
       setCharacters(createInitialCharacters(targetText.length));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   }, [targetText]);
 
   // Cleanup on unmount

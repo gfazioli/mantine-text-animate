@@ -305,11 +305,16 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
       if (displayText.length < currentFullText.length) {
         // Type the next character
         const nextIndex = displayText.length;
-        const charDelay = pauseAt?.[nextIndex] ?? 30 / speed;
+        const baseDelay = pauseAt?.[nextIndex] ?? 30 / speed;
+        // When sound is active, add natural typing jitter (±30% variation + occasional micro-pauses)
+        const jitter = withSound
+          ? baseDelay * (0.7 + Math.random() * 0.6) + (Math.random() < 0.08 ? baseDelay * 1.5 : 0)
+          : baseDelay;
         timeoutRef.current = setTimeout(() => {
           onCharType?.(currentFullText[nextIndex], nextIndex);
           setDisplayText(currentFullText.substring(0, nextIndex + 1));
-        }, charDelay);
+          playClick(false);
+        }, jitter);
       } else {
         // Finished typing
         setIsTyping(false);
@@ -365,9 +370,14 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     if (isTyping && isDeleting) {
       if (displayText.length > 0) {
         // Delete a character
+        const deleteBaseDelay = 15 / speed;
+        const deleteJitter = withSound
+          ? deleteBaseDelay * (0.7 + Math.random() * 0.6)
+          : deleteBaseDelay;
         timeoutRef.current = setTimeout(() => {
           setDisplayText(displayText.substring(0, displayText.length - 1));
-        }, 15 / speed); // Deleting is faster than typing
+          playClick(true);
+        }, deleteJitter); // Deleting is faster than typing
       } else {
         // Finished deleting
         setIsDeleting(false);
@@ -400,6 +410,8 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     onTypeLoop,
     onCharType,
     pauseAt,
+    playClick,
+    withSound,
   ]);
 
   // Return the appropriate text format based on multiline

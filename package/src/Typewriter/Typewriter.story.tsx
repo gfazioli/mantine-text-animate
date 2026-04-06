@@ -198,3 +198,76 @@ export function MultilineHook(props: TypewriterBaseProps) {
     </>
   );
 }
+
+export function SoundLab() {
+  const [playing, setPlaying] = React.useState(false);
+  const [speed, setSpeed] = React.useState(0.25);
+  const [volume, setVolume] = React.useState(0.3);
+  const [mono, setMono] = React.useState(false);
+
+  return (
+    <Center h={450}>
+      <Stack align="center" w={500} gap="lg">
+        <Text fw={700} fz="lg">
+          Sound Lab
+        </Text>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <label>
+            <input
+              type="checkbox"
+              checked={playing}
+              onChange={(e) => setPlaying(e.target.checked)}
+            />{' '}
+            Play
+          </label>
+          <label>
+            <input type="checkbox" checked={mono} onChange={(e) => setMono(e.target.checked)} />{' '}
+            Monospace
+          </label>
+        </div>
+
+        <Typewriter
+          fz={24}
+          fw={600}
+          ff={mono ? 'monospace' : undefined}
+          value={[
+            'Click to hear the sound...',
+            'Mechanical keyboard vibes!',
+            'Typewriter with sound effects',
+          ]}
+          animate={playing}
+          withSound
+          soundVolume={volume}
+          speed={speed}
+        />
+
+        <div style={{ width: '100%' }}>
+          <label>Speed: {speed.toFixed(2)}</label>
+          <input
+            type="range"
+            min={0.05}
+            max={1}
+            step={0.05}
+            value={speed}
+            onChange={(e) => setSpeed(parseFloat(e.target.value))}
+            style={{ width: '100%' }}
+          />
+        </div>
+
+        <div style={{ width: '100%' }}>
+          <label>Volume: {volume.toFixed(2)}</label>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.05}
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            style={{ width: '100%' }}
+          />
+        </div>
+      </Stack>
+    </Center>
+  );
+}

@@ -7,9 +7,13 @@
   "license": "MIT",
   "author": "Giovambattista Fazioli <giovambattista.fazioli@gmail.com>",
   "keywords": [
+    "animation",
+    "component",
     "counter",
     "extension",
     "mantine",
+    "mantine-ui",
+    "mantine-v9",
     "react",
     "react-component",
     "spinner",

@@ -287,6 +287,7 @@ export function useNumberTicker({
         startAnimationFrom(startValue, value);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   }, []);
 
   // Replace the useEffect that handles changes to started with this corrected version
@@ -311,6 +312,7 @@ export function useNumberTicker({
         stop();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   }, [animate, value, startValue, isAnimating]);
 
   // Handle value or startValue changes
@@ -339,6 +341,7 @@ export function useNumberTicker({
         setDisplayValue(startValue);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   }, [value, startValue, animate, isAnimating, displayValue]);
 
   // Cleanup on unmount

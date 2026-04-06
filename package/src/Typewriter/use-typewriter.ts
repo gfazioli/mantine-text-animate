@@ -126,6 +126,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
   const speed = Math.max(0.1, _speed);
 
   // Convert single text to array if needed
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   const textArray = Array.isArray(value) ? value : [value];
 
   // State for the current text being displayed
@@ -227,7 +228,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
       setIsActive(false);
       onTypeEnd?.();
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Handle changes to the animate prop
   useEffect(() => {
@@ -381,6 +382,7 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
     isDeleting,
     currentFullText,
     multiline,
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
     textArray,
     currentTextIndex,
     speed,

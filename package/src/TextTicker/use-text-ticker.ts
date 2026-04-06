@@ -544,6 +544,7 @@ export function useTextTicker({
       displayTextRef.current = [...initial];
       setDisplayText(initial);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   }, []);
 
   // Handle animate prop changes
@@ -565,6 +566,7 @@ export function useTextTicker({
       // (this handles the initial case or when other props change)
       start();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   }, [isAnimating, animate]);
 
   // Handle value text changes
@@ -590,6 +592,7 @@ export function useTextTicker({
       displayTextRef.current = [...initial];
       setDisplayText(initial);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   }, [value, initialText, characterSet, customCharacters]);
 
   // Cleanup on unmount

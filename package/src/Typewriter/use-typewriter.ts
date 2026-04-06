@@ -126,7 +126,6 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
   const speed = Math.max(0.1, _speed);
 
   // Convert single text to array if needed
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: adding deps would cause animation loops
   const textArray = Array.isArray(value) ? value : [value];
 
   // State for the current text being displayed
@@ -189,10 +188,13 @@ export function useTypewriter(options: TypewriterBaseProps): UseTypewriterResult
         oscillator.frequency.value = baseFreq + freqVariation;
         oscillator.type = 'square';
 
-        // Randomize volume slightly for natural variation
+        // Randomize volume slightly for natural variation; skip playback if volume is 0
         const baseVol = Math.max(0, Math.min(1, soundVolume));
+        if (baseVol <= 0) {
+          return;
+        }
         const volVariation = (Math.random() - 0.5) * 0.15; // ±7.5%
-        const vol = Math.max(0.01, Math.min(1, baseVol + volVariation));
+        const vol = Math.max(0.001, Math.min(1, baseVol + volVariation));
 
         // Randomize duration slightly (12-18ms)
         const duration = 0.012 + Math.random() * 0.006;

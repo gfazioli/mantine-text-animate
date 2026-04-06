@@ -14,7 +14,7 @@
 | `yarn docgen` | Generate component API docs (docgen.json) |
 | `yarn docs:build` | Build the Next.js docs site for production |
 | `yarn docs:deploy` | Build and deploy docs to GitHub Pages |
-| `yarn lint` | Run oxlint + Stylelint + Stylelint |
+| `yarn lint` | Run oxlint + Stylelint |
 | `yarn format:write` | Format all files with oxfmt |
 | `yarn typecheck` | TypeScript check (root + docs) |
 | `yarn storybook` | Start Storybook dev server (port 8271) |

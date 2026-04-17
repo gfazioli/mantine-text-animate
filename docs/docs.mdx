@@ -1,32 +1,7 @@
 import { InstallScript } from './components/InstallScript/InstallScript';
 import * as demos from './demos';
 
-## Update from v2 to v3
-
-v3.0.0 introduces new features and breaking changes:
-
-### Breaking Changes
-
-- **Spinner `children` type**: Now accepts `string | React.ReactNode[]`. When passing a `ReactNode[]`, text processing (repeat/reverse) is skipped and you must provide an explicit `aria-label`.
-- **`speed` prop semantics**: The `speed` prop on Typewriter, Gradient, and Highlight now works as a multiplier — higher values mean faster animation (consistent with all other components). Previous behavior was inverted (higher = slower). Default values changed: Typewriter `0.03` → `1`, Gradient `3` → `1`. If you were using custom `speed` values, invert them (e.g., old `speed={0.01}` on Typewriter ≈ new `speed={3}`).
-
-### New Features (v3.0)
-
-- **`onCharType` callback** on Typewriter — called for each character typed with `(char, index)`
-- **`pauseAt` prop** on Typewriter — map of char index → pause duration (ms) for custom pauses
-- **`prefix` / `suffix` props** on NumberTicker — render content before/after the number
-- **`onAnimationComplete` callback** on TextAnimate — fires when all segments finish animating
-- **`trigger` prop** on TextAnimate — `'mount'` (default), `'inView'` (IntersectionObserver), or `'manual'`
-- **`useTextAnimate()` hook** — returns `{ animate, setAnimate, replay, isAnimating, key, onAnimationComplete }`
-- **`TextAnimate.Gradient`** compound component — animated gradient text via `background-clip: text`
-- **`animate="loop"`** on TextAnimate — automatic in→pause→out→pause cycle with configurable `loopDelay`
-- **`withSound` prop** on Typewriter — synthesized mechanical keyboard click via Web Audio API
-- **`formatValue` prop** on NumberTicker — override the default `Intl.NumberFormat` formatting
-- **Scramble mode** on TextTicker — deterministic per-character scramble via `scrambleDuration` and `staggerDelay`
-- **`TextAnimate.Highlight`** compound component — animated highlighter marker effect (CSS-only)
-- **`TextAnimate.SplitFlap`** compound component — airport departure board (Solari board) 3D flip display
-- **`TextAnimate.Morphing`** compound component — fluid text transitions using LCS algorithm
-- **`TextAnimate.RotatingText`** compound component — animated text carousel with slide/fade/blur transitions
+> **Upgrading from an older major version?** See the [Upgrade guide](/?t=migrations) for breaking changes and step-by-step migration instructions.
 
 ## Installation
 

@@ -1,4 +1,3 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
   createVarsResolver,
@@ -16,6 +15,7 @@ import {
   type TextVariant,
 } from '@mantine/core';
 import { useMergedRef } from '@mantine/hooks';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Gradient } from './Gradient/Gradient';
 import { Highlight } from './Highlight/Highlight';
 import { Morphing } from './Morphing/Morphing';

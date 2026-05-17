@@ -1,5 +1,5 @@
-import React from 'react';
 import { render } from '@mantine-tests/core';
+import React from 'react';
 import { NumberTicker } from './NumberTicker';
 
 describe('NumberTicker', () => {

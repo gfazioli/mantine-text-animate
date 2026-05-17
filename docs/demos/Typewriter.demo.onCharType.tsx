@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Badge, Center, Group, Stack, Text } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
+import { useMemo, useState } from 'react';
 
 function Demo() {
   const [lastChar, setLastChar] = useState('');

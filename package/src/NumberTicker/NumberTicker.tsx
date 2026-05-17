@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   createVarsResolver,
@@ -9,6 +8,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React from 'react';
 import { useNumberTicker, type NumberTickerBaseProps } from './use-number-ticker';
 import classes from './NumberTicker.module.css';
 

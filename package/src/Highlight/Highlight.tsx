@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   createVarsResolver,
@@ -11,6 +10,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React from 'react';
 import classes from './Highlight.module.css';
 
 export type HighlightStylesNames = 'root';

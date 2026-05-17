@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Badge, Button, Center, Code, Paper, Stack, Title } from '@mantine/core';
+import React, { useState } from 'react';
 import { NumberTicker, NumberTickerProps } from './NumberTicker';
 import { NumberTickerBaseProps, useNumberTicker } from './use-number-ticker';
 

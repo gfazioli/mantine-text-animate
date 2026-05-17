@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Center, Stack, TextInput } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
+import { useState } from 'react';
 
 function Demo() {
   const [text, setText] = useState('Hello World');

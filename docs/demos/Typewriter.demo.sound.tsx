@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Center, Group, Slider, Stack, Switch, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
+import { useState } from 'react';
 
 function Demo() {
   const [playing, { toggle }] = useDisclosure(false);

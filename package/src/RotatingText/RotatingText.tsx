@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   createVarsResolver,
@@ -9,6 +8,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React from 'react';
 import { useRotatingText, type RotatingTextBaseProps } from './use-rotating-text';
 import classes from './RotatingText.module.css';
 

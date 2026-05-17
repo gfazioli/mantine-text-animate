@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Center, Paper, SegmentedControl, Stack, Text } from '@mantine/core';
+import React, { useState } from 'react';
 import { TextAnimate, TextAnimateProps } from './TextAnimate';
 
 export default {

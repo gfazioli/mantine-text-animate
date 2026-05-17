@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Badge, Button, Center, Code, Paper, Stack } from '@mantine/core';
+import React, { useState } from 'react';
 import { TextTicker, TextTickerProps } from './TextTicker';
 import { TextTickerBaseProps, useTextTicker } from './use-text-ticker';
 

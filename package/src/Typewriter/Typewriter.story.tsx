@@ -1,5 +1,5 @@
-import React from 'react';
 import { Center, Paper, Stack, Text } from '@mantine/core';
+import React from 'react';
 import { Typewriter, TypewriterProps } from './Typewriter';
 import { TypewriterBaseProps, useTypewriter } from './use-typewriter';
 

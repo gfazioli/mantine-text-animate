@@ -1,4 +1,3 @@
-import React, { useMemo } from 'react';
 import {
   Box,
   createVarsResolver,
@@ -11,6 +10,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React, { useMemo } from 'react';
 import classes from './Spinner.module.css';
 
 export type SpinnerStylesNames = 'root' | 'char' | 'container';

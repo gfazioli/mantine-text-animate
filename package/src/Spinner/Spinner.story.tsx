@@ -1,5 +1,5 @@
-import React from 'react';
 import { Center, Paper, Stack } from '@mantine/core';
+import React from 'react';
 import { Spinner, SpinnerProps } from './Spinner';
 
 export default {

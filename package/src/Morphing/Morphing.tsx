@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   createVarsResolver,
@@ -9,6 +8,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React from 'react';
 import { useMorphing, type MorphingBaseProps } from './use-morphing';
 import classes from './Morphing.module.css';
 

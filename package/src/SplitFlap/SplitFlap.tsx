@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   createVarsResolver,
@@ -13,6 +12,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React from 'react';
 import { useSplitFlap, type SplitFlapBaseProps } from './use-split-flap';
 import classes from './SplitFlap.module.css';
 

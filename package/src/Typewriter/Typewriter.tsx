@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Flex,
@@ -11,6 +10,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React from 'react';
 import { useTypewriter, type TypewriterBaseProps } from './use-typewriter';
 import classes from './Typewriter.module.css';
 

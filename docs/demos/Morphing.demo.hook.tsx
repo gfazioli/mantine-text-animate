@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { useMorphing } from '@gfazioli/mantine-text-animate';
 import { Box, Button, Divider, Group, Stack, Text } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
+import { useState } from 'react';
 
 const words = ['Hello', 'World', 'Mantine', 'Morphing'];
 

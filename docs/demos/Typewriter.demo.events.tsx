@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import { Badge, Center, Stack } from '@mantine/core';
 import { useInViewport } from '@mantine/hooks';
 import { MantineDemo } from '@mantinex/demo';
+import { useState } from 'react';
 
 function Demo() {
   const { ref, inViewport } = useInViewport();

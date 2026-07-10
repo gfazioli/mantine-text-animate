@@ -206,6 +206,3 @@ Your help truly matters.
 
 ---
 https://github.com/user-attachments/assets/8bbeb7ef-9e1f-46ab-a105-cdd1e0040780
-
----  
-[![Star History Chart](https://api.star-history.com/svg?repos=gfazioli/mantine-text-animate&type=Timeline)](https://www.star-history.com/#gfazioli/mantine-text-animate&Timeline)

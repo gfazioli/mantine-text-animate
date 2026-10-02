@@ -4,6 +4,15 @@
   --text-animate-scale-amount: 0.8;
 }
 
+/* The root takes the element passed as `component`. The segments set their own type, so the
+   browser's defaults for that element (an h1's margins and 2em) are reset to what a div gets,
+   at zero specificity, so any class a consumer adds still wins. */
+:where(.root) {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
 /* Base styles */
 .segment {
   display: inline-block;

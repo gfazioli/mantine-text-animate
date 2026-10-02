@@ -138,6 +138,49 @@ describe('TextAnimate', () => {
     const segment = container.querySelector('[data-text-animate="in"]');
     expect(segment).toBeInTheDocument();
   });
+
+  it('renders the element passed as component once, as the root', () => {
+    const { container } = render(
+      <TextAnimate component="h1" animate="in" by="character">
+        Hi
+      </TextAnimate>
+    );
+    const headings = container.querySelectorAll('h1');
+    expect(headings).toHaveLength(1);
+    expect(headings[0]).toHaveAttribute('aria-live', 'polite');
+    expect(headings[0].textContent).toBe('Hi');
+    expect(headings[0].querySelectorAll('span[data-text-animate="in"]')).toHaveLength(2);
+  });
+
+  it.each([['static'], [undefined]] as const)(
+    'renders component on the root when animate is %s',
+    (animate) => {
+      const { container } = render(
+        <TextAnimate component="h2" animate={animate}>
+          Hello
+        </TextAnimate>
+      );
+      const headings = container.querySelectorAll('h2');
+      expect(headings).toHaveLength(1);
+      expect(headings[0].firstElementChild?.tagName).toBe('SPAN');
+    }
+  );
+
+  it('keeps a div root when no component is given', () => {
+    const { container } = render(<TextAnimate animate="in">Hello</TextAnimate>);
+    expect(container.querySelector('[aria-live="polite"]')?.tagName).toBe('DIV');
+  });
+
+  it('puts the id on the root only', () => {
+    const { container } = render(
+      <TextAnimate id="title" animate="in" by="word">
+        Hello World
+      </TextAnimate>
+    );
+    const withId = container.querySelectorAll('#title');
+    expect(withId).toHaveLength(1);
+    expect(withId[0]).toHaveAttribute('aria-live', 'polite');
+  });
 });
 
 describe('TextAnimate.NumberTicker', () => {

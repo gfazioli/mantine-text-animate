@@ -70,6 +70,22 @@ Of course, you can use the component with your own styles.
 
 <Demo data={demos.textAnimateStyles} />
 
+### Semantic element
+
+`TextAnimate` is polymorphic: `component` sets the root element, while every animated segment stays a `span`. A title rendered with `component="h1"` is a single heading, whatever the value of `by`, and the root resets the browser's default margins and font for that element, so it looks the same as the default `div`. The `id` is set on the root too.
+
+```tsx
+import { TextAnimate } from '@gfazioli/mantine-text-animate';
+
+function Demo() {
+  return (
+    <TextAnimate component="h1" animate="in" by="character" fz={48} fw={700}>
+      All Extensions
+    </TextAnimate>
+  );
+}
+```
+
 ### onAnimationStart and onAnimationEnd
 
 You can use the `onAnimationStart` and `onAnimationEnd` props to handle animation events.

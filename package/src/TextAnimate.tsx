@@ -326,8 +326,13 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props) => {
     children,
     className,
 
+    // The element and the id belong to the root. Left in `others`, they reached every segment:
+    // component="h1" rendered one heading per word or character, and an id was repeated.
+    component,
+    id,
+
     ...others
-  } = props;
+  } = props as typeof props & { component?: any; id?: string };
 
   // Use provided segmentDelay or default based on animation type
   const staggerTiming =
@@ -477,7 +482,14 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props) => {
   // If animate is "none" or false, render hidden text (preserves layout space)
   if (effectiveAnimate === 'none' || effectiveAnimate === false || effectiveAnimate === undefined) {
     return (
-      <Box ref={mergedRef} {...getStyles('root')} style={containerStyles} aria-live="polite">
+      <Box
+        ref={mergedRef}
+        component={component}
+        id={id}
+        {...getStyles('root')}
+        style={containerStyles}
+        aria-live="polite"
+      >
         <Text component="span" {...others} style={{ visibility: 'hidden' }}>
           {children}
         </Text>
@@ -488,7 +500,14 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props) => {
   // If animate is "static", render the text directly without animation
   if (effectiveAnimate === 'static') {
     return (
-      <Box ref={mergedRef} {...getStyles('root')} style={containerStyles} aria-live="polite">
+      <Box
+        ref={mergedRef}
+        component={component}
+        id={id}
+        {...getStyles('root')}
+        style={containerStyles}
+        aria-live="polite"
+      >
         <Text component="span" {...others}>
           {children}
         </Text>
@@ -497,7 +516,13 @@ export const TextAnimate = polymorphicFactory<TextAnimateFactory>((_props) => {
   }
 
   return (
-    <Box ref={mergedRef} {...getStyles('root', { style: containerStyles })} aria-live="polite">
+    <Box
+      ref={mergedRef}
+      component={component}
+      id={id}
+      {...getStyles('root', { style: containerStyles })}
+      aria-live="polite"
+    >
       {segments.map((segment, i) => (
         <Text
           data-text-animate={effectiveAnimate}
